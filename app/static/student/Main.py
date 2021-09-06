@@ -20,3 +20,13 @@ def solveBFS():
     Board.BFS()
     Board.print_path(Board.matrix[Board.x_finish][Board.y_finish])
     return Board.data
+
+def solveDFS():
+    Board.DFS()
+    Board.print_path(Board.matrix[Board.x_finish][Board.y_finish])
+    return Board.data
+    
+def solveAStar():
+    Board.AStar()
+    Board.print_path(Board.matrix[Board.x_finish][Board.y_finish])
+    return Board.data

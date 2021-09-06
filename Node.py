@@ -22,3 +22,5 @@ class Node:
         self.x = x
         self.y = y
         self.color = Color.WHITE
+        self.h = None
+        self.f = None

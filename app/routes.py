@@ -40,6 +40,14 @@ def drawAll():
 def solution():
     return solveBFS()
 
+@app.route('/search/solvedfs', methods=['POST'])
+def solutionDfs():
+    return solveDFS()
+
+@app.route('/search/solvea', methods=['POST'])
+def solutionAStar():
+    return solveAStar()
+    
 @app.route('/search/clear', methods=['POST'])
 def clearAll():
     return clear()
