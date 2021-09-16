@@ -1,23 +1,23 @@
 from collections import deque
 from src.tree import Node, Tree
-from src.base import Problem
 
 class DFS():
-    def __init__(self):
-        self.start = Problem.initial
+    def __init__(self, problem, state):
+        self.problem = problem
+        self.start = state
         self.frontier = deque()
         self.visited = {self.start}
-        self.node = Node(self.start)
-        self.tree = Tree(self.node)
+        self.root = Node(self.start)
+        self.tree = Tree(self.root)
     
     def run(self):
         self.frontier.append(self.node.state)
         while self.frontier:
             parent = self.frontier.popleft()
-            if Problem.is_goal(self.node.state):
+            if self.problem.is_goal(self.node.state):
                 return self.node
             children = deque()
-            for child_node in self.tree.expand(Problem, parent):
+            for child_node in self.tree.expand(self.problem, parent):
                 if child_node.state not in self.visited:
                     children.append(child_node.state)
                     self.visited.add(child_node.state)
