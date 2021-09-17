@@ -4,7 +4,7 @@ class Heap:
         self.key=key
         self.size=len(elements)
         self.maxheap=maxheap
-        self.BuildHeap()
+        self.build_heap()
 
     def compare(self, x, y):
         if self.maxheap:
@@ -12,7 +12,7 @@ class Heap:
         else:
             return self.key(self.elements[x]) < self.key(self.elements[y])
 
-    def Heapify(self, i):
+    def heapify(self, i):
         l = 2 * i + 1
         r = 2 * i + 2
         largest = i
@@ -22,11 +22,11 @@ class Heap:
             largest = r
         if largest != i:
             self.elements[i] , self.elements[largest] = self.elements[largest] , self.elements[i]
-            self.Heapify(largest)
+            self.heapify(largest)
     
-    def BuildHeap(self):
+    def build_heap(self):
         for i in range(self.size // 2 , -1 , -1):
-            self.Heapify(i)
+            self.heapify(i)
 
     def put(self, x):
         self.size += 1
@@ -45,7 +45,7 @@ class Heap:
         self.elements[0] = self.elements[self.size - 1]
         self.elements.pop()
         self.size -= 1
-        self.Heapify(0)
+        self.heapify(0)
         return x
         
     def empty(self):
