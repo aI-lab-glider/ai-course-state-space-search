@@ -1,11 +1,12 @@
 import numpy as np
 
+
 class Node:
     def __init__(self, state, parent=None, action=None, cost=np.inf):
         self.state = state
         self.cost = cost
         self.parent = parent
-        self.action = None
+        self.action = action
         self.children = set()
 
     
