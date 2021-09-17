@@ -11,16 +11,16 @@ class DFS():
         self.tree = Tree(self.root)
     
     def run(self):
-        self.frontier.append(self.node.state)
+        self.frontier.append(self.root)
         while self.frontier:
             parent = self.frontier.popleft()
-            if self.problem.is_goal(self.node.state):
+            if self.problem.is_goal(parent.state):
                 return self.node
             children = deque()
             for child_node in self.tree.expand(self.problem, parent):
                 if child_node.state not in self.visited:
-                    children.append(child_node.state)
+                    children.append(child_node)# ?? what is children
                     self.visited.add(child_node.state)
-            children.extend(self.frontier)
-            self.frontier = children
+            children.extend(self.frontier) # ??
+            self.frontier = children# ??
         return None
