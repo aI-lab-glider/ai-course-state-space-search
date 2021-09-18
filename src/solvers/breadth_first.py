@@ -11,8 +11,8 @@ class BFS:
         self.tree = Tree(self.root)
     
     def run(self):
-        if self.problem.is_goal(self.node.state):
-            return self.node
+        if self.problem.is_goal(self.root.state):
+            return self.root
         self.frontier.put(self.root)
         while self.frontier:
             parent = self.frontier.get()
