@@ -3,21 +3,17 @@
 ### Directory layout
 
     .
-    ├── src
-    │   ├── base
-    │   │   ├── problem.py
-    │   │   └── state.py
-    │   ├── problems                    # List of defined problems (place to define problems)
-    │   │   ├── ...
-    │   │   ├── n_puzzle_problem.py
-    │   │   └── ...
-    │   ├── solvers                     # All solvers here
-    │   ├── tests                       # Tests, scoring system
-    │   ├── tree
-    │   └── main.py
-    ├── .gitignore
-    ├── README.md
-    └── requirements.txt
+    ├── problems                    # List of defined problems (place to define problems)
+    │   ├── graph_search
+    │   └── n_puzzle
+    ├── solvers                     # All solvers here
+    │   ├── ...
+    │   ├── BFS.py
+    │   └── ...
+    ├── tests                       # Automated tests in future
+    ├── utils                       # Utils. And helpers
+    ├── main.py                     # Main
+    └── README.md
 
 ### Usage
 ```bash

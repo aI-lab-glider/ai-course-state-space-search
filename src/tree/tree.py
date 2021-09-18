@@ -1,4 +1,4 @@
-from src.tree.node import Node
+from tree import Node
 
 
 class Tree:
@@ -15,7 +15,7 @@ class Tree:
     def _notify(self, node):
         """Notify subscriber about new node event"""
         for subscriber in self.subscribers:
-            subscriber.update(node)
+            subscriber.update(node)     # append but better?
 
 
     def expand(self, problem, node):

@@ -1,9 +1,9 @@
+from base import Problem
 
-class ShorthestPathProblem:
-    def __init__(self, initial_state, goal_state):
-        self.states = {}
-        self.initial_state = initial_state
-        self.goal_state = goal_state
+
+class ShorthestPathProblem(Problem):
+    def __init__(self):
+        super().__init__('Problem')
 
     def actions(self, state):
         pass
