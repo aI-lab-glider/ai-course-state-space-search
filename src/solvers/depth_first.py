@@ -1,7 +1,7 @@
 from collections import deque
 from src.tree import Node, Tree
 
-class DFS():
+class DFS:
     def __init__(self, problem, state):
         self.problem = problem
         self.start = state

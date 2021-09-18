@@ -5,8 +5,8 @@ from src.solvers.utils import Heap
 
 class AStar(BestFirstSearch):
     def __init__(self, problem, state, heuristic):
-        super().__init__(problem, state)
-        self.frontier = Heap(maxheap=False, key=lambda x: x.cost + heuristic(x.state))
+        super().__init__(problem, state, eval_fun=lambda node: node.cost + heuristic(node.state))
+        
         
         
     
