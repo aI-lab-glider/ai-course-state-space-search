@@ -1,4 +1,5 @@
-from solvers.astar import AStar
-from solvers.bfs import BFS
-from solvers.dfs import DFS
-from solvers.idastar import IDAStar
+from src.solvers.breadth_first import BFS
+from src.solvers.depth_first import DFS
+from src.solvers.best_first import BestFirstSearch
+from src.solvers.astar import AStar
+
