@@ -1,5 +1,5 @@
 # TODO: Typowanie
 
-class IDAStar():
+class DFS():
     def __init__(self):
         pass
