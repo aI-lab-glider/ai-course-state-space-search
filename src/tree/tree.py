@@ -1,4 +1,4 @@
-from src.tree.node import Node
+from tree import Node
 
 
 class Tree:
@@ -15,13 +15,13 @@ class Tree:
     def _notify(self, node):
         """Notify subscriber about new node event"""
         for subscriber in self.subscribers:
-            subscriber.update(node)
+            subscriber.update(node)     # append but better?
 
 
     def expand(self, problem, node):
         """Generator over child nodes"""
         for action in problem.actions(node.state):
-            child_node = Node(state=problem.apply_action(node.state, action), parent=node)
+            child_node = Node(state=problem.transition_model(node.state, action), parent=node)
             node.add_child(child_node)
             self._notify(child_node)
             yield child_node

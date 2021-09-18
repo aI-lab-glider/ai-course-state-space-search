@@ -1,60 +1,54 @@
-from src.base.problem import Problem
-
+from base import Problem
+from state import NPuzzleState
 
 class NPuzzleProblem(Problem):
-    def __init__(self, initial, goal):
-        super().__init__(initial, goal)
+    def __init__(self, initial, goal = None):
+        super().__init__(initial,goal)
 
-    def actions(self, state):
-        nx = len(state)
-        ny = len(state[0])
-        x = 0
-        y = 0
-        for i in range(nx):
-            for j in range(ny):
-                if state[i][j] == 0:
-                    x = i
-                    y = j
+    def actions(self, state:NPuzzleState):
+
         actions_tab = []
-        if 0 <= x < nx and 0 <= y + 1 < ny:
-            actions_tab.append("up")
-        if 0 <= x < nx and 0 <= y - 1 < ny:
-            actions_tab.append("down")
-        if 0 <= x + 1 < nx and 0 <= y < ny:
+        if self.valid(state.x,state.y+1,state.nx,state.ny):
             actions_tab.append("right")
-        if 0 <= x - 1 < nx and 0 <= y < ny:
+        if self.valid(state.x,state.y-1,state.nx,state.ny):
             actions_tab.append("left")
-
+        if self.valid(state.x-1,state.y,state.nx,state.ny):
+            actions_tab.append("up")
+        if self.valid(state.x+1,state.y,state.nx,state.ny):
+            actions_tab.append("down")        
+        
         return actions_tab
 
-
-    def transition_model(self, state, action):
-        nx = len(state)
-        ny = len(state[0])
-        x = 0
-        y = 0
-        for i in range(nx):
-            for j in range(ny):
-                if state[i][j] == 0:
-                    x = i
-                    y = j
-
-        if action == "up":
-            matrix = state
-            matrix[x][y], matrix[x][y + 1] = matrix[x][y + 1], matrix[x][y]
-            return matrix
-        if action == "down":
-            matrix = state
-            matrix[x][y], matrix[x][y - 1] = matrix[x][y - 1], matrix[x][y]
-            return matrix
+    def transition_model(self, state:NPuzzleState, action):
+        move = [0,0]
         if action == "right":
-            matrix = state
-            matrix[x][y], matrix[x + 1][y] = matrix[x + 1][y], matrix[x][y]
-            return matrix
+            move = [0,1]
         if action == "left":
-            matrix = state
-            matrix[x][y], matrix[x - 1][y] = matrix[x - 1][y], matrix[x][y]
-            return matrix
+            move = [0,-1]
+        if action == "up":
+            move = [-1,0]
+        if action == "down":
+            move = [1,0]
+        
+        if self.valid(state.x+move[0], state.y+move[1], state.nx, state.ny):
+            state.matrix[state.x][state.y], state.matrix[state.x+move[0]][state.y+move[1]] = state.matrix[state.x+move[0]][state.y+move[1]], state.matrix[state.x][state.y]
+            state.x = state.x + move[0]
+            state.y = state.y + move[1]
+            return state 
 
-    def action_cost(self, state, action, next_state):
+        print("transition model error")
+        return None
+
+    def action_cost(self, state:NPuzzleState, action, next_state:NPuzzleState):
         return 1
+
+    def is_goal(self, state:NPuzzleState):
+        if (state.matrix == self.goal.matrix):
+            return True
+        return False
+
+    # artefakt, ale mi sie juz zmieniac nie chcialo
+    def valid(self, x, y, nx, ny):
+        if 0 <= x < nx and 0 <= y < ny:
+            return True
+        return False
