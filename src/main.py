@@ -1,6 +1,6 @@
 from problems.route_finding.location import Location
 from problems.route_finding.route_finding import RouteFinding
-from solvers import BFS, DFS, BestFirstSearch
+from solvers import BFS, DFS, BestFirstSearch, AStar, IDAStar
 from solvers.utils import Heap
 import numpy as np
 
@@ -24,6 +24,15 @@ def main_routefinding():
     bestfs= BestFirstSearch(pr, pr.initial)
     target_bestfs = bestfs.run()
     print(f"bestfirst: {target_bestfs.path()}")
+
+    dist = lambda s: np.linalg.norm(np.array(s.coord) - np.array(pr.goal.coord), ord=np.inf)
+    astar= AStar(pr, pr.initial, dist)
+    target_astar = astar.run()
+    print(f"astar: {target_astar.path()}")
+
+    idastar= IDAStar(pr, pr.initial)
+    target_idastar = idastar.run(dist)
+    print(f"idastar: {target_idastar.path()}")
 
 
 def main_heap():
