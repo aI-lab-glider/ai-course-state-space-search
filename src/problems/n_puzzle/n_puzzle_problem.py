@@ -1,6 +1,8 @@
 from base import Problem
 from problems.n_puzzle.n_puzzle_state import NPuzzleState
 from typing import Union, List
+from copy import deepcopy
+
 
 class NPuzzleProblem(Problem):
     def __init__(self, initial: NPuzzleState, goal: NPuzzleState = None):
@@ -33,10 +35,11 @@ class NPuzzleProblem(Problem):
             move = [1,0]
 
         if self.valid(state.x+move[0], state.y+move[1], state.nx, state.ny):
-            state.matrix[state.x][state.y], state.matrix[state.x+move[0]][state.y+move[1]] = state.matrix[state.x+move[0]][state.y+move[1]], state.matrix[state.x][state.y]
-            state.x = state.x + move[0]
-            state.y = state.y + move[1]
-            return state
+            state2 = deepcopy(state)
+            state2.matrix[state2.x][state2.y], state2.matrix[state2.x+move[0]][state2.y+move[1]] = state2.matrix[state2.x+move[0]][state2.y+move[1]], state.matrix[state.x][state.y]
+            state2.x = state2.x + move[0]
+            state2.y = state2.y + move[1]
+            return state2
 
         print("Transition model error")
         return None

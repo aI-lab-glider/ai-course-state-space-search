@@ -1,0 +1,2 @@
+from problems.n_puzzle.n_puzzle_state import NPuzzleState
+from problems.n_puzzle.n_puzzle_problem import NPuzzleProblem

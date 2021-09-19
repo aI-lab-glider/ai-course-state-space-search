@@ -4,10 +4,12 @@ import numpy as np
 class Node:
     def __init__(self, state, parent=None, action=None, cost=0):
         self.state = state
-        self.cost = cost
         self.parent = parent
-        self.action = action
         self.children = set()
+
+
+        self.action = action
+        self.cost = cost
 
     
     def __lt__(self, other):

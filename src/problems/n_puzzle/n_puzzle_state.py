@@ -12,6 +12,7 @@ class NPuzzleState(State):
         # współrzędne zera
         self.x = x
         self.y = y
+        # długości zabawki
         self.nx = len(self.matrix)
         self.ny = len(self.matrix[0])
     
@@ -22,13 +23,16 @@ class NPuzzleState(State):
         return hash(tuple(tmp))
 
 
-    '''
-    Optional drawning
-    '''
     def __str__(self) -> str:
+        """
+        TODO: ZMIENIC DO OGÓŁU !!!
+        """
         s = f"\n{self.matrix[0][0]}, {self.matrix[0][1]}, {self.matrix[0][2]},\n{self.matrix[1][0]}, {self.matrix[1][1]}, {self.matrix[1][2]},\n{self.matrix[2][0]}, {self.matrix[2][1]}, {self.matrix[2][2]}"
         return s + "\n~~~~~~"
 
     
     def display(self) -> str:
-        return str(self.matrix)
+        print(f"void coordinates: {self.x} {self.y}")
+    
+    def __eq__(self, other):
+        return hash(self) == hash(other)

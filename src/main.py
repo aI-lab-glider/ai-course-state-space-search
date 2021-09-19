@@ -8,6 +8,9 @@ from solvers.utils import Heap
 import numpy as np
 
 
+from problems.n_puzzle import NPuzzleProblem
+from problems.n_puzzle import NPuzzleState
+
 def main_routefinding():
     a = Location("A", (0, 0))
     b = Location("B", (1, 1))
@@ -37,15 +40,23 @@ def main_routefinding():
     target_idastar = idastar.run(dist)
     print(f"idastar: {target_idastar.path()}")
 
+
+
+
+
 def main_n_puzzle():
-    # start_matrix = [[2, 8, 3],
-    #                 [1, 6, 4],
-    #                 [7, 0, 5]]
+    start_matrix = [[2, 8, 3],
+                    [1, 6, 4],
+                    [7, 0, 5]]
 
-    # final_matrix = [[1, 2, 3],
-    #                 [8, 0, 4],
-                    # [7, 6, 5]]
+    final_matrix = [[1, 2, 3],
+                    [8, 0, 4],
+                    [7, 6, 5]]
 
+    start_state = NPuzzleState(start_matrix, 2, 1)
+    final_state = NPuzzleState(final_matrix, 1, 1)
+
+    """
     start_matrix = [[3, 1, 2],
                     [0, 4, 5],
                     [6, 7, 8]]
@@ -54,14 +65,22 @@ def main_n_puzzle():
                     [6, 4, 5],
                     [0, 7, 8]]
 
-    start_state = NPuzzleState(start_matrix, 2, 1)
-    final_state = NPuzzleState(final_matrix, 1, 1)
+    start_state = NPuzzleState(start_matrix, 1, 0)
+    final_state = NPuzzleState(final_matrix, 2, 0)
+    """
+    
+
 
     p = NPuzzleProblem(start_state, final_state)
 
-    bfs = BFS(p, start_state)
-    target_bfs = bfs.run()
-    print(f"BFS: {target_bfs.path()}")
+    solver = DFS(p, start_state)
+    target_solver = solver.run()
+    print(f"SOLVER:: {target_solver.path()}")
+
+
+
+
+
 
 
 def main_heap():
@@ -86,6 +105,8 @@ def main_heap():
     print(h.get())
 
 
+
+
 if __name__ == '__main__':
-    # main_routefinding()
     main_n_puzzle()
+    #main_routefinding()

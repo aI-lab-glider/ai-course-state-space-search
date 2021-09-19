@@ -9,7 +9,10 @@ class BFS:
         self.visited = {self.start}
         self.root= Node(self.start)
         self.tree = Tree(self.root)
-    
+    """
+    do kolejki wsadzamy Node, nie state
+
+    """
     def run(self):
         if self.problem.is_goal(self.root.state):
             return self.root

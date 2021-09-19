@@ -5,8 +5,8 @@ from typing import Tuple, Union
 # TODO: add @property for id and coord
 class Location(State):
     def __init__(self, id: Union[int, str], coordinates: Tuple[int, int]):
-        self.id = id
-        self.coord = coordinates
+        self.id = id    # nazwa miasta
+        self.coord = coordinates    # koordynaty na mapie
 
     def __hash__(self):
         return hash(self.id)
