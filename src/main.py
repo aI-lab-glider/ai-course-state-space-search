@@ -1,3 +1,6 @@
+from problems.n_puzzle.n_puzzle_problem import NPuzzleProblem
+from problems.n_puzzle.n_puzzle_state import NPuzzleState
+
 from problems.route_finding.location import Location
 from problems.route_finding.route_finding import RouteFinding
 from solvers import BFS, DFS, BestFirstSearch
@@ -25,6 +28,32 @@ def main_routefinding():
     target_bestfs = bestfs.run()
     print(f"bestfirst: {target_bestfs.path()}")
 
+def main_n_puzzle():
+    # start_matrix = [[2, 8, 3],
+    #                 [1, 6, 4],
+    #                 [7, 0, 5]]
+
+    # final_matrix = [[1, 2, 3],
+    #                 [8, 0, 4],
+                    # [7, 6, 5]]
+
+    start_matrix = [[3, 1, 2],
+                    [0, 4, 5],
+                    [6, 7, 8]]
+
+    final_matrix = [[3, 1, 2],
+                    [6, 4, 5],
+                    [0, 7, 8]]
+
+    start_state = NPuzzleState(start_matrix, 2, 1)
+    final_state = NPuzzleState(final_matrix, 1, 1)
+
+    p = NPuzzleProblem(start_state, final_state)
+
+    bfs = BFS(p, start_state)
+    target_bfs = bfs.run()
+    print(f"BFS: {target_bfs.path()}")
+
 
 def main_heap():
     class node:
@@ -49,8 +78,5 @@ def main_heap():
 
 
 if __name__ == '__main__':
-    main_routefinding()
-
-
-    
-
+    # main_routefinding()
+    main_n_puzzle()

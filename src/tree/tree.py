@@ -15,7 +15,7 @@ class Tree:
     def _notify(self, node):
         """Notify subscriber about new node event"""
         for subscriber in self.subscribers:
-            subscriber.update(node)     # append but better?
+            subscriber.update(node)
 
 
     def expand(self, problem, node):

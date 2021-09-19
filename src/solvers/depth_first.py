@@ -15,7 +15,7 @@ class DFS:
         while self.frontier:
             parent = self.frontier.pop()
             if self.problem.is_goal(parent.state):
-                return parent  
+                return parent
             for child_node in self.tree.expand(self.problem, parent):
                 if child_node.state not in self.visited:
                     self.frontier.append(child_node)
