@@ -16,19 +16,25 @@ def main_routefinding():
     bfs = BFS(pr, pr.initial)
     target_bfs = bfs.run()
     print(f"BFS: {target_bfs.path()}")
+    bfs.tree.as_image("tree/image_bfs.png")
 
     dfs = DFS(pr, pr.initial)
     target_dfs = dfs.run()
     print(f"DFS: {target_dfs.path()}")
+    dfs.tree.as_image("tree/image_dfs.png")
 
     bestfs= BestFirstSearch(pr, pr.initial)
     target_bestfs = bestfs.run()
     print(f"bestfirst: {target_bestfs.path()}")
+    bestfs.tree.as_image("tree/image_bestfs.png")
+
 
     dist = lambda s: np.linalg.norm(np.array(s.coord) - np.array(pr.goal.coord), ord=np.inf)
     astar= AStar(pr, pr.initial, dist)
     target_astar = astar.run()
     print(f"astar: {target_astar.path()}")
+    astar.tree.as_image("tree/image_astar.png")
+
 
     idastar= IDAStar(pr, pr.initial)
     target_idastar = idastar.run(dist)
@@ -47,18 +53,32 @@ def main_heap():
         def __repr__(self):
             return self.__str__()
 
-    nodes = [node(i, np.random.randint(0, 10)) for i in range(10)]
+    # nodes = [node(i, np.random.randint(0, 10)) for i in range(10)]
     # print(nodes)
 
-    h = Heap(nodes, maxheap=True, key=lambda x: x.cost)
+    h = Heap([], maxheap=False, key=lambda x: x.cost)
     print(h.elements)
     h.put(node("11", 120))
+    h.put(node("1", 10))
     print(h.elements)
     print(h.get())
 
 
+def main1():
+    l = []
+    def f(x):
+        nonlocal l
+        l.append(x)
+
+    s = set([1,2,3,4,5])
+    print(list(map(f, s)))
+    print(s)
+    print(l)
+
 if __name__ == '__main__':
     main_routefinding()
+    # main_heap()
+    # main1()
 
 
     

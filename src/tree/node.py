@@ -2,11 +2,12 @@ import numpy as np
 
 
 class Node:
-    def __init__(self, state, parent=None, action=None, cost=0):
+    def __init__(self, state, parent=None, action=None, cost=0, visit_time=-1):
         self.state = state
         self.cost = cost
         self.parent = parent
         self.action = action
+        self.visit_time = visit_time
         self.children = set()
 
     
@@ -19,8 +20,11 @@ class Node:
 
     
     def __repr__(self):
-        return f"<{str(self.parent)} --{self.action}--> {str(self.state)}. cost: {self.cost}>"
+        return f"<{str(self.parent)} --{self.action}--> {str(self.state)}. cost: {self.cost} visit time: {self.visit_time}>"
 
+
+    def __hash__(self):
+        return id(self)
 
     def path(self):
         node, path = self, []

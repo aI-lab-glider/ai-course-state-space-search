@@ -43,10 +43,12 @@ class Heap:
         if(self.size == 0):
             return None
         x = self.elements[0]
+        old_arr = list(self.elements)
         self.elements[0] = self.elements[self.size - 1]
         self.elements.pop()
         self.size -= 1
         self.heapify(0)
+        print(f"get {x} from {old_arr} ")
         return x
         
     def empty(self):
