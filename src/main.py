@@ -3,13 +3,11 @@ from problems.n_puzzle.n_puzzle_state import NPuzzleState
 
 from problems.route_finding.location import Location
 from problems.route_finding.route_finding import RouteFinding
+
 from solvers import BFS, DFS, BestFirstSearch, AStar, IDAStar
 from solvers.utils import Heap
 import numpy as np
 
-
-from problems.n_puzzle import NPuzzleProblem
-from problems.n_puzzle import NPuzzleState
 
 def main_routefinding():
     a = Location("A", (0, 0))
@@ -39,9 +37,6 @@ def main_routefinding():
     idastar= IDAStar(pr, pr.initial)
     target_idastar = idastar.run(dist)
     print(f"idastar: {target_idastar.path()}")
-
-
-
 
 
 def main_n_puzzle():

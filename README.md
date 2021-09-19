@@ -1,19 +1,23 @@
 # Ai-search-solv
 
 ### Directory layout
-
     .
-    ├── problems                    # List of defined problems (place to define problems)
-    │   ├── graph_search
-    │   └── n_puzzle
-    ├── solvers                     # All solvers here
-    │   ├── ...
-    │   ├── BFS.py
-    │   └── ...
-    ├── tests                       # Automated tests in future
-    ├── utils                       # Utils. And helpers
-    ├── main.py                     # Main
-    └── README.md
+    ├── src
+    │   ├── base
+    │   │   ├── problem.py
+    │   │   └── state.py
+    │   ├── problems                    # List of defined problems (place to define problems)
+    │   │   ├── ...
+    │   │   ├── n_puzzle_problem.py
+    │   │   └── ...
+    │   ├── solvers                     # All solvers here
+    │   ├── tree
+    │   ├── conftest.py                 # Must be here cuz' other way pytest is not working. See Ad.1 :)
+    │   └── main.py
+    ├── tests                           # Tests, scoring system
+    ├── .gitignore
+    ├── README.md
+    └── requirements.txt
 
 ### Usage
 ```bash
@@ -24,3 +28,7 @@
 
 1. https://github.com/Bishalsarang/8-Puzzle-Problem
 1. ...
+
+### AD
+
+1. Read about `conftest` solution on  [StackOverflow](https://stackoverflow.com/questions/10253826/path-issue-with-pytest-importerror-no-module-named-yadayadayada)

@@ -2,17 +2,12 @@ from base import State
 from typing import List
 
 
-#TODO: Visualize matrix with np module
 class NPuzzleState(State):
     def __init__(self, matrix: List[List], x: int, y: int):
         super().__init__()
-
-        # macierz stanu zabawki
         self.matrix = matrix
-        # współrzędne zera
         self.x = x
         self.y = y
-        # długości zabawki
         self.nx = len(self.matrix)
         self.ny = len(self.matrix[0])
     
@@ -24,11 +19,15 @@ class NPuzzleState(State):
 
 
     def __str__(self) -> str:
-        """
-        TODO: ZMIENIC DO OGÓŁU !!!
-        """
-        s = f"\n{self.matrix[0][0]}, {self.matrix[0][1]}, {self.matrix[0][2]},\n{self.matrix[1][0]}, {self.matrix[1][1]}, {self.matrix[1][2]},\n{self.matrix[2][0]}, {self.matrix[2][1]}, {self.matrix[2][2]}"
-        return s + "\n~~~~~~"
+        s = "\n"
+        for i in range(self.nx):
+            for j in range(self.ny):
+                if j == self.ny - 1:
+                    s += ''.join(f"{self.matrix[i][j]}\n")
+                else:
+                    s += ''.join(f"{self.matrix[i][j]} ")
+        s += ''.join("~~"*self.ny + "\n")
+        return s
 
     
     def display(self) -> str:
