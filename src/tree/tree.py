@@ -21,10 +21,11 @@ class Tree:
     def expand(self, problem, node):
         """Generator over child nodes"""
         for action in problem.actions(node.state):
+            child_state = problem.transition_model(node.state, action)
             child_node = Node(
-                state=problem.apply_action(node.state, action), 
+                state=child_state, 
                 parent=node,
-                cost=node.cost + problem.action_cost(node.state, action)
+                cost=node.cost + problem.action_cost(node.state, action, child_state)
                 )
             node.add_child(child_node)
             self._notify(child_node)
