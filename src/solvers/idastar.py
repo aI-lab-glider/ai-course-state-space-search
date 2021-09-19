@@ -16,7 +16,7 @@ class IDAStar:
     def run(self, heuristic: Callable[[State], int], max_cost: int=np.inf) -> Optional[Node]:
         bound = heuristic(self.start)
         while bound < max_cost:
-            is_goal, node, cost = self.cost_limited_search(self.root, heuristic, bound)
+            is_goal, node, cost = self._cost_limited_search(self.root, heuristic, bound)
             if is_goal:
                 return node 
             bound = cost
@@ -33,7 +33,7 @@ class IDAStar:
             node = frontier.get()
             for child_node in self.tree.expand(self.problem, node):
                 if self.problem.is_goal(child_node.state):
-                    return True, node, node.cost
+                    return True, child_node, child_node.cost
                 if child_node.cost + heuristic(child_node.state) <= bound:
                     frontier.put(child_node)
                 else:

@@ -25,7 +25,8 @@ class Tree:
             child_node = Node(
                 state=child_state, 
                 parent=node,
-                cost=node.cost + problem.action_cost(node.state, action, child_state)
+                cost=node.cost + problem.action_cost(node.state, action, child_state),
+                action=action
                 )
             node.add_child(child_node)
             self._notify(child_node)
