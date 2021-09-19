@@ -1,3 +1,4 @@
+# TODO: Make heap class using heapq
 class Heap:
     def __init__(self, elements=[], maxheap=True, key=lambda x: x): # defaultowo tworzy maxheap
         self.elements=elements
@@ -33,7 +34,7 @@ class Heap:
         self.elements.append(x)
         i = self.size - 1
         parent = (i-1)//2
-        while parent > 0 and self.compare(i,parent):
+        while parent >= 0 and self.compare(i,parent):
             self.elements[parent] , self.elements[i] = self.elements[i] , self.elements[parent]
             i = parent
             parent = (i-1)//2 

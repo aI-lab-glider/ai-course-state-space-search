@@ -1,8 +1,8 @@
 from typing import Callable, Tuple, Optional
 from queue import LifoQueue
 import numpy as np
-from src.base.state import State
-from src.tree import Node, Tree
+from base.state import State
+from tree import Node, Tree
 
 
 class IDAStar:

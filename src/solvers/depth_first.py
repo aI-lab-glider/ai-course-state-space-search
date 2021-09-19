@@ -1,5 +1,5 @@
 from collections import deque
-from src.tree import Node, Tree
+from tree import Node, Tree
 
 class DFS:
     def __init__(self, problem, state):

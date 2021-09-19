@@ -1,5 +1,5 @@
 from queue import Queue as FifoQueue
-from src.tree import Node, Tree
+from tree import Node, Tree
 
 class BFS:
     def __init__(self, problem, state):

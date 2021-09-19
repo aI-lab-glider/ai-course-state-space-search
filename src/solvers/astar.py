@@ -1,6 +1,6 @@
-from src.tree import Node, Tree
-from src.solvers.best_first import BestFirstSearch
-from src.solvers.utils import Heap
+from tree import Node, Tree
+from solvers.best_first import BestFirstSearch
+from solvers.utils import Heap
 
 
 class AStar(BestFirstSearch):
