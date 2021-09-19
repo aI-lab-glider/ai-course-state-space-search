@@ -63,25 +63,17 @@ def main_n_puzzle():
 
     final_matrix = [[3, 1, 2],
                     [6, 4, 5],
-                    [0, 7, 8]]
+                    [7, 0, 8]]
 
     start_state = NPuzzleState(start_matrix, 1, 0)
     final_state = NPuzzleState(final_matrix, 2, 0)
     """
     
-
-
     p = NPuzzleProblem(start_state, final_state)
 
     solver = DFS(p, start_state)
     target_solver = solver.run()
     print(f"SOLVER:: {target_solver.path()}")
-
-
-
-
-
-
 
 def main_heap():
     class node:
@@ -96,7 +88,6 @@ def main_heap():
             return self.__str__()
 
     nodes = [node(i, np.random.randint(0, 10)) for i in range(10)]
-    # print(nodes)
 
     h = Heap(nodes, maxheap=True, key=lambda x: x.cost)
     print(h.elements)
