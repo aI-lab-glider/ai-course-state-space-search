@@ -7,7 +7,6 @@ from copy import deepcopy
 class NPuzzleProblem(Problem):
     def __init__(self, initial: NPuzzleState, goal: NPuzzleState = None):
         super().__init__(initial,goal)
-        self.previousStans = []
 
     def actions(self, state: NPuzzleState) -> List[Union[str, int]]:
         actions_tab = []

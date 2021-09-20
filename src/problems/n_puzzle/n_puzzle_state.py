@@ -26,7 +26,7 @@ class NPuzzleState(State):
                     s += ''.join(f"{self.matrix[i][j]}\n")
                 else:
                     s += ''.join(f"{self.matrix[i][j]} ")
-        s += ''.join("~~"*self.ny + "\n")
+        # s += ''.join("~~"*self.ny + "\n")
         return s
 
     

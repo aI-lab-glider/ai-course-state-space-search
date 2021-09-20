@@ -40,33 +40,23 @@ def main_routefinding():
 
 
 def main_n_puzzle():
+   
     start_matrix = [[2, 8, 3],
                     [1, 6, 4],
-                    [7, 0, 5]]
+                    [0, 7, 5]]
 
     final_matrix = [[1, 2, 3],
                     [8, 0, 4],
                     [7, 6, 5]]
 
-    start_state = NPuzzleState(start_matrix, 2, 1)
+    start_state = NPuzzleState(start_matrix, 2, 0)
     final_state = NPuzzleState(final_matrix, 1, 1)
 
-    """
-    start_matrix = [[3, 1, 2],
-                    [0, 4, 5],
-                    [6, 7, 8]]
-
-    final_matrix = [[3, 1, 2],
-                    [6, 4, 5],
-                    [7, 0, 8]]
-
-    start_state = NPuzzleState(start_matrix, 1, 0)
-    final_state = NPuzzleState(final_matrix, 2, 0)
-    """
-    
     p = NPuzzleProblem(start_state, final_state)
 
-    solver = DFS(p, start_state)
+    dist = lambda current: (current.x + p.goal.y) / 2
+
+    solver = IDAStar(p, start_state)
     target_solver = solver.run()
     print(f"SOLVER:: {target_solver.path()}")
 
@@ -92,7 +82,6 @@ def main_heap():
 
 
 
-
 if __name__ == '__main__':
     main_n_puzzle()
-    #main_routefinding()
+    # main_routefinding()
