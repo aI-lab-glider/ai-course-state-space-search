@@ -5,7 +5,6 @@ from problems.route_finding.location import Location
 from problems.route_finding.route_finding import RouteFinding
 
 from solvers import BFS, DFS, BestFirstSearch, AStar, IDAStar
-from solvers.utils import Heap
 import numpy as np
 
 
@@ -54,32 +53,11 @@ def main_n_puzzle():
 
     p = NPuzzleProblem(start_state, final_state)
 
-    dist = lambda current: (current.x + p.goal.y) / 2
+    dist = lambda current: ((current.x + current.y)**2 + p.goal.y + p.goal.x)
 
-    solver = IDAStar(p, start_state)
+    solver = AStar(p, start_state, dist)
     target_solver = solver.run()
-    print(f"SOLVER:: {target_solver.path()}")
-
-def main_heap():
-    class node:
-        def __init__(self, value, cost):
-            self.value = value
-            self.cost = cost
-
-        def __str__(self):
-            return f"{self.value} {self.cost}"
-
-        def __repr__(self):
-            return self.__str__()
-
-    nodes = [node(i, np.random.randint(0, 10)) for i in range(10)]
-
-    h = Heap(nodes, maxheap=True, key=lambda x: x.cost)
-    print(h.elements)
-    h.put(node("11", 120))
-    print(h.elements)
-    print(h.get())
-
+    print(f"Solver: {target_solver.path()}")
 
 
 if __name__ == '__main__':
