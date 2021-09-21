@@ -21,5 +21,5 @@ class SudokuState(State):
         return str(np.matrix)
 
 
-    def display(self) -> str:
+    def display(self):
         pass

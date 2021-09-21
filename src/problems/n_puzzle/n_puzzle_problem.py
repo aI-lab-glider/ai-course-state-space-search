@@ -17,7 +17,7 @@ class NPuzzleProblem(Problem):
         (0,1, "right"),
         (0,-1, "left")
         ]
-                    
+
         actions_tab = [shift_name for shift_x, shift_y, shift_name in shifts if self.valid(state.x + shift_x, state.y + shift_y, state.nx, state.ny)]
         
         return actions_tab
@@ -38,8 +38,7 @@ class NPuzzleProblem(Problem):
             state2.y = state2.y + move[1]
             return state2
 
-        print("Transition model error")
-        return NPuzzleState(None)
+        raise Exception("Transition model error")
 
 
     def action_cost(self, state:NPuzzleState, action: Union[str, int], next_state:NPuzzleState) -> int:

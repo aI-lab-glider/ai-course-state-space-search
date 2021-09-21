@@ -24,10 +24,10 @@
     echo "Insert tutos here later"
 ```
 
-### Used links for inspirations
+### Credits and used links for inspirations
 
 1. https://github.com/Bishalsarang/8-Puzzle-Problem
-1. ...
+1. https://medium.com/code-science/sudoku-solver-graph-coloring-8f1b4df47072
 
 ### AD
 

@@ -2,6 +2,10 @@ from base import Problem
 from problems.sudoku.sudoku_state import SudokuState
 from typing import Union
 
+"""
+Hard code sudoku problem for basic 9x9 grid.
+It's going to be student task to make generalized version later.
+"""
 
 class SudokuProblem(Problem):
     def __init__(self, initial: SudokuState, goal: SudokuState = None):
@@ -22,6 +26,7 @@ class SudokuProblem(Problem):
 
     def is_goal(self, state: SudokuState) -> bool:
         pass
+
 
     def possible_move(self, x: int, y: int, n: int) -> bool:
         pass

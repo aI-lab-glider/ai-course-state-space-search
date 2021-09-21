@@ -19,7 +19,7 @@ def main_routefinding():
     bfs = BFS(pr, pr.initial)
     target_bfs = bfs.run()
     print(f"BFS: {target_bfs.path()}")
-
+    
     dfs = DFS(pr, pr.initial)
     target_dfs = dfs.run()
     print(f"DFS: {target_dfs.path()}")
@@ -54,7 +54,7 @@ def main_n_puzzle():
 
     dist = lambda current: ((current.x + current.y)**2 + p.goal.y + p.goal.x)
 
-    solver = AStar(p, start_state, dist)
+    solver = BFS(p, start_state)
     target_solver = solver.run()
     print(f"Solver: {target_solver.path()}")
 

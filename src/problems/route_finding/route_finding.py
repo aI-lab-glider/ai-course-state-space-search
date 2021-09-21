@@ -23,12 +23,12 @@ class RouteFinding(Problem):
             self.routes[source][target] = dist
             self.routes[target][source] = dist
 
-    
+
     def actions(self, location: Location) -> Generator[Location, None, None]:
         for neighbour in self.routes[location]:
             yield neighbour.id
 
-    
+
     # TODO: What should be done if unspported action is passed? For now method will raise exception
     def transition_model(self, location: Location, action: Union[str, int]) -> Location:
         assert location in self.locations, f"Unknown location {location}"
@@ -43,4 +43,4 @@ class RouteFinding(Problem):
 
     def is_goal(self, location: Location) -> bool:
         return self.goal == location
-    
+
