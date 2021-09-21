@@ -10,9 +10,9 @@ class State(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def __str__(self):
+    def __str__(self) -> str:
         raise NotImplementedError
 
     @abstractmethod
-    def display(self):
+    def display(self) -> str:
         raise NotImplementedError

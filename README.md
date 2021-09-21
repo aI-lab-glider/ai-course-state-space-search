@@ -1,7 +1,6 @@
 # Ai-search-solv
 
 ### Directory layout
-
     .
     ├── src
     │   ├── base
@@ -12,9 +11,10 @@
     │   │   ├── n_puzzle_problem.py
     │   │   └── ...
     │   ├── solvers                     # All solvers here
-    │   ├── tests                       # Tests, scoring system
     │   ├── tree
+    │   ├── conftest.py                 # Must be here cuz' other way pytest is not working. See Ad.1 :)
     │   └── main.py
+    ├── tests                           # Tests, scoring system
     ├── .gitignore
     ├── README.md
     └── requirements.txt
@@ -28,3 +28,7 @@
 
 1. https://github.com/Bishalsarang/8-Puzzle-Problem
 1. ...
+
+### AD
+
+1. Read about `conftest` solution on  [StackOverflow](https://stackoverflow.com/questions/10253826/path-issue-with-pytest-importerror-no-module-named-yadayadayada)
