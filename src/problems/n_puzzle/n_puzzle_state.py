@@ -30,7 +30,7 @@ class NPuzzleState(State):
         return s
 
     
-    def display(self) -> str:
+    def display(self):
         print(f"void coordinates: {self.x} {self.y}")
     
     def __eq__(self, other):

@@ -14,5 +14,5 @@ class State(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def display(self) -> str:
+    def display(self):
         raise NotImplementedError

@@ -1,5 +1,5 @@
 from base import Problem
-from problems.n_puzzle.n_puzzle_state import NPuzzleState
+from problems.n_puzzle import NPuzzleState
 from typing import Union, List
 from copy import deepcopy
 
@@ -11,29 +11,26 @@ class NPuzzleProblem(Problem):
 
     def actions(self, state: NPuzzleState) -> List[Union[str, int]]:
         actions_tab = []
-        if self.valid(state.x+1, state.y, state.nx, state.ny):
-            actions_tab.append("down")
-        if self.valid(state.x-1, state.y, state.nx, state.ny):
-            actions_tab.append("up")
-        if self.valid(state.x, state.y+1, state.nx, state.ny):
-            actions_tab.append("right")
-        if self.valid(state.x, state.y-1, state.nx, state.ny):
-            actions_tab.append("left")
+
+        shifts =[
+        (1, 0, "down"),
+        (-1,0, "up"),
+        (0,1, "right"),
+        (0,-1, "left")
+        ]
+                    
+        actions_tab = [shift_name for shift_x, shift_y, shift_name in shifts if self.valid(state.x + shift_x, state.y + shift_y, state.nx, state.ny)]
         
         return actions_tab
 
 
     def transition_model(self, state: NPuzzleState, action: Union[str, int]) -> NPuzzleState:
-        move = [0,0]
-        if action == "right":
-            move = [0,1]
-        if action == "left":
-            move = [0,-1]
-        if action == "up":
-            move = [-1,0]
-        if action == "down":
-            move = [1,0]
-
+        move = {
+        "right": (0,1),
+        "left": (0, -1),
+        "up": (-1, 0),
+        "down": (1, 0)
+        }[action]
 
         if self.valid(state.x+move[0], state.y+move[1], state.nx, state.ny):
             state2 = deepcopy(state)
@@ -43,7 +40,7 @@ class NPuzzleProblem(Problem):
             return state2
 
         print("Transition model error")
-        return None
+        return NPuzzleState(None)
 
 
     def action_cost(self, state:NPuzzleState, action: Union[str, int], next_state:NPuzzleState) -> int:
