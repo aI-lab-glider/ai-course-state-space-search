@@ -41,20 +41,22 @@ def main_routefinding():
 def main_n_puzzle():
     start_matrix = [[2, 8, 3],
                     [1, 6, 4],
-                    [7, 0, 5]]
+                    [0, 7, 5]]
 
     final_matrix = [[1, 2, 3],
                     [8, 0, 4],
                     [7, 6, 5]]
 
-    start_state = NPuzzleState(start_matrix, 2, 1)
+    start_state = NPuzzleState(start_matrix, 2, 0)
     final_state = NPuzzleState(final_matrix, 1, 1)
-    
+
     p = NPuzzleProblem(start_state, final_state)
 
-    solver = BFS(p, start_state)
+    dist = lambda current: ((current.x + current.y)**2 + p.goal.y + p.goal.x)
+
+    solver = AStar(p, start_state, dist)
     target_solver = solver.run()
-    print(f"SOLVER:: {target_solver.path()}")
+    print(f"Solver: {target_solver.path()}")
 
 
 if __name__ == '__main__':

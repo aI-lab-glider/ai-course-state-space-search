@@ -1,4 +1,3 @@
-# from queue import PriorityQueu
 from solvers.utils import Heap
 from tree import Node, Tree
 

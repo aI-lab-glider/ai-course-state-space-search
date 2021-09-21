@@ -1,6 +1,7 @@
 from collections import deque
 from tree import Node, Tree
 
+
 class DFS:
     def __init__(self, problem, state):
         self.problem = problem
@@ -9,7 +10,8 @@ class DFS:
         self.visited = {self.start}
         self.root = Node(self.start)
         self.tree = Tree(self.root)
-    
+
+
     def run(self):
         self.frontier.append(self.root)
         while self.frontier:
