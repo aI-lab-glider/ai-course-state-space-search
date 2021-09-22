@@ -8,7 +8,7 @@ In root directory:
     $> python -m pytest 
 '''
 
-class TestNPuzzle:
+class TestRouteFinding:
     global pr, a, b, c, d
     a = Location("A", (0, 0))
     b = Location("B", (1, 1))
