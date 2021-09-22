@@ -2,11 +2,9 @@ from base import State
 from typing import List, Union
 import numpy as np
 
-class SudokuState(State):
-    def __init__(self, matrix: List[List[int]]):
-        self.matrix = matrix
-        self.dx = len(matrix)
-        self.dy = len(matrix[0])
+class State3(State):
+    def __init__(self):
+        pass
 
 
     def __hash__(self):
