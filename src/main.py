@@ -1,3 +1,4 @@
+from benchmark import Benchmark
 from problems.n_puzzle.n_puzzle_problem import NPuzzleProblem
 from problems.n_puzzle.n_puzzle_state import NPuzzleState
 
@@ -59,6 +60,27 @@ def main_n_puzzle():
     print(f"Solver: {target_solver.path()}")
 
 
+def main_benchmark():
+    start_matrix = [[2, 8, 3],
+                    [1, 6, 4],
+                    [0, 7, 5]]
+
+    final_matrix = [[1, 2, 3],
+                    [8, 0, 4],
+                    [7, 6, 5]]
+
+    start_state = NPuzzleState(start_matrix, 2, 0)
+    final_state = NPuzzleState(final_matrix, 1, 1)
+
+    p = NPuzzleProblem(start_state, final_state)
+    dist = lambda current: (current.x + current.y)**2
+
+    b = Benchmark(p)
+    b.compare((["BFS", "BestFirstSearch", "AStar", "DFS"], dist))
+    b.print_grades()
+
+
 if __name__ == '__main__':
-    main_n_puzzle()
+    # main_n_puzzle()
     # main_routefinding()
+    main_benchmark()

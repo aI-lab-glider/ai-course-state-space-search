@@ -21,7 +21,7 @@ class TestRouteFinding:
         actions = []
         for action in pr.actions(a):
             actions.append(action)
-        
+
         assert set(actions) == set(["D", "B"])
         assert not  set(actions) == set(["B"])
         assert not  set(actions) == set(["D"])
