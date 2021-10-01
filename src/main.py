@@ -7,6 +7,7 @@ from problems.route_finding.route_finding import RouteFinding
 
 from problems.rush_hour.vehicle import Vehicle
 from problems.rush_hour.rush_hour import RushHourProblem
+from problems.rush_hour.board import RushHourBoard
 
 from solvers import BFS, DFS, BestFirstSearch, AStar, IDAStar
 import numpy as np
@@ -87,11 +88,10 @@ def main_rush_hour():
     a = Vehicle('X', 1, 2, 'H')
     b = Vehicle('Y', 0, 2, 'V')
     c = Vehicle('A', 0, 0, 'H')
-    d = Vehicle('K', 5, 2, 'V')    
-    p = RushHourProblem([a, b, c, d])
-    board = p.get_board()
-    print(board)
-    print(p)
+    d = Vehicle('K', 5, 2, 'V')   
+    b = RushHourBoard([a, b, c, d]) 
+    p = RushHourProblem(b)
+    print(b)
     
 
 if __name__ == '__main__':
