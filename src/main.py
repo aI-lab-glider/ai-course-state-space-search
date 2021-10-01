@@ -5,6 +5,9 @@ from problems.n_puzzle.n_puzzle_state import NPuzzleState
 from problems.route_finding.location import Location
 from problems.route_finding.route_finding import RouteFinding
 
+from problems.rush_hour.vehicle import Vehicle
+from problems.rush_hour.rush_hour import RushHourProblem
+
 from solvers import BFS, DFS, BestFirstSearch, AStar, IDAStar
 import numpy as np
 
@@ -80,7 +83,19 @@ def main_benchmark():
     b.print_grades()
 
 
+def main_rush_hour():
+    a = Vehicle('X', 1, 2, 'H')
+    b = Vehicle('Y', 0, 2, 'V')
+    c = Vehicle('A', 0, 0, 'H')
+    d = Vehicle('K', 5, 2, 'V')    
+    p = RushHourProblem([a, b, c, d])
+    board = p.get_board()
+    print(board)
+    print(p)
+    
+
 if __name__ == '__main__':
-    # main_n_puzzle()
+    #main_n_puzzle()
     # main_routefinding()
-    main_benchmark()
+    #main_benchmark()
+    main_rush_hour()

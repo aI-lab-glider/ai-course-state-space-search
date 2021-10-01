@@ -16,6 +16,7 @@ class NPuzzleState(State):
         for i in range(self.nx):
             tmp[i] = tuple(self.matrix[i])
         return hash(tuple(tmp))
+        
 
 
     def __str__(self) -> str:
