@@ -2,9 +2,9 @@ from base import State
 
 
 CAR_ID = ('X', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K')
-TRUCK_ID = ('O', 'P', 'Q', 'R','S','T','U','V','W','Y','Z')
+TRUCK_ID = ('O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'Y', 'Z')
 
-class Vehicle(State):
+class RushHourVehicle(State):
     def __init__(self, id: str, x: int, y: int, orientation: str):
         self.id = id
         self.x = x

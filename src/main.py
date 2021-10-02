@@ -5,7 +5,7 @@ from problems.n_puzzle.n_puzzle_state import NPuzzleState
 from problems.route_finding.location import Location
 from problems.route_finding.route_finding import RouteFinding
 
-from problems.rush_hour.vehicle import Vehicle
+from problems.rush_hour.vehicle import RushHourVehicle
 from problems.rush_hour.rush_hour import RushHourProblem
 from problems.rush_hour.board import RushHourBoard
 
@@ -85,13 +85,14 @@ def main_benchmark():
 
 
 def main_rush_hour():
-    a = Vehicle('X', 1, 2, 'H')
-    b = Vehicle('Y', 0, 2, 'V')
-    c = Vehicle('A', 0, 0, 'H')
-    d = Vehicle('K', 5, 2, 'V')   
-    b = RushHourBoard([a, b, c, d]) 
-    p = RushHourProblem(b)
-    print(b)
+    a = RushHourVehicle('X', 1, 2, 'H')
+    b = RushHourVehicle('Y', 0, 3, 'V')
+    c = RushHourVehicle('A', 0, 0, 'H')
+    d = RushHourVehicle('K', 5, 2, 'V')   
+    board = RushHourBoard([a, b, c, d]) 
+    pr = RushHourProblem(board)
+    print(pr.actions(board.get_board(), b))
+    print(board)
     
 
 if __name__ == '__main__':
