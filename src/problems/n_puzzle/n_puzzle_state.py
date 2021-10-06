@@ -5,32 +5,21 @@ from typing import List
 class NPuzzleState(State):
     def __init__(self, matrix: List[List], x: int, y: int):
         super().__init__()
-        self.matrix = matrix
-        self.x = x
-        self.y = y
-        self.nx = len(self.matrix)
-        self.ny = len(self.matrix[0])
+        # Zdefiniuj stan problemu. Wymyśl sposób w jaki chcesz przechowywać aktualny stan problemu. Będzie to pojedynczy węzeł w całym grafie.
     
     def __hash__(self):
-        tmp = [0] * self.nx
-        for i in range(self.nx):
-            tmp[i] = tuple(self.matrix[i])
-        return hash(tuple(tmp))
-
+        # Napisz funkcję haszującą. Pamiętaj, żeby obiekt mógł być haszowany to musi być niemutowalny.
+        pass
 
     def __str__(self) -> str:
-        s = "\n"
-        for i in range(self.nx):
-            for j in range(self.ny):
-                if j == self.ny - 1:
-                    s += ''.join(f"{self.matrix[i][j]}\n")
-                else:
-                    s += ''.join(f"{self.matrix[i][j]} ")
-        return s
+        # Napisz funkcję, która będzie reprezentowała twój stan.
+        pass
 
     
     def display(self):
-        print(f"void coordinates: {self.x} {self.y}")
+        # print(f"void coordinates: {self.x} {self.y}")
+        pass
     
     def __eq__(self, other):
-        return hash(self) == hash(other)
+        # Możesz napisać dodatkowe funkcje pomocnicze.
+        pass

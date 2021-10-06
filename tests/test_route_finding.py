@@ -5,7 +5,7 @@ from problems.route_finding.route_finding import RouteFinding
 
 '''
 In root directory:
-    $> python -m pytest 
+    $> python3 -m pytest 
 '''
 
 class TestRouteFinding:

@@ -3,20 +3,11 @@ from base import Problem
 from typing import List, Callable, Sequence, Tuple
 from timeit import default_timer
 
-"""
-For now this class compares time only.
-"""
 
+# Sprawdzanie ilości wywołań kolejek fifo/lifo
 class Benchmark:
     def __init__(self, problem: Problem):
         self.problem = problem
-
-        """
-        TODO 
-        Think about metric system to calculate points and give grade. For now points are just (1000 - 50*time)
-        """
-        self.points = 1000
-        self.grades = list(tuple())
 
 
     def compare(self, adj_list: Sequence[Tuple[List[str], Callable]] = None):
@@ -30,7 +21,7 @@ class Benchmark:
     TODO
     AStar przyjmuje heurystykę w definicji problemu
     IDAStar przyjmuje heurystyke przy wywołaniu metody run()
-    <Zamieniłbym, żeby IDAStar przyjmował heurystykę w definicji problemu.>
+    Zamieniłbym, żeby IDAStar przyjmował heurystykę w definicji problemu.
     """
     def run_algorithm(self, algo: str, dist: Callable = None):
         solver = {
@@ -42,7 +33,7 @@ class Benchmark:
         }[algo]
 
         start = default_timer()
-        solver.run()
+        data = solver.run()
         stop = default_timer()
 
         time = round(stop - start, 5)
@@ -52,7 +43,6 @@ class Benchmark:
 
     
     def print_grades(self):
-        #TODO
         for grade in self.grades:
-            print(f"Alg: {grade[0]} --> Time: {grade[1]} \t| Total: {int(self.points - grade[1]*50)}")
+            print(f"Alg: {grade[0]} --> Time: {grade[1]}")
 
