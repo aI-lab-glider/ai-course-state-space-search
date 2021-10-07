@@ -1,6 +1,5 @@
 from base import State
 
-
 CAR_ID = ('X', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K')
 TRUCK_ID = ('O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'Y', 'Z')
 
@@ -28,7 +27,7 @@ class RushHourVehicle(State):
 
 
     def __eq__(self, other):
-        return self.__dict__ == other.__dict__
+        return hash(self) == hash(other)
 
 
     def __str__(self) -> str:

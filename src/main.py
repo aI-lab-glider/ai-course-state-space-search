@@ -85,15 +85,25 @@ def main_benchmark():
 
 
 def main_rush_hour():
-    a = RushHourVehicle('X', 1, 2, 'H')
-    b = RushHourVehicle('Y', 0, 3, 'V')
-    c = RushHourVehicle('A', 0, 0, 'H')
-    d = RushHourVehicle('K', 5, 2, 'V')   
-    board = RushHourBoard([a, b, c, d]) 
-    pr = RushHourProblem(board)
-    print(pr.actions(board.get_board(), b))
+    x = RushHourVehicle('X', 3, 2, 'H')
+    a = RushHourVehicle('A', 0, 0, 'H')
+    b = RushHourVehicle('B', 2, 0, 'H')
+    c = RushHourVehicle('C', 4, 0, 'V')
+    d = RushHourVehicle('D', 0, 1, 'V')  
+    e = RushHourVehicle('E', 2, 1, 'H')
+    f = RushHourVehicle('F', 1, 2, 'V')
+    g = RushHourVehicle('G', 0, 5, 'H')
+    o = RushHourVehicle('O', 5, 0, 'V') 
+    p = RushHourVehicle('P', 2, 2, 'V')
+    q = RushHourVehicle('Q', 3, 3, 'H')     
+    board = RushHourBoard({x, a, b, c, d, e, f, g, o, p, q}) 
+    pr = RushHourProblem({x, a, b, c, d, e, f, g, o, p, q}, board)
+    print(pr.actions(board))
+    print(pr.transition_model(board, ('right', 'X')))
     print(board)
-    
+    solver = BFS(pr, board)
+    target_solver = solver.run()
+    print(f"Solver: {target_solver.path()}")   
 
 if __name__ == '__main__':
     #main_n_puzzle()
