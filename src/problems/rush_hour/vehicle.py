@@ -1,10 +1,11 @@
 from base import State
+from typing import Union
 
 CAR_ID = ('X', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K')
 TRUCK_ID = ('O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'Y', 'Z')
 
 class RushHourVehicle(State):
-    def __init__(self, id: str, x: int, y: int, orientation: str):
+    def __init__(self, id: Union[int, str], x: int, y: int, orientation: str):
         self.id = id
         self.x = x
         self.y = y
@@ -23,7 +24,7 @@ class RushHourVehicle(State):
             self.yEnd = y + self.length - 1
 
     def __hash__(self):
-        return hash(self.__str__())
+        return hash(self.id)
 
 
     def __eq__(self, other):
@@ -31,8 +32,7 @@ class RushHourVehicle(State):
 
 
     def __str__(self) -> str:
-        return "Vehicle: {}, {}, {}, {}".format(self.id, self.x, self.y, self.orientation)
-
+        return str(self.id)
 
     def display(self):
         print("Vehicle: {}, {}, {}, {}".format(self.id, self.x, self.y, self.orientation))

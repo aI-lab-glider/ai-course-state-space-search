@@ -1,6 +1,5 @@
 import numpy as np
 
-
 class RushHourBoard:
     def __init__(self, vehicles):
         self.vehicles = vehicles

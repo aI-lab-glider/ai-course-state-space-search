@@ -1,14 +1,13 @@
 from base import Problem
 from problems.rush_hour.vehicle import RushHourVehicle
 from problems.rush_hour.board import RushHourBoard
+from typing import Set, Tuple
 from copy import deepcopy
 
-
 class RushHourProblem(Problem):
-    def __init__(self, vehicles, initial: RushHourBoard, goal = RushHourVehicle('X', 4, 2, 'H')):
-        super().__init__(goal)
+    def __init__(self, vehicles: Set[RushHourVehicle], initial: RushHourBoard, goal = RushHourVehicle('X', 4, 2, 'H')):
+        super().__init__(initial, goal)
         self.vehicles = vehicles
-        self.initial = initial.get_board()
 
 
     def actions(self, board: RushHourBoard):
@@ -31,7 +30,7 @@ class RushHourProblem(Problem):
         return actions
 
 
-    def transition_model(self, board: RushHourBoard, action):
+    def transition_model(self, board: RushHourBoard, action: Tuple[str, str]) -> RushHourBoard:
         move = {
             "up": (-1, 0),
             "down": (1, 0),
@@ -48,7 +47,6 @@ class RushHourProblem(Problem):
                 new_vehicles.remove(vehicle)
                 new_vehicles.add(new_vehicle)
                 new_board = RushHourBoard(new_vehicles)
-         
         return new_board
 
 
@@ -56,11 +54,12 @@ class RushHourProblem(Problem):
         return 1
 
 
-    def is_goal(self, board: RushHourBoard):
+    def is_goal(self, board: RushHourBoard) -> bool:
         board = board.get_board()
         return board[2,5] == 'X'
 
 
     def on_board(self, x: int, y: int) -> bool:
-        yEnd, xEnd = self.initial.shape
+        board = self.initial.get_board()
+        yEnd, xEnd = board.shape
         return 0 <= x < xEnd and 0 <= y < yEnd
