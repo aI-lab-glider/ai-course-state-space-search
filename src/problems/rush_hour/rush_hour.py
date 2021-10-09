@@ -4,6 +4,7 @@ from problems.rush_hour.board import RushHourBoard
 from typing import Set, Tuple
 from copy import deepcopy
 
+
 class RushHourProblem(Problem):
     def __init__(self, vehicles: Set[RushHourVehicle], initial: RushHourBoard, goal = RushHourVehicle('X', 4, 2, 'H')):
         super().__init__(initial, goal)
@@ -50,7 +51,7 @@ class RushHourProblem(Problem):
         return new_board
 
 
-    def action_cost(self, board: RushHourBoard, action, new_board: RushHourBoard):
+    def action_cost(self, board: RushHourBoard, action: Tuple[str, str], new_board: RushHourBoard):
         return 1
 
 

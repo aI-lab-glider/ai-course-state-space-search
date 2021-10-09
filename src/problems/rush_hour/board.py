@@ -10,6 +10,7 @@ class RushHourBoard:
         for vehicle in self.vehicles:
             x, y = vehicle.x, vehicle.y
             xEnd, yEnd = vehicle.xEnd, vehicle.yEnd
+            assert (board[y:yEnd+1, x:xEnd+1] == ' ').all(), f"Vehicle {vehicle.id} can't be place on another"
             board[y:yEnd+1, x:xEnd+1] = vehicle.id
         return board
 
