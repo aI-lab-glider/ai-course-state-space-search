@@ -96,8 +96,9 @@ def main_rush_hour():
     o = RushHourVehicle('O', 5, 0, 'V') 
     p = RushHourVehicle('P', 2, 2, 'V')
     q = RushHourVehicle('Q', 3, 3, 'H')     
-    board = RushHourBoard({x, a, b, c, d, e, f, g, o, p, q}) 
-    problem = RushHourProblem({x, a, b, c, d, e, f, g, o, p, q}, board)
+    vehicles = {x, a, b, c, d, e, f, g, o, p, q}
+    board = RushHourBoard(vehicles) 
+    problem = RushHourProblem(vehicles, board)
     # print(pr.actions(board))
     # print(pr.transition_model(board, ('right', 'X')))
     # print(board)

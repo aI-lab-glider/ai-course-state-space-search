@@ -1,7 +1,10 @@
 import numpy as np
+from typing import Set
+from problems.rush_hour.vehicle import RushHourVehicle
+
 
 class RushHourBoard:
-    def __init__(self, vehicles):
+    def __init__(self, vehicles: Set[RushHourVehicle]):
         self.vehicles = vehicles
 
 
@@ -27,7 +30,7 @@ class RushHourBoard:
 
 
     def __eq__(self, other):
-        return self.vehicles == other.vehicles
+        return (self.get_board() == other.get_board()).all()
 
 
 

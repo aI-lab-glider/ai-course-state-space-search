@@ -1,5 +1,4 @@
 from base import State
-from typing import Union
 
 
 CAR_ID = ('X', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K')
