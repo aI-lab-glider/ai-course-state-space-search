@@ -8,6 +8,7 @@ from problems.route_finding.route_finding import RouteFinding
 from problems.rush_hour.vehicle import RushHourVehicle
 from problems.rush_hour.rush_hour import RushHourProblem
 from problems.rush_hour.board import RushHourBoard
+from problems.rush_hour.heuristic import RushHourHeuristic
 
 from solvers import BFS, DFS, BestFirstSearch, AStar, IDAStar
 import numpy as np
@@ -95,20 +96,33 @@ def main_rush_hour():
     g = RushHourVehicle('G', 0, 5, 'H')
     o = RushHourVehicle('O', 5, 0, 'V') 
     p = RushHourVehicle('P', 2, 2, 'V')
-    q = RushHourVehicle('Q', 3, 3, 'H')     
+    q = RushHourVehicle('Q', 3, 3, 'H')  
+
     vehicles = {x, a, b, c, d, e, f, g, o, p, q}
     board = RushHourBoard(vehicles) 
     problem = RushHourProblem(vehicles, board)
-    # print(pr.actions(board))
-    # print(pr.transition_model(board, ('right', 'X')))
-    # print(board)
+    blocking_cars_heuristic = RushHourHeuristic().blocking_cars
+    distance_to_exit_heuristic = RushHourHeuristic().distance_to_exit
+
     solver = BFS(problem, board)
     target_bfs = solver.run()
-    print(f"Solver: {target_bfs.path()}")   
+    print(f"Solver: {target_bfs.path()}") 
+
+    dfs = DFS(problem, board)
+    target_dfs = dfs.run()
+    print(f"DFS: {target_dfs.path()}")
 
     bestfs= BestFirstSearch(problem, board)
     target_bestfs = bestfs.run()
     print(f"bestfirst: {target_bestfs.path()}")
+
+    astar= AStar(problem, board, blocking_cars_heuristic)
+    target_astar = astar.run()
+    print(f"astar: {target_astar.path()}")
+
+    # idastar= IDAStar(problem, board)
+    # target_idastar = idastar.run(distance_to_exit_heuristic)
+    # print(f"idastar: {target_idastar.path()}")
 
 if __name__ == '__main__':
     #main_n_puzzle()
