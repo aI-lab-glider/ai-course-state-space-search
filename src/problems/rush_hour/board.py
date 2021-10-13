@@ -1,9 +1,10 @@
 import numpy as np
 from typing import Set
 from problems.rush_hour.vehicle import RushHourVehicle
+from base import State
 
 
-class RushHourBoard:
+class RushHourBoard(State):
     def __init__(self, vehicles: Set[RushHourVehicle]):
         self.vehicles = vehicles
 
@@ -31,6 +32,10 @@ class RushHourBoard:
 
     def __eq__(self, other):
         return (self.get_board() == other.get_board()).all()
+
+
+    def display(self):
+        print(self.__str__())        
 
 
 

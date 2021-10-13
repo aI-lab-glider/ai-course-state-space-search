@@ -1,12 +1,16 @@
-from base import State
-
+from enum import Enum
 
 CAR_ID = ('X', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K')
 TRUCK_ID = ('O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'Y', 'Z')
 
 
-class RushHourVehicle(State):
-    def __init__(self, id: str, x: int, y: int, orientation: str):
+class Orientation(Enum):
+    HORIZONTAL = 'H'
+    VERTICAL = 'V'
+
+
+class RushHourVehicle:
+    def __init__(self, id: str, x: int, y: int, orientation: Orientation):
         self.id = id
         self.x = x
         self.y = y
@@ -17,7 +21,7 @@ class RushHourVehicle(State):
         else: 
             self.length = 3
 
-        if orientation == "H": 
+        if self.orientation == Orientation.HORIZONTAL.value: 
             self.xEnd = x + self.length - 1
             self.yEnd = self.y
         else: 
@@ -29,7 +33,7 @@ class RushHourVehicle(State):
 
 
     def __hash__(self):
-        return hash(self.id)
+        return hash(self.__str__())
 
 
     def __eq__(self, other):
@@ -37,8 +41,4 @@ class RushHourVehicle(State):
 
 
     def __str__(self) -> str:
-        return str(self.id)
-
-
-    def display(self):
-        print("Vehicle: {}, {}, {}, {}".format(self.id, self.x, self.y, self.orientation))
+        return "Vehicle: {}, {}, {}, {}".format(self.id, self.x, self.y, self.orientation)

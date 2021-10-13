@@ -1,6 +1,6 @@
 from problems.rush_hour.vehicle import RushHourVehicle
 from problems.rush_hour.board import RushHourBoard
-from problems.rush_hour.rush_hour import RushHourProblem
+from problems.rush_hour.rush_hour import RushHourProblem, Direction
 from pytest import raises
 
 '''
@@ -34,21 +34,21 @@ class TestRushHour:
     
 
     def test_actions(self):
-        assert set(problem.actions(board)) == set([('down', 'D'), ('left', 'E'), ('down', 'F'), ('up', 'F'), ('right', 'G'), ('down', 'P')])
-        assert set(problem.actions(board)) == set([('down', 'F'), ('up', 'F'), ('down', 'D'), ('left', 'E'), ('right', 'G'), ('down', 'P')])
-        assert set(problem.actions(board2)) == set([('down', 'D'), ('up', 'D'), ('left', 'E'), ('down', 'F'), ('up', 'F'), ('right', 'G'), ('down', 'P')])
-        assert not set(problem.actions(board)) == set([('right', 'G'), ('down', 'P')])
-        assert not set(problem.actions(board)) == set([('down', 'F'), ('up', 'F'), ('down', 'D')])
+        assert set(problem.actions(board)) == set([(Direction.DOWN, 'D'), (Direction.LEFT, 'E'), (Direction.DOWN, 'F'), (Direction.UP, 'F'), (Direction.RIGHT, 'G'), (Direction.DOWN, 'P')])
+        assert set(problem.actions(board)) == set([(Direction.DOWN, 'F'), (Direction.UP, 'F'), (Direction.DOWN, 'D'), (Direction.LEFT, 'E'), (Direction.RIGHT, 'G'), (Direction.DOWN, 'P')])
+        assert set(problem.actions(board2)) == set([(Direction.DOWN, 'D'), (Direction.UP, 'D'), (Direction.LEFT, 'E'), (Direction.DOWN, 'F'), (Direction.UP, 'F'), (Direction.RIGHT, 'G'), (Direction.DOWN, 'P')])
+        assert not set(problem.actions(board)) == set([(Direction.RIGHT, 'G'), (Direction.DOWN, 'P')])
+        assert not set(problem.actions(board)) == set([(Direction.DOWN, 'F'), (Direction.UP, 'F'), (Direction.DOWN, 'D')])
 
     
     def test_transition_model(self):
-        assert problem.transition_model(board, ('down', 'D')) == board2
-        assert problem.transition_model(board2, ('up', 'D')) == board
-        assert not problem.transition_model(board, ('down', 'D')) == board
-        assert not problem.transition_model(board, ('right', 'G')) == board2
+        assert problem.transition_model(board, (Direction.DOWN, 'D')) == board2
+        assert problem.transition_model(board2, (Direction.UP, 'D')) == board
+        assert not problem.transition_model(board, (Direction.DOWN, 'D')) == board
+        assert not problem.transition_model(board, (Direction.RIGHT, 'G')) == board2
         with raises(Exception):
-            assert problem.transition_model(board, ('right', 'G')) == board2
+            assert problem.transition_model(board, (Direction.RIGHT, 'G')) == board2
 
 
     def test_action_cost(self):
-        assert problem.action_cost(board, ('down', 'D'), board2) == 1
+        assert problem.action_cost(board, (Direction.DOWN, 'D'), board2) == 1

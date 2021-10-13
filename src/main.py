@@ -126,6 +126,6 @@ def main_rush_hour():
 
 if __name__ == '__main__':
     #main_n_puzzle()
-    # main_routefinding()
-    #main_benchmark()
+    #main_routefinding()
+    # main_benchmark()
     main_rush_hour()

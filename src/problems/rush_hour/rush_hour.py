@@ -1,12 +1,20 @@
 from base import Problem
-from problems.rush_hour.vehicle import RushHourVehicle
+from problems.rush_hour.vehicle import RushHourVehicle, Orientation
 from problems.rush_hour.board import RushHourBoard
 from typing import Set, Tuple
 from copy import deepcopy
+from enum import Enum
+
+
+class Direction(Enum):
+    UP = 'up'
+    DOWN = 'down'
+    LEFT = 'left'
+    RIGHT = 'right'
 
 
 class RushHourProblem(Problem):
-    def __init__(self, vehicles: Set[RushHourVehicle], initial: RushHourBoard, goal = RushHourVehicle('X', 4, 2, 'H')):
+    def __init__(self, vehicles: Set[RushHourVehicle], initial: RushHourBoard, goal: RushHourVehicle = RushHourVehicle('X', 4, 2, 'H')):
         super().__init__(initial, goal)
         self.vehicles = vehicles
 
@@ -15,34 +23,34 @@ class RushHourProblem(Problem):
         actions = []
 
         shifts = {
-            'V': [('up', -1, 0), ('down', 1, 0)],
-            'H': [('left', 0, -1), ('right', 0, 1)]
+            Orientation.VERTICAL.value: [(Direction.UP, -1, 0), (Direction.DOWN, 1, 0)],
+            Orientation.HORIZONTAL.value: [(Direction.LEFT, 0, -1), (Direction.RIGHT, 0, 1)]
         }
 
         matrix = board.get_board()
         for vehicle in board.vehicles:
             for shift, y, x in shifts[vehicle.orientation]:
-                if self.on_board(vehicle.x+x, vehicle.y+y) and (shift == 'up' or 'left'):
+                if self.on_board(vehicle.x+x, vehicle.y+y) and (shift == Direction.UP or Direction.LEFT):
                     if matrix[vehicle.y+y, vehicle.x+x] == ' ':
                         actions.append((shift, vehicle.id))
-                if self.on_board(vehicle.xEnd+x, vehicle.yEnd+y) and (shift == 'down' or 'right'):
+                if self.on_board(vehicle.xEnd+x, vehicle.yEnd+y) and (shift == Direction.DOWN or Direction.RIGHT):
                     if matrix[vehicle.yEnd+y, vehicle.xEnd+x] == ' ':
                         actions.append((shift, vehicle.id))                    
         return actions
 
 
-    def transition_model(self, board: RushHourBoard, action: Tuple[str, str]) -> RushHourBoard:
-        move = {
-            "up": (-1, 0),
-            "down": (1, 0),
-            "right": (0, 1),
-            "left": (0, -1)
+    def transition_model(self, board: RushHourBoard, action: Tuple[Direction, str]) -> RushHourBoard:
+        moves = {
+            Direction.UP: (-1, 0),
+            Direction.DOWN: (1, 0),
+            Direction.RIGHT: (0, 1),
+            Direction.LEFT: (0, -1)
         }[action[0]]
 
         for vehicle in board.vehicles:
             if vehicle.id == action[1]:
-                y = vehicle.y + move[0]
-                x = vehicle.x + move[1]
+                y = vehicle.y + moves[0]
+                x = vehicle.x + moves[1]
                 new_vehicle = RushHourVehicle(vehicle.id, x, y, vehicle.orientation)
                 new_vehicles = deepcopy(board.vehicles)
                 new_vehicles.remove(vehicle)
@@ -51,16 +59,14 @@ class RushHourProblem(Problem):
         return new_board
 
 
-    def action_cost(self, board: RushHourBoard, action: Tuple[str, str], new_board: RushHourBoard):
+    def action_cost(self, board: RushHourBoard, action: Tuple[Direction, str], new_board: RushHourBoard):
         return 1
 
 
     def is_goal(self, board: RushHourBoard) -> bool:
-        board = board.get_board()
-        return board[2,5] == 'X'
+        return self.goal in board.vehicles
 
 
     def on_board(self, x: int, y: int) -> bool:
         board = self.initial.get_board()
-        yEnd, xEnd = board.shape
-        return 0 <= x < xEnd and 0 <= y < yEnd
+        return 0 <= x < board.shape[1] and 0 <= y < board.shape[0]
