@@ -1,14 +1,17 @@
 from benchmark import Benchmark
 from problems.n_puzzle.n_puzzle_problem import NPuzzleProblem
 from problems.n_puzzle.n_puzzle_state import NPuzzleState
+from problems.n_puzzle.n_puzzle_heuristic import NPuzzleHeuristic
 
 from problems.route_finding.location import Location
 from problems.route_finding.route_finding import RouteFinding
+from problems.route_finding.heuristic import RouteFindingHeuristic
 
 from problems.rush_hour.vehicle import RushHourVehicle, Orientation
 from problems.rush_hour.rush_hour import RushHourProblem
 from problems.rush_hour.board import RushHourBoard
-from problems.rush_hour.heuristic import RushHourHeuristic
+from problems.rush_hour.blocking_cars_heuristic import BlockingCarsHeuristic
+from problems.rush_hour.distance_to_exit_heuristic import DistanceToExitHeuristic
 
 from solvers import BFS, DFS, BestFirstSearch, AStar, IDAStar
 import numpy as np
@@ -21,6 +24,7 @@ def main_routefinding():
     d = Location("D", (1, -1))
     
     pr = RouteFinding([a, b, c, d], [(a, b, 10), (b, c, 1), (a, d, 1), (d, c, 9)], a, c)
+    RFheuristic = RouteFindingHeuristic(pr).apply
 
     bfs = BFS(pr, pr.initial)
     target_bfs = bfs.run()
@@ -34,13 +38,12 @@ def main_routefinding():
     target_bestfs = bestfs.run()
     print(f"bestfirst: {target_bestfs.path()}")
 
-    dist = lambda s: np.linalg.norm(np.array(s.coord) - np.array(pr.goal.coord), ord=np.inf)
-    astar= AStar(pr, pr.initial, dist)
+    astar= AStar(pr, pr.initial, RFheuristic)
     target_astar = astar.run()
     print(f"astar: {target_astar.path()}")
 
     idastar= IDAStar(pr, pr.initial)
-    target_idastar = idastar.run(dist)
+    target_idastar = idastar.run(RFheuristic)
     print(f"idastar: {target_idastar.path()}")
 
 
@@ -57,13 +60,15 @@ def main_n_puzzle():
     final_state = NPuzzleState(final_matrix, 1, 1)
 
     p = NPuzzleProblem(start_state, final_state)
-
-    dist = lambda current: ((current.x + current.y)**2 + p.goal.y + p.goal.x)
+    NPheuristic = NPuzzleHeuristic(p).apply
 
     solver = BFS(p, start_state)
     target_solver = solver.run()
     print(f"Solver: {target_solver.path()}")
 
+    astar= AStar(p, start_state, NPheuristic)
+    target_astar = astar.run()
+    print(f"astar: {target_astar.path()}")
 
 def main_benchmark():
     start_matrix = [[2, 8, 3],
@@ -78,10 +83,10 @@ def main_benchmark():
     final_state = NPuzzleState(final_matrix, 1, 1)
 
     p = NPuzzleProblem(start_state, final_state)
-    dist = lambda current: (current.x + current.y)**2
+    heuristic = NPuzzleHeuristic(p).apply
 
     b = Benchmark(p)
-    b.compare((["BFS", "BestFirstSearch", "AStar", "DFS"], dist))
+    b.compare((["BFS", "BestFirstSearch", "AStar", "DFS"], heuristic))
     b.print_grades()
 
 
@@ -101,8 +106,8 @@ def main_rush_hour():
     vehicles = {x, a, b, c, d, e, f, g, o, p, q}
     board = RushHourBoard(vehicles) 
     problem = RushHourProblem(vehicles, board)
-    blocking_cars_heuristic = RushHourHeuristic().blocking_cars
-    distance_to_exit_heuristic = RushHourHeuristic().distance_to_exit
+    BCHeuristic = BlockingCarsHeuristic().apply
+    DTEHeuristic = DistanceToExitHeuristic().apply
 
     solver = BFS(problem, board)
     target_bfs = solver.run()
@@ -116,16 +121,16 @@ def main_rush_hour():
     target_bestfs = bestfs.run()
     print(f"bestfirst: {target_bestfs.path()}")
 
-    astar= AStar(problem, board, blocking_cars_heuristic)
+    astar= AStar(problem, board, BCHeuristic)
     target_astar = astar.run()
     print(f"astar: {target_astar.path()}")
 
     # idastar= IDAStar(problem, board)
-    # target_idastar = idastar.run(distance_to_exit_heuristic)
+    # target_idastar = idastar.run(DTEHeuristic)
     # print(f"idastar: {target_idastar.path()}")
 
 if __name__ == '__main__':
-    #main_n_puzzle()
-    #main_routefinding()
-    # main_benchmark()
+    # main_n_puzzle()
+    # main_routefinding()
+    #main_benchmark()
     main_rush_hour()
