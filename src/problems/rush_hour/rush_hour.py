@@ -14,28 +14,23 @@ class Direction(Enum):
 
 
 class RushHourProblem(Problem):
-    def __init__(self, vehicles: Set[RushHourVehicle], initial: RushHourBoard, goal: RushHourVehicle = RushHourVehicle('X', 4, 2, 'H')):
+    def __init__(self, vehicles: Set[RushHourVehicle], initial: RushHourBoard, goal: RushHourVehicle = RushHourVehicle('X', 4, 2, Orientation.HORIZONTAL)):
         super().__init__(initial, goal)
         self.vehicles = vehicles
 
 
     def actions(self, board: RushHourBoard):
-        actions = []
 
         shifts = {
-            Orientation.VERTICAL.value: [(Direction.UP, -1, 0), (Direction.DOWN, 1, 0)],
-            Orientation.HORIZONTAL.value: [(Direction.LEFT, 0, -1), (Direction.RIGHT, 0, 1)]
+            Orientation.VERTICAL: [(Direction.UP, -1, 0), (Direction.DOWN, 1, 0)],
+            Orientation.HORIZONTAL: [(Direction.LEFT, 0, -1), (Direction.RIGHT, 0, 1)]
         }
 
         matrix = board.get_board()
-        for vehicle in board.vehicles:
-            for shift, y, x in shifts[vehicle.orientation]:
-                if self.on_board(vehicle.x+x, vehicle.y+y) and (shift == Direction.UP or Direction.LEFT):
-                    if matrix[vehicle.y+y, vehicle.x+x] == ' ':
-                        actions.append((shift, vehicle.id))
-                if self.on_board(vehicle.xEnd+x, vehicle.yEnd+y) and (shift == Direction.DOWN or Direction.RIGHT):
-                    if matrix[vehicle.yEnd+y, vehicle.xEnd+x] == ' ':
-                        actions.append((shift, vehicle.id))                    
+        actions = [(shift, vehicle.id)
+                   for vehicle in board.vehicles 
+                   for shift, y, x in shifts[vehicle.orientation]
+                   if self.is_valid_move(matrix, vehicle, shift, y, x)]
         return actions
 
 
@@ -70,3 +65,11 @@ class RushHourProblem(Problem):
     def on_board(self, x: int, y: int) -> bool:
         board = self.initial.get_board()
         return 0 <= x < board.shape[1] and 0 <= y < board.shape[0]
+
+
+    def is_valid_move(self, matrix, vehicle, shift, y, x):
+        if self.on_board(vehicle.x+x, vehicle.y+y) and (shift == Direction.UP or Direction.LEFT) and matrix[vehicle.y+y, vehicle.x+x] == ' ':
+            return True
+        if self.on_board(vehicle.xEnd+x, vehicle.yEnd+y) and (shift == Direction.DOWN or Direction.RIGHT) and matrix[vehicle.yEnd+y, vehicle.xEnd+x] == ' ':
+            return True  
+        return False

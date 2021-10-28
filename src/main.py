@@ -5,7 +5,7 @@ from problems.n_puzzle.n_puzzle_state import NPuzzleState
 from problems.route_finding.location import Location
 from problems.route_finding.route_finding import RouteFinding
 
-from problems.rush_hour.vehicle import RushHourVehicle
+from problems.rush_hour.vehicle import RushHourVehicle, Orientation
 from problems.rush_hour.rush_hour import RushHourProblem
 from problems.rush_hour.board import RushHourBoard
 from problems.rush_hour.heuristic import RushHourHeuristic
@@ -86,17 +86,17 @@ def main_benchmark():
 
 
 def main_rush_hour():
-    x = RushHourVehicle('X', 3, 2, 'H')
-    a = RushHourVehicle('A', 0, 0, 'H')
-    b = RushHourVehicle('B', 2, 0, 'H')
-    c = RushHourVehicle('C', 4, 0, 'V')
-    d = RushHourVehicle('D', 0, 1, 'V')  
-    e = RushHourVehicle('E', 2, 1, 'H')
-    f = RushHourVehicle('F', 1, 2, 'V')
-    g = RushHourVehicle('G', 0, 5, 'H')
-    o = RushHourVehicle('O', 5, 0, 'V') 
-    p = RushHourVehicle('P', 2, 2, 'V')
-    q = RushHourVehicle('Q', 3, 3, 'H')  
+    x = RushHourVehicle('X', 3, 2, Orientation.HORIZONTAL)
+    a = RushHourVehicle('A', 0, 0, Orientation.HORIZONTAL)
+    b = RushHourVehicle('B', 2, 0, Orientation.HORIZONTAL)
+    c = RushHourVehicle('C', 4, 0, Orientation.VERTICAL)
+    d = RushHourVehicle('D', 0, 1, Orientation.VERTICAL)  
+    e = RushHourVehicle('E', 2, 1, Orientation.HORIZONTAL)
+    f = RushHourVehicle('F', 1, 2, Orientation.VERTICAL)
+    g = RushHourVehicle('G', 0, 5, Orientation.HORIZONTAL)
+    o = RushHourVehicle('O', 5, 0, Orientation.VERTICAL) 
+    p = RushHourVehicle('P', 2, 2, Orientation.VERTICAL)
+    q = RushHourVehicle('Q', 3, 3, Orientation.HORIZONTAL) 
 
     vehicles = {x, a, b, c, d, e, f, g, o, p, q}
     board = RushHourBoard(vehicles) 

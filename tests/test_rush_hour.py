@@ -1,4 +1,4 @@
-from problems.rush_hour.vehicle import RushHourVehicle
+from problems.rush_hour.vehicle import RushHourVehicle, Orientation
 from problems.rush_hour.board import RushHourBoard
 from problems.rush_hour.rush_hour import RushHourProblem, Direction
 from pytest import raises
@@ -11,23 +11,23 @@ In root directory:
 class TestRushHour:
     global x, a, b, c, d, e, f, g, o, p, q, vehicles, board, problem, d2, vehicles2, board2, problem2
 
-    x = RushHourVehicle('X', 3, 2, 'H')
-    a = RushHourVehicle('A', 0, 0, 'H')
-    b = RushHourVehicle('B', 2, 0, 'H')
-    c = RushHourVehicle('C', 4, 0, 'V')
-    d = RushHourVehicle('D', 0, 1, 'V')  
-    e = RushHourVehicle('E', 2, 1, 'H')
-    f = RushHourVehicle('F', 1, 2, 'V')
-    g = RushHourVehicle('G', 0, 5, 'H')
-    o = RushHourVehicle('O', 5, 0, 'V') 
-    p = RushHourVehicle('P', 2, 2, 'V')
-    q = RushHourVehicle('Q', 3, 3, 'H') 
+    x = RushHourVehicle('X', 3, 2, Orientation.HORIZONTAL)
+    a = RushHourVehicle('A', 0, 0, Orientation.HORIZONTAL)
+    b = RushHourVehicle('B', 2, 0, Orientation.HORIZONTAL)
+    c = RushHourVehicle('C', 4, 0, Orientation.VERTICAL)
+    d = RushHourVehicle('D', 0, 1, Orientation.VERTICAL)  
+    e = RushHourVehicle('E', 2, 1, Orientation.HORIZONTAL)
+    f = RushHourVehicle('F', 1, 2, Orientation.VERTICAL)
+    g = RushHourVehicle('G', 0, 5, Orientation.HORIZONTAL)
+    o = RushHourVehicle('O', 5, 0, Orientation.VERTICAL) 
+    p = RushHourVehicle('P', 2, 2, Orientation.VERTICAL)
+    q = RushHourVehicle('Q', 3, 3, Orientation.HORIZONTAL)  
 
     vehicles = {x, a, b, c, d, e, f, g, o, p, q}
     board = RushHourBoard(vehicles) 
     problem = RushHourProblem(vehicles, board)
 
-    d2 = RushHourVehicle('D', 0, 2, 'V') 
+    d2 = RushHourVehicle('D', 0, 2, Orientation.VERTICAL) 
     vehicles2 = {x, a, b, c, d2, e, f, g, o, p, q}
     board2 = RushHourBoard(vehicles2) 
     problem2 = RushHourProblem(vehicles2, board2)

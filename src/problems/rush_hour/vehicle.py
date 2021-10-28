@@ -21,7 +21,7 @@ class RushHourVehicle:
         else: 
             self.length = 3
 
-        if self.orientation == Orientation.HORIZONTAL.value: 
+        if self.orientation == Orientation.HORIZONTAL: 
             self.xEnd = x + self.length - 1
             self.yEnd = self.y
         else: 
