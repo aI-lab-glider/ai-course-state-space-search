@@ -1,7 +1,8 @@
 from benchmark import Benchmark
 from problems.n_puzzle.n_puzzle_problem import NPuzzleProblem
 from problems.n_puzzle.n_puzzle_state import NPuzzleState
-from problems.n_puzzle.n_puzzle_heuristic import NPuzzleHeuristic
+from problems.n_puzzle.n_puzzle_manhattan_heuristic import NPuzzleManhattanHeuristic
+from problems.n_puzzle.n_puzzle_euclidean_heuristic import NPuzzleEuclideanHeuristic
 
 from problems.route_finding.location import Location
 from problems.route_finding.route_finding import RouteFinding
@@ -60,13 +61,14 @@ def main_n_puzzle():
     final_state = NPuzzleState(final_matrix, 1, 1)
 
     p = NPuzzleProblem(start_state, final_state)
-    NPheuristic = NPuzzleHeuristic(p).apply
+    NPMHeuristic = NPuzzleManhattanHeuristic(p).apply
+    NPEHeuristic = NPuzzleEuclideanHeuristic(p).apply
 
     solver = BFS(p, start_state)
     target_solver = solver.run()
     print(f"Solver: {target_solver.path()}")
 
-    astar= AStar(p, start_state, NPheuristic)
+    astar= AStar(p, start_state, NPEHeuristic)
     target_astar = astar.run()
     print(f"astar: {target_astar.path()}")
 
@@ -83,7 +85,7 @@ def main_benchmark():
     final_state = NPuzzleState(final_matrix, 1, 1)
 
     p = NPuzzleProblem(start_state, final_state)
-    heuristic = NPuzzleHeuristic(p).apply
+    heuristic = NPuzzleManhattanHeuristic(p).apply
 
     b = Benchmark(p)
     b.compare((["BFS", "BestFirstSearch", "AStar", "DFS"], heuristic))
@@ -130,7 +132,7 @@ def main_rush_hour():
     # print(f"idastar: {target_idastar.path()}")
 
 if __name__ == '__main__':
-    # main_n_puzzle()
+    main_n_puzzle()
     # main_routefinding()
     #main_benchmark()
-    main_rush_hour()
+    #main_rush_hour()

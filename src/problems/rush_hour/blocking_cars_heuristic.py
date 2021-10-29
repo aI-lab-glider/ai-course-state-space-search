@@ -11,6 +11,6 @@ class BlockingCarsHeuristic(Heuristic):
             return 0
         blockingcars = 1
         for vehicle in board.vehicles:
-            if vehicle.orientation == Orientation.VERTICAL and vehicle.x > target_vehicle.xEnd and (vehicle.y <= target_vehicle.y and vehicle.yEnd >= target_vehicle.y):
+            if vehicle.orientation == Orientation.VERTICAL and vehicle.x > target_vehicle.xEnd and vehicle.y <= target_vehicle.y and vehicle.yEnd >= target_vehicle.y:
                 blockingcars += 1
         return blockingcars
