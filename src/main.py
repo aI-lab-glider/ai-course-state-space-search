@@ -6,7 +6,9 @@ from problems.n_puzzle.n_puzzle_euclidean_heuristic import NPuzzleEuclideanHeuri
 
 from problems.route_finding.location import Location
 from problems.route_finding.route_finding import RouteFinding
-from problems.route_finding.heuristic import RouteFindingHeuristic
+from problems.route_finding.manhattan_heuristic import RouteFindingManhattanHeuristic
+from problems.route_finding.euclidean_heuristic import RouteFindingEuclideanHeuristic
+from problems.route_finding.diagonal_heuristic import RouteFindingDiagonalHeuristic
 
 from problems.rush_hour.vehicle import RushHourVehicle, Orientation
 from problems.rush_hour.rush_hour import RushHourProblem
@@ -25,7 +27,9 @@ def main_routefinding():
     d = Location("D", (1, -1))
     
     pr = RouteFinding([a, b, c, d], [(a, b, 10), (b, c, 1), (a, d, 1), (d, c, 9)], a, c)
-    RFheuristic = RouteFindingHeuristic(pr).apply
+    RFMHeuristic = RouteFindingManhattanHeuristic(pr).apply
+    RFEHeuristic = RouteFindingEuclideanHeuristic(pr).apply
+    RFDHeuristic = RouteFindingDiagonalHeuristic(pr).apply
 
     bfs = BFS(pr, pr.initial)
     target_bfs = bfs.run()
@@ -39,14 +43,17 @@ def main_routefinding():
     target_bestfs = bestfs.run()
     print(f"bestfirst: {target_bestfs.path()}")
 
-    astar= AStar(pr, pr.initial, RFheuristic)
+    astar= AStar(pr, pr.initial, RFMHeuristic)
     target_astar = astar.run()
     print(f"astar: {target_astar.path()}")
 
     idastar= IDAStar(pr, pr.initial)
-    target_idastar = idastar.run(RFheuristic)
+    target_idastar = idastar.run(RFMHeuristic)
     print(f"idastar: {target_idastar.path()}")
 
+    # b = Benchmark(pr)
+    # b.compare((["BFS", "BestFirstSearch", "AStar", "DFS"], RFEHeuristic))
+    # b.print_grades()
 
 def main_n_puzzle():
     start_matrix = [[2, 8, 3],
@@ -85,10 +92,11 @@ def main_benchmark():
     final_state = NPuzzleState(final_matrix, 1, 1)
 
     p = NPuzzleProblem(start_state, final_state)
-    heuristic = NPuzzleManhattanHeuristic(p).apply
+    MHeuristic = NPuzzleManhattanHeuristic(p).apply
+    EHeuristic = NPuzzleEuclideanHeuristic(p).apply
 
     b = Benchmark(p)
-    b.compare((["BFS", "BestFirstSearch", "AStar", "DFS"], heuristic))
+    b.compare((["BFS", "BestFirstSearch", "AStar", "DFS"], MHeuristic))
     b.print_grades()
 
 
@@ -127,12 +135,16 @@ def main_rush_hour():
     target_astar = astar.run()
     print(f"astar: {target_astar.path()}")
 
-    # idastar= IDAStar(problem, board)
-    # target_idastar = idastar.run(DTEHeuristic)
-    # print(f"idastar: {target_idastar.path()}")
+    idastar= IDAStar(problem, board)
+    target_idastar = idastar.run(DTEHeuristic)
+    print(f"idastar: {target_idastar.path()}")
+
+    b = Benchmark(problem)
+    b.compare((["BFS", "BestFirstSearch", "AStar", "DFS"], BCHeuristic))
+    b.print_grades()
 
 if __name__ == '__main__':
-    main_n_puzzle()
-    # main_routefinding()
-    #main_benchmark()
-    #main_rush_hour()
+    # main_n_puzzle()
+    main_routefinding()
+    # main_benchmark()
+    # main_rush_hour()

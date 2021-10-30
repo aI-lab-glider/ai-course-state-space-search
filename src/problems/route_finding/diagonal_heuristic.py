@@ -4,12 +4,12 @@ from problems.route_finding.location import Location
 import numpy as np
 
 
-class RouteFindingHeuristic(Heuristic):
+class RouteFindingDiagonalHeuristic(Heuristic):
  
     def __init__(self, problem: RouteFinding):
         self.problem = problem
 
 
     def apply(self, location: Location) -> float:
-        distance = np.linalg.norm(np.array(location.coord) - np.array(self.problem.goal.coord), ord=np.inf)
+        distance = np.maximum(abs(location.coord[0] - self.problem.goal.coord[0]), abs(location.coord[1] - self.problem.goal.coord[1]))
         return distance
