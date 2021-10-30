@@ -135,16 +135,16 @@ def main_rush_hour():
     target_astar = astar.run()
     print(f"astar: {target_astar.path()}")
 
-    idastar= IDAStar(problem, board)
-    target_idastar = idastar.run(DTEHeuristic)
-    print(f"idastar: {target_idastar.path()}")
+    # idastar= IDAStar(problem, board)
+    # target_idastar = idastar.run(DTEHeuristic)
+    # print(f"idastar: {target_idastar.path()}")
 
-    b = Benchmark(problem)
-    b.compare((["BFS", "BestFirstSearch", "AStar", "DFS"], BCHeuristic))
-    b.print_grades()
+    # b = Benchmark(problem)
+    # b.compare((["BFS", "BestFirstSearch", "AStar", "DFS"], BCHeuristic))
+    # b.print_grades()
 
 if __name__ == '__main__':
     # main_n_puzzle()
-    main_routefinding()
+    # main_routefinding()
     # main_benchmark()
-    # main_rush_hour()
+    main_rush_hour()

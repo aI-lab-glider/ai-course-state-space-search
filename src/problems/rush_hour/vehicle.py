@@ -5,8 +5,8 @@ TRUCK_ID = ('O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'Y', 'Z')
 
 
 class Orientation(Enum):
-    HORIZONTAL = 'H'
-    VERTICAL = 'V'
+    HORIZONTAL = 'horizontal'
+    VERTICAL = 'vertical'
 
 
 class RushHourVehicle:
