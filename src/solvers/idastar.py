@@ -29,7 +29,7 @@ class IDAStar:
     def _cost_limited_search(self, root: Node, bound: float) -> Tuple[bool, Optional[Node], float]:
         frontier:Heap = Heap(lambda x: x.cost + self.heuristic(x.state))
         frontier.push(root)
-        new_bound = np.inf # next iteration bound
+        new_bound = float('inf') # next iteration bound
         while not frontier.is_empty():
             node = frontier.pop()
   
