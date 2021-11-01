@@ -1,9 +1,12 @@
 from abc import ABC, abstractmethod
 from base import State
 
+from typing import TypeVar, Generic
 
-class Heuristic(ABC):
+S = TypeVar('S', bound=State)
+
+class Heuristic(ABC, Generic[S]):
 
     @abstractmethod
-    def apply(self, state: State):
+    def __call__(self, state: S) -> float:
         pass

@@ -18,7 +18,6 @@ class NPuzzleState(State):
         return hash(tuple(tmp))
         
 
-
     def __str__(self) -> str:
         s = "\n"
         for i in range(self.nx):

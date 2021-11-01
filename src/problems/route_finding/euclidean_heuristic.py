@@ -4,12 +4,12 @@ from problems.route_finding.location import Location
 from math import sqrt
 
 
-class RouteFindingEuclideanHeuristic(Heuristic):
+class RouteFindingEuclideanHeuristic(Heuristic[Location]):
  
     def __init__(self, problem: RouteFinding):
         self.problem = problem
 
 
-    def apply(self, location: Location) -> float:
+    def __call__(self, location: Location) -> float:
         distance = sqrt((location.coord[0] - self.problem.goal.coord[0])**2 + (location.coord[1] - self.problem.goal.coord[1])**2 )
         return distance

@@ -1,28 +1,31 @@
 from abc import ABC, abstractmethod
 from base.state import State
-from typing import Union, List
+from typing import Union, List, TypeVar, Generic
 
-class Problem(ABC):
-    def __init__(self, initial: State, goal: State = None):
+
+S = TypeVar('S', bound=State)
+A = TypeVar('A')
+
+class Problem(ABC, Generic[S,A]):
+    def __init__(self, initial: S):
         self.initial = initial
-        self.goal = goal
 
     @abstractmethod
-    def actions(self, state: State) -> List[Union[str, int]]:
+    def actions(self, state: S) -> List[A]:
         """Generates actions to take from the given state"""
         raise NotImplementedError
 
     @abstractmethod
-    def transition_model(self, state: State, action: Union[str, int]) -> State:
+    def take_action(self, state: S, action: A) -> S:
         """Returns new state resulting from taking given action"""
         raise NotImplementedError
 
     @abstractmethod
-    def action_cost(self, state: State, action: Union[str, int], next_state: State) -> int:
+    def action_cost(self, state: S, action: A, next_state: S) -> float:
         """Returns cost of an action"""
         raise NotImplementedError
 
     @abstractmethod
-    def is_goal(self, state: State) -> bool:
+    def is_goal(self, state: S) -> bool:
         """Returns is given state is a goal state"""
         raise NotImplementedError

@@ -1,17 +1,19 @@
 from base import Problem 
-from problems.route_finding.location import Location
-from typing import Sequence, Tuple, Generator, Union
+from problems.route_finding.location import Location, LocationID
+from typing import Dict, Sequence, Tuple, Union, List
 from collections import defaultdict
 
 
-adj_list = Sequence[Tuple[Location, Location, int]]
+
+adj_list = Sequence[Tuple[Location, Location, float]]
 
 
-class RouteFinding(Problem):
+class RouteFinding(Problem[Location, LocationID]):
     def __init__(self, locations: Sequence[Location], routes: adj_list, initial: Location, goal: Location):
-        super().__init__(initial, goal)
+        super().__init__(initial)
+        self.goal = goal
         self.locations = {loc.id: loc for loc in locations}
-        self.routes = defaultdict(lambda: dict())
+        self.routes: Dict[Location, Dict[Location, float]] = defaultdict(lambda: dict())
         self.add_routes(routes)
 
 
@@ -19,25 +21,23 @@ class RouteFinding(Problem):
         for source, target, dist in routes:
             assert source in self.locations, f"unknown location {source}"
             assert target in self.locations, f"unknown location {target}"
-            assert dist >= 0, f"Distance between {source} and {target} must be postive"
+            assert float(dist) >= 0, f"Distance between {source} and {target} must be postive"
             self.routes[source][target] = dist
             self.routes[target][source] = dist
 
 
-    def actions(self, location: Location) -> Generator[Location, None, None]:
-        for neighbour in self.routes[location]:
-            yield neighbour.id
-
+    def actions(self, location: Location) -> List[LocationID]:
+        return [l.id for l in self.routes[location]]
 
     # TODO: What should be done if unspported action is passed? For now method will raise exception
-    def transition_model(self, location: Location, action: Union[str, int]) -> Location:
+    def take_action(self, location: Location, action: LocationID) -> Location:
         assert location in self.locations, f"Unknown location {location}"
         assert action in self.routes[location], f"Cannot take given action {action} from {location}"
         target = self.locations[action]
         return target
 
 
-    def action_cost(self, source: Location, action: Union[str, int], target: Location) -> int:
+    def action_cost(self, source: Location, action: LocationID, target: Location) -> float:
         return self.routes[source][target]
 
 

@@ -27,11 +27,11 @@ class TestRouteFinding:
         assert not  set(actions) == set(["D"])
 
 
-    def test_transition_model(self):
-        assert pr.transition_model(a, "B") == "B"
-        assert not pr.transition_model(a, "B") == "A"
+    def test_take_action(self):
+        assert pr.take_action(a, "B") == "B"
+        assert not pr.take_action(a, "B") == "A"
         with raises(AssertionError):
-            assert (pr.transition_model(a, "C") == "D")
+            assert (pr.take_action(a, "C") == "D")
 
 
     def test_action_cost(self):

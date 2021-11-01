@@ -31,11 +31,7 @@ class RushHourBoard(State):
 
 
     def __eq__(self, other):
-        return (self.get_board() == other.get_board()).all()
-
-
-    def display(self):
-        print(self.__str__())        
+        return (self.get_board() == other.get_board()).all()     
 
 
 

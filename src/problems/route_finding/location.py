@@ -1,10 +1,11 @@
 from base import State
 from typing import Tuple, Union
 
+LocationID = str
 
 # TODO: add @property for id and coord
 class Location(State):
-    def __init__(self, id: Union[int, str], coordinates: Tuple[int, int]):
+    def __init__(self, id: LocationID, coordinates: Tuple[int, int]):
         self.id = id    # nazwa miasta
         self.coord = coordinates    # koordynaty na mapie
 
@@ -16,9 +17,6 @@ class Location(State):
 
     def __str__(self):
         return str(self.id)
-
-    def display(self):
-        print(f"<id: {self.id}, coord: {self.coord}>")
 
 
 

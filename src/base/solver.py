@@ -7,5 +7,5 @@ class Solver(ABC):
         self.problem = problem
 
     @abstractmethod
-    def run():
+    def run(self):
         raise NotImplementedError

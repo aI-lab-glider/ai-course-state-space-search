@@ -30,11 +30,11 @@ class TestNPuzzle:
         assert not set(p.actions(state)) == set(["up", "right", "down", "left"])
 
 
-    def test_transition_model(self):
-        assert p.transition_model(state, "up") == state2
-        assert not p.transition_model(state, "down") == state2
+    def test_take_action(self):
+        assert p.take_action(state, "up") == state2
+        assert not p.take_action(state, "down") == state2
         with raises(Exception):
-            assert p.transition_model(state, "down") == state2
+            assert p.take_action(state, "down") == state2
 
 
     def test_action_cost(self):

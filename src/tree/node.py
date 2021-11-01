@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, Set
 from base.state import State
 
 
@@ -6,9 +6,7 @@ class Node:
     def __init__(self, state: State, parent: State = None, action: Union[str, int] = None, cost: int = 0):
         self.state = state
         self.parent = parent
-        self.children = set()
-
-
+        self.children : Set[Node] = set()
         self.action = action
         self.cost = cost
 

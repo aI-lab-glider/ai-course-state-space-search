@@ -1,18 +1,7 @@
-from abc import ABC, abstractmethod
+from abc import ABC
+from typing import Hashable
 
 
-class State(ABC):
-    def __init__(self):
-        pass
+class State(ABC, Hashable):
+    pass
 
-    @abstractmethod
-    def __hash__(self):
-        raise NotImplementedError
-
-    @abstractmethod
-    def __str__(self) -> str:
-        raise NotImplementedError
-
-    @abstractmethod
-    def display(self):
-        raise NotImplementedError

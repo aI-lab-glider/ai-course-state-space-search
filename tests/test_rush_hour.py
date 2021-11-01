@@ -41,13 +41,13 @@ class TestRushHour:
         assert not set(problem.actions(board)) == set([(Direction.DOWN, 'F'), (Direction.UP, 'F'), (Direction.DOWN, 'D')])
 
     
-    def test_transition_model(self):
-        assert problem.transition_model(board, (Direction.DOWN, 'D')) == board2
-        assert problem.transition_model(board2, (Direction.UP, 'D')) == board
-        assert not problem.transition_model(board, (Direction.DOWN, 'D')) == board
-        assert not problem.transition_model(board, (Direction.RIGHT, 'G')) == board2
+    def test_take_action(self):
+        assert problem.take_action(board, (Direction.DOWN, 'D')) == board2
+        assert problem.take_action(board2, (Direction.UP, 'D')) == board
+        assert not problem.take_action(board, (Direction.DOWN, 'D')) == board
+        assert not problem.take_action(board, (Direction.RIGHT, 'G')) == board2
         with raises(Exception):
-            assert problem.transition_model(board, (Direction.RIGHT, 'G')) == board2
+            assert problem.take_action(board, (Direction.RIGHT, 'G')) == board2
 
 
     def test_action_cost(self):
