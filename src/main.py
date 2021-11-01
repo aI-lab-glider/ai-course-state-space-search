@@ -1,6 +1,10 @@
 
 from benchmark import Benchmark
 
+from problems.blocks_world.blocks_world_heuristic import BlocksWorldHeuristic
+from problems.blocks_world.blocks_world_problem import BlocksWorldProblem
+from problems.blocks_world.blocks_world_state import BlocksWorldState
+
 from problems.n_puzzle.n_puzzle_problem import NPuzzleProblem
 from problems.n_puzzle.n_puzzle_state import NPuzzleState
 from problems.n_puzzle.n_puzzle_manhattan_heuristic import NPuzzleManhattanHeuristic
@@ -145,8 +149,20 @@ def main_rush_hour():
     # b.compare((["BFS", "BestFirstSearch", "AStar", "DFS"], BCHeuristic))
     # b.print_grades()    
 
+def main_blocks_world():
+    start = BlocksWorldState.from_str("A,B,C;D,E;F,G")
+    goal = BlocksWorldState.from_str(";;A,G,F,E,C,B,D")
+    problem = BlocksWorldProblem(start, goal)
+    heuristic = BlocksWorldHeuristic(problem)
+
+    astar = IDAStar(problem, start, heuristic)
+    target_astar = astar.run()
+    print(f"astar: {target_astar.path()}")
+
 if __name__ == '__main__':
     main_n_puzzle()
     main_routefinding()
     main_benchmark()
     main_rush_hour()
+    main_blocks_world()
+    
