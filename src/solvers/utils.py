@@ -1,53 +1,26 @@
-# TODO: Make heap class using heapq
+from dataclasses import dataclass
+import heapq
+from dataclasses import dataclass, field
+from typing import Any, Callable, List
+
+@dataclass(order=True)
+class HeapItem:
+    distance: int
+    item: Any=field(compare=False)
+
 class Heap:
-    def __init__(self, elements=[], maxheap=True, key=lambda x: x): # defaultowo tworzy maxheap
-        self.elements=elements
+       
+    def __init__(self, key: Callable):
         self.key=key
-        self.size=len(elements)
-        self.maxheap=maxheap
-        self.build_heap()
+        self.heap: List[HeapItem] = []
+        heapq.heapify(self.heap)
 
-    def compare(self, x, y):
-        if self.maxheap:
-            return self.key(self.elements[x]) > self.key(self.elements[y])
-        else:
-            return self.key(self.elements[x]) < self.key(self.elements[y])
+    def push(self, x):
+        heapq.heappush(self.heap, HeapItem(self.key(x), x))
 
-    def heapify(self, i):
-        l = 2 * i + 1
-        r = 2 * i + 2
-        largest = i
-        if l < self.size and self.compare(l,largest):
-            largest = l
-        if r < self.size and self.compare(r,largest):
-            largest = r
-        if largest != i:
-            self.elements[i] , self.elements[largest] = self.elements[largest] , self.elements[i]
-            self.heapify(largest)
-    
-    def build_heap(self):
-        for i in range(self.size // 2 , -1 , -1):
-            self.heapify(i)
-
-    def put(self, x):
-        self.size += 1
-        self.elements.append(x)
-        i = self.size - 1
-        parent = (i-1)//2
-        while parent >= 0 and self.compare(i,parent):
-            self.elements[parent] , self.elements[i] = self.elements[i] , self.elements[parent]
-            i = parent
-            parent = (i-1)//2 
-
-    def get(self):
-        if(self.size == 0):
-            return None
-        x = self.elements[0]
-        self.elements[0] = self.elements[self.size - 1]
-        self.elements.pop()
-        self.size -= 1
-        self.heapify(0)
-        return x
+    def pop(self):
+        hitem = heapq.heappop(self.heap)
+        return hitem.item
         
-    def empty(self):
-        return self.size == 0
+    def is_empty(self):
+        return len(self.heap) == 0
