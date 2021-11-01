@@ -37,8 +37,8 @@ class Benchmark:
             "BFS": BFS(self.problem, self.problem.initial),
             "DFS": DFS(self.problem, self.problem.initial),
             "BestFirstSearch": BestFirstSearch(self.problem, self.problem.initial),
-            "AStar": AStar(self.problem, self.problem.initial, dist)
-            # "IDAStar": IDAStar(self.problem, self.problem.initial) 
+            "AStar": AStar(self.problem, self.problem.initial, dist),
+            "IDAStar": IDAStar(self.problem, self.problem.initial, dist) 
         }[algo]
 
         start = default_timer()
