@@ -1,4 +1,10 @@
+
 from benchmark import Benchmark
+
+from problems.blocks_world.blocks_world_heuristic import BlocksWorldHeuristic
+from problems.blocks_world.blocks_world_problem import BlocksWorldProblem
+from problems.blocks_world.blocks_world_state import BlocksWorldState
+
 from problems.n_puzzle.n_puzzle_problem import NPuzzleProblem
 from problems.n_puzzle.n_puzzle_state import NPuzzleState
 from problems.n_puzzle.n_puzzle_manhattan_heuristic import NPuzzleManhattanHeuristic
@@ -27,9 +33,9 @@ def main_routefinding():
     d = Location("D", (1, -1))
     
     pr = RouteFinding([a, b, c, d], [(a, b, 10), (b, c, 1), (a, d, 1), (d, c, 9)], a, c)
-    RFMHeuristic = RouteFindingManhattanHeuristic(pr).apply
-    RFEHeuristic = RouteFindingEuclideanHeuristic(pr).apply
-    RFDHeuristic = RouteFindingDiagonalHeuristic(pr).apply
+    RFMHeuristic = RouteFindingManhattanHeuristic(pr)
+    RFEHeuristic = RouteFindingEuclideanHeuristic(pr)
+    RFDHeuristic = RouteFindingDiagonalHeuristic(pr)
 
     bfs = BFS(pr, pr.initial)
     target_bfs = bfs.run()
@@ -47,9 +53,9 @@ def main_routefinding():
     target_astar = astar.run()
     print(f"astar: {target_astar.path()}")
 
-    idastar= IDAStar(pr, pr.initial)
-    target_idastar = idastar.run(RFMHeuristic)
-    print(f"idastar: {target_idastar.path()}")
+    # idastar= IDAStar(pr, pr.initial)
+    # target_idastar = idastar.run(RFMHeuristic)
+    # print(f"idastar: {target_idastar.path()}")
 
     # b = Benchmark(pr)
     # b.compare((["BFS", "BestFirstSearch", "AStar", "DFS"], RFEHeuristic))
@@ -68,8 +74,8 @@ def main_n_puzzle():
     final_state = NPuzzleState(final_matrix, 1, 1)
 
     p = NPuzzleProblem(start_state, final_state)
-    NPMHeuristic = NPuzzleManhattanHeuristic(p).apply
-    NPEHeuristic = NPuzzleEuclideanHeuristic(p).apply
+    NPMHeuristic = NPuzzleManhattanHeuristic(p)
+    NPEHeuristic = NPuzzleEuclideanHeuristic(p)
 
     solver = BFS(p, start_state)
     target_solver = solver.run()
@@ -92,8 +98,8 @@ def main_benchmark():
     final_state = NPuzzleState(final_matrix, 1, 1)
 
     p = NPuzzleProblem(start_state, final_state)
-    MHeuristic = NPuzzleManhattanHeuristic(p).apply
-    EHeuristic = NPuzzleEuclideanHeuristic(p).apply
+    MHeuristic = NPuzzleManhattanHeuristic(p)
+    EHeuristic = NPuzzleEuclideanHeuristic(p)
 
     b = Benchmark(p)
     b.compare((["BFS", "BestFirstSearch", "AStar", "DFS"], MHeuristic))
@@ -116,8 +122,8 @@ def main_rush_hour():
     vehicles = {x, a, b, c, d, e, f, g, o, p, q}
     board = RushHourBoard(vehicles) 
     problem = RushHourProblem(vehicles, board)
-    BCHeuristic = BlockingCarsHeuristic().apply
-    DTEHeuristic = DistanceToExitHeuristic().apply
+    BCHeuristic = BlockingCarsHeuristic()
+    DTEHeuristic = DistanceToExitHeuristic()
 
     solver = BFS(problem, board)
     target_bfs = solver.run()
@@ -131,9 +137,9 @@ def main_rush_hour():
     target_bestfs = bestfs.run()
     print(f"bestfirst: {target_bestfs.path()}")
 
-    astar= AStar(problem, board, BCHeuristic)
-    target_astar = astar.run()
-    print(f"astar: {target_astar.path()}")
+    # astar= AStar(problem, board, BCHeuristic)
+    # target_astar = astar.run()
+    # print(f"astar: {target_astar.path()}")
 
     # idastar= IDAStar(problem, board)
     # target_idastar = idastar.run(DTEHeuristic)
@@ -141,10 +147,22 @@ def main_rush_hour():
 
     # b = Benchmark(problem)
     # b.compare((["BFS", "BestFirstSearch", "AStar", "DFS"], BCHeuristic))
-    # b.print_grades()
+    # b.print_grades()    
+
+def main_blocks_world():
+    start = BlocksWorldState.from_str("A,B,C;D,E;F,G")
+    goal = BlocksWorldState.from_str(";;A,G,F,E,C,B,D")
+    problem = BlocksWorldProblem(start, goal)
+    heuristic = BlocksWorldHeuristic(problem)
+
+    astar = IDAStar(problem, start, heuristic)
+    target_astar = astar.run()
+    print(f"astar: {target_astar.path()}")
 
 if __name__ == '__main__':
-    # main_n_puzzle()
-    # main_routefinding()
-    # main_benchmark()
+    main_n_puzzle()
+    main_routefinding()
+    main_benchmark()
     main_rush_hour()
+    main_blocks_world()
+    
