@@ -28,9 +28,6 @@ class RushHourVehicle:
             self.xEnd = self.x
             self.yEnd = y + self.length - 1  
 
-        assert id in CAR_ID or id in TRUCK_ID, "Vehicle id must be a single capital letter"
-        assert (self.x >= 0 and self.y >= 0 and self.xEnd < 6 and self.yEnd < 6), f"Vehicle {self.id} moves off the board"
-
 
     def __hash__(self):
         return hash(self.__str__())

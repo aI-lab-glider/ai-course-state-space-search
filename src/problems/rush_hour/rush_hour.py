@@ -40,7 +40,7 @@ class RushHourProblem(Problem[RushHourBoard, VehicleShift]):
                 new_vehicles = deepcopy(board.vehicles)
                 new_vehicles.remove(vehicle)
                 new_vehicles.add(new_vehicle)
-                new_board = RushHourBoard(new_vehicles)
+                new_board = RushHourBoard(new_vehicles, board.shape)
         return new_board
 
 
@@ -95,7 +95,7 @@ class RushHourProblem(Problem[RushHourBoard, VehicleShift]):
         
         
         initial_vehicles = set(vehicles.values())
-        initial = RushHourBoard(initial_vehicles)
+        initial = RushHourBoard(initial_vehicles, board.shape)
         goal = deepcopy(vehicles["X"])
         goal.x = width - vehicles["X"].length
 

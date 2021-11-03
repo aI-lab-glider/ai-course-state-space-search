@@ -1,20 +1,21 @@
 import numpy as np
-from typing import Set
+from typing import Set, Tuple
 from problems.rush_hour.vehicle import RushHourVehicle
 from base import State
 
 
 class RushHourBoard(State):
-    def __init__(self, vehicles: Set[RushHourVehicle]):
+    def __init__(self, vehicles: Set[RushHourVehicle], shape:Tuple[int,int] = (6,6)):
         self.vehicles = vehicles
+        self.shape = shape
 
 
     def get_board(self):
-        board = np.array([[' '] * 6 for _ in range(6)])
+        board = np.full(self.shape, ' ')
         for vehicle in self.vehicles:
             x, y = vehicle.x, vehicle.y
             xEnd, yEnd = vehicle.xEnd, vehicle.yEnd
-            assert (board[y:yEnd+1, x:xEnd+1] == ' ').all(), f"Vehicle {vehicle.id} can't be place on another"
+            # assert (board[y:yEnd+1, x:xEnd+1] == ' ').all(), f"Vehicle {vehicle.id} can't be place on another"
             board[y:yEnd+1, x:xEnd+1] = vehicle.id
         return board
 
