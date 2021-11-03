@@ -1,19 +1,24 @@
-from solvers.utils import Heap
+from typing import Callable, Optional
+from base import problem
+from solvers.utils import PriorityQueue, Queue
 from tree import Node, Tree
 
 
-class BestFirstSearch:
-    def __init__(self, problem, state, eval_fun=lambda node: node.cost):
-        """With default eval_fun parameter, class implements uniform-cost search (Dijkstra) algorithm"""
+class BestFirstSearch():
+    def __init__(self, problem: problem, eval_fun: Callable[[Node], float]):
         self.problem = problem
-        self.start = state
+        self.eval_fun = eval_fun
+        self.start = problem.initial
         self.root = Node(self.start)
-        self.frontier = Heap(key=eval_fun)
+        self.frontier:PriorityQueue = PriorityQueue(eval_fun)
         self.visited = {self.start: self.root}
         self.tree = Tree(self.root)
     
 
-    def run(self):
+    def solve(self) -> Optional[Node]:
+        if self.problem.is_goal(self.root.state):
+            return self.root
+
         self.frontier.push(self.root)
         while not self.frontier.is_empty():
             parent = self.frontier.pop()

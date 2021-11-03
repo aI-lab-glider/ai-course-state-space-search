@@ -1,5 +1,5 @@
-from solvers import AStar, IDAStar, BestFirstSearch, BFS, DFS
-from base import Problem
+from solvers import AStar, IDAStar, Dijkstra, Greedy, BFS, DFS
+from base import Problem, Heuristic
 from typing import List, Callable, Sequence, Tuple
 from timeit import default_timer
 
@@ -16,33 +16,34 @@ class Benchmark:
         Think about metric system to calculate points and give grade. For now points are just (1000 - 50*time)
         """
         self.points = 1000
-        self.grades = list(tuple())
+        self.grades: List[Tuple[str,float]] = list(tuple())
 
 
-    def compare(self, adj_list: Sequence[Tuple[List[str], Callable]] = None):
+    def compare(self, adj_list: Sequence[Tuple[List[str], Heuristic]] = None):
         if adj_list:
-            for algo in adj_list[0]:
-                self.run_algorithm(algo, adj_list[1])
+            for algos, heur in adj_list:
+                for algo in algos:
+                    self.run_algorithm(algo, heur)
         return None
 
 
     """
     TODO
     AStar przyjmuje heurystykę w definicji problemu
-    IDAStar przyjmuje heurystyke przy wywołaniu metody run()
+    IDAStar przyjmuje heurystyke przy wywołaniu metody solve()
     <Zamieniłbym, żeby IDAStar przyjmował heurystykę w definicji problemu.>
     """
-    def run_algorithm(self, algo: str, dist: Callable = None):
+    def run_algorithm(self, algo: str, dist: Heuristic):
         solver = {
-            "BFS": BFS(self.problem, self.problem.initial),
-            "DFS": DFS(self.problem, self.problem.initial),
-            "BestFirstSearch": BestFirstSearch(self.problem, self.problem.initial),
-            "AStar": AStar(self.problem, self.problem.initial, dist),
-            "IDAStar": IDAStar(self.problem, self.problem.initial, dist) 
+            "BFS": BFS(self.problem),
+            "DFS": DFS(self.problem),
+            "Dijkstra": Dijkstra(self.problem),
+            "AStar": AStar(self.problem, dist),
+            "IDAStar": IDAStar(self.problem, dist) 
         }[algo]
 
         start = default_timer()
-        solver.run()
+        solver.solve()
         stop = default_timer()
 
         time = round(stop - start, 5)

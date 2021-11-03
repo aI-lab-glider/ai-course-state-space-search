@@ -22,7 +22,7 @@ from problems.rush_hour.board import RushHourBoard
 from problems.rush_hour.blocking_cars_heuristic import BlockingCarsHeuristic
 from problems.rush_hour.distance_to_exit_heuristic import DistanceToExitHeuristic
 
-from solvers import BFS, DFS, BestFirstSearch, AStar, IDAStar
+from solvers import BFS, DFS, Dijkstra, Greedy, AStar, IDAStar
 import numpy as np
 
 
@@ -37,20 +37,20 @@ def main_routefinding():
     RFEHeuristic = RouteFindingEuclideanHeuristic(pr)
     RFDHeuristic = RouteFindingDiagonalHeuristic(pr)
 
-    bfs = BFS(pr, pr.initial)
-    target_bfs = bfs.run()
+    bfs = BFS(pr)
+    target_bfs = bfs.solve()
     print(f"BFS: {target_bfs.path()}")
     
-    dfs = DFS(pr, pr.initial)
-    target_dfs = dfs.run()
+    dfs = DFS(pr)
+    target_dfs = dfs.solve()
     print(f"DFS: {target_dfs.path()}")
 
-    bestfs= BestFirstSearch(pr, pr.initial)
-    target_bestfs = bestfs.run()
+    bestfs= Dijkstra(pr)
+    target_bestfs = bestfs.solve()
     print(f"bestfirst: {target_bestfs.path()}")
 
     astar= AStar(pr, pr.initial, RFMHeuristic)
-    target_astar = astar.run()
+    target_astar = astar.solve()
     print(f"astar: {target_astar.path()}")
 
     # idastar= IDAStar(pr, pr.initial)
@@ -62,27 +62,18 @@ def main_routefinding():
     # b.print_grades()
 
 def main_n_puzzle():
-    start_matrix = [[2, 8, 3],
-                    [1, 6, 4],
-                    [0, 7, 5]]
-
-    final_matrix = [[1, 2, 3],
-                    [8, 0, 4],
-                    [7, 6, 5]]
-
-    start_state = NPuzzleState(start_matrix, 2, 0)
-    final_state = NPuzzleState(final_matrix, 1, 1)
-
-    p = NPuzzleProblem(start_state, final_state)
+    with open("problems/n_puzzle/instances/03_06.txt") as f:
+        text = f.read()
+        p = NPuzzleProblem.deserialize(text)
     NPMHeuristic = NPuzzleManhattanHeuristic(p)
     NPEHeuristic = NPuzzleEuclideanHeuristic(p)
 
-    solver = BFS(p, start_state)
-    target_solver = solver.run()
+    solver = BFS(p)
+    target_solver = solver.solve()
     print(f"Solver: {target_solver.path()}")
 
-    astar= AStar(p, start_state, NPEHeuristic)
-    target_astar = astar.run()
+    astar= AStar(p, NPEHeuristic)
+    target_astar = astar.solve()
     print(f"astar: {target_astar.path()}")
 
 def main_benchmark():

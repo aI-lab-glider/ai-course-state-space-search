@@ -1,33 +1,34 @@
 from typing import Callable, Tuple, Optional
+from base.solver import H, P, HeuristicSolver
 from base.state import State
-from solvers.utils import Heap
+from solvers.utils import PriorityQueue
 from tree import Node, Tree
 
 
-class IDAStar:
-    def __init__(self, problem, state, heuristic: Callable[[State], float]):
-        self.problem = problem
-        self.start = state
+class IDAStar(HeuristicSolver):
+    def __init__(self, problem: P, heuristic: H):
+        super().__init__(problem, heuristic)
+        self.start = problem.initial
         self.root = Node(self.start, cost=0)
         self.tree = Tree(self.root)
-        self.heuristic = heuristic
 
     
-    def run(self, max_cost: float=float('inf')) -> Optional[Node]:
+    def solve(self) -> Optional[Node]:
         if self.problem.is_goal(self.root.state):
             return self.root
 
         bound = self.heuristic(self.start)
-        while bound < max_cost:
+        while True:
             is_goal, node, cost = self._cost_limited_search(self.root, bound)
             if is_goal:
                 return node 
+            if cost == bound:
+                return None
             bound = cost
-        return None
 
     
     def _cost_limited_search(self, root: Node, bound: float) -> Tuple[bool, Optional[Node], float]:
-        frontier:Heap = Heap(lambda x: x.cost + self.heuristic(x.state))
+        frontier:PriorityQueue = PriorityQueue(lambda x: x.cost + self.heuristic(x.state))
         frontier.push(root)
         new_bound = float('inf') # next iteration bound
         while not frontier.is_empty():
