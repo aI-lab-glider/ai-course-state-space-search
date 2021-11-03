@@ -72,6 +72,12 @@ class RushHourProblem(Problem[RushHourBoard, VehicleShift]):
         for l in lines:
             if l.startswith("|"):
                 raw_board.append(list(l.strip().replace("|", "").upper()))
+
+        width = max((len(r) for r in raw_board))
+        for r in raw_board:
+            if len(r) < width:
+                r += [' '] * (width - len(r))
+
         board = np.array(raw_board)
 
         vehicles: Dict[str, RushHourVehicle] = dict()
