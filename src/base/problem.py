@@ -36,5 +36,5 @@ class Problem(ABC, Generic[S,A]):
     def deserialize(text: str) -> Problem[S,A]:
         pass
 
-    def to_image(self, state: S, size: Tuple[int, int] = (800,800)) -> Image:
+    def to_image(self, state: S, size: Tuple[int, int]) -> Image:
         pass
