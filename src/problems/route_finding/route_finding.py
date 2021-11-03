@@ -1,3 +1,4 @@
+from __future__ import annotations
 from base import Problem 
 from problems.route_finding.location import Location, LocationID
 from typing import Dict, Sequence, Tuple, Union, List
@@ -43,4 +44,8 @@ class RouteFinding(Problem[Location, LocationID]):
 
     def is_goal(self, location: Location) -> bool:
         return self.goal == location
+
+    @staticmethod
+    def deserialize(text: str) -> RouteFinding:
+        pass
 

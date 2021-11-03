@@ -93,36 +93,11 @@ def main_benchmark():
     EHeuristic = NPuzzleEuclideanHeuristic(p)
 
     b = Benchmark(p)
-    b.compare((["BFS", "BestFirstSearch", "AStar", "DFS"], MHeuristic))
+    b.compare([(["BFS", "BestFirstSearch", "AStar", "DFS"], MHeuristic)])
     b.print_grades()
 
 
 def main_rush_hour():
-    x = RushHourVehicle('X', 3, 2, Orientation.HORIZONTAL)
-    a = RushHourVehicle('A', 0, 0, Orientation.HORIZONTAL)
-    b = RushHourVehicle('B', 2, 0, Orientation.HORIZONTAL)
-    c = RushHourVehicle('C', 4, 0, Orientation.VERTICAL)
-    d = RushHourVehicle('D', 0, 1, Orientation.VERTICAL)  
-    e = RushHourVehicle('E', 2, 1, Orientation.HORIZONTAL)
-    f = RushHourVehicle('F', 1, 2, Orientation.VERTICAL)
-    g = RushHourVehicle('G', 0, 5, Orientation.HORIZONTAL)
-    o = RushHourVehicle('O', 5, 0, Orientation.VERTICAL) 
-    p = RushHourVehicle('P', 2, 2, Orientation.VERTICAL)
-    q = RushHourVehicle('Q', 3, 3, Orientation.HORIZONTAL) 
-
-    vehicles = {x, a, b, c, d, e, f, g, o, p, q}
-    board = RushHourBoard(vehicles) 
-    problem = RushHourProblem(vehicles, board)
-    BCHeuristic = BlockingCarsHeuristic()
-    DTEHeuristic = DistanceToExitHeuristic()
-
-    solver = BFS(problem, board)
-    target_bfs = solver.run()
-    print(f"Solver: {target_bfs.path()}") 
-
-    dfs = DFS(problem, board)
-    target_dfs = dfs.run()
-    print(f"DFS: {target_dfs.path()}")
     with open("problems/rush_hour/instances/hardest.txt") as f:
         text = f.read()
         problem = RushHourProblem.deserialize(text)
@@ -165,9 +140,9 @@ def main_blocks_world():
     print(f"astar: {target_astar.path()}")
 
 if __name__ == '__main__':
-    main_n_puzzle()
-    main_routefinding()
-    main_benchmark()
+    # main_n_puzzle()
+    # main_routefinding()
+    # main_benchmark()
     main_rush_hour()
-    main_blocks_world()
+    # main_blocks_world()
     
