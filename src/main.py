@@ -10,11 +10,10 @@ from problems.n_puzzle.n_puzzle_state import NPuzzleState
 from problems.n_puzzle.n_puzzle_manhattan_heuristic import NPuzzleManhattanHeuristic
 from problems.n_puzzle.n_puzzle_euclidean_heuristic import NPuzzleEuclideanHeuristic
 
-from problems.route_finding.location import Location
-from problems.route_finding.route_finding import RouteFinding
-from problems.route_finding.manhattan_heuristic import RouteFindingManhattanHeuristic
-from problems.route_finding.euclidean_heuristic import RouteFindingEuclideanHeuristic
-from problems.route_finding.diagonal_heuristic import RouteFindingDiagonalHeuristic
+from problems.grid_pathfinding.grid_pathfinding import GridPathfinding
+from problems.grid_pathfinding.heuristics.manhattan_heuristic import ManhattanHeuristic
+from problems.grid_pathfinding.heuristics.euclidean_heuristic import EuclideanHeuristic
+from problems.grid_pathfinding.heuristics.diagonal_heuristic import DiagonalHeuristic
 
 from problems.rush_hour.vehicle import RushHourVehicle, Orientation
 from problems.rush_hour.rush_hour import RushHourProblem
@@ -26,30 +25,27 @@ from solvers import BFS, DFS, Dijkstra, Greedy, AStar, IDAStar
 import numpy as np
 
 
-def main_routefinding():
-    a = Location("A", (0, 0))
-    b = Location("B", (1, 1))
-    c = Location("C", (2, 0))
-    d = Location("D", (1, -1))
-    
-    pr = RouteFinding([a, b, c, d], [(a, b, 10), (b, c, 1), (a, d, 1), (d, c, 9)], a, c)
-    RFMHeuristic = RouteFindingManhattanHeuristic(pr)
-    RFEHeuristic = RouteFindingEuclideanHeuristic(pr)
-    RFDHeuristic = RouteFindingDiagonalHeuristic(pr)
+def main_grid_pathfinding():
+    with open("problems/grid_pathfinding/instances/labyrinth.txt") as f:
+        text = f.read()
+        problem = GridPathfinding.deserialize(text)
+    RFMHeuristic = ManhattanHeuristic(problem)
+    RFEHeuristic = EuclideanHeuristic(problem)
+    RFDHeuristic = DiagonalHeuristic(problem)
 
-    bfs = BFS(pr)
+    bfs = BFS(problem)
     target_bfs = bfs.solve()
     print(f"BFS: {target_bfs.path()}")
     
-    dfs = DFS(pr)
+    dfs = DFS(problem)
     target_dfs = dfs.solve()
     print(f"DFS: {target_dfs.path()}")
 
-    bestfs= Dijkstra(pr)
+    bestfs= Dijkstra(problem)
     target_bestfs = bestfs.solve()
     print(f"bestfirst: {target_bestfs.path()}")
 
-    astar= AStar(pr, pr.initial, RFMHeuristic)
+    astar= AStar(problem, RFMHeuristic)
     target_astar = astar.solve()
     print(f"astar: {target_astar.path()}")
 
@@ -93,29 +89,29 @@ def main_benchmark():
     EHeuristic = NPuzzleEuclideanHeuristic(p)
 
     b = Benchmark(p)
-    b.compare([(["BFS", "BestFirstSearch", "AStar", "DFS"], MHeuristic)])
+    b.compare([(["BFS", "Dijkstra", "AStar", "DFS"], MHeuristic)])
     b.print_grades()
 
 
 def main_rush_hour():
-    with open("problems/rush_hour/instances/hardest.txt") as f:
+    with open("problems/rush_hour/instances/bigger.txt") as f:
         text = f.read()
         problem = RushHourProblem.deserialize(text)
 
     BCHeuristic = BlockingCarsHeuristic(problem)
     DTEHeuristic = DistanceToExitHeuristic(problem)
 
-    # solver = BFS(problem)
-    # target_bfs = solver.solve()
-    # print(f"Solver: {target_bfs.path()}") 
+    solver = BFS(problem)
+    target_bfs = solver.solve()
+    print(f"Solver: {target_bfs.path()}") 
 
     # dfs = DFS(problem)
     # target_dfs = dfs.solve()
     # print(f"DFS: {target_dfs.path()}")
 
-    bestfs = Dijkstra(problem)
-    target_bestfs = bestfs.solve()
-    print(f"bestfirst: {target_bestfs.path()}")
+    # bestfs = Dijkstra(problem)
+    # target_bestfs = bestfs.solve()
+    # print(f"bestfirst: {target_bestfs.path()}")
 
     # astar= AStar(problem, BCHeuristic)
     # target_astar = astar.solve()
@@ -140,9 +136,9 @@ def main_blocks_world():
     print(f"astar: {target_astar.path()}")
 
 if __name__ == '__main__':
-    # main_n_puzzle()
-    # main_routefinding()
-    # main_benchmark()
+    main_n_puzzle()
+    main_grid_pathfinding()
+    main_benchmark()
     main_rush_hour()
-    # main_blocks_world()
+    main_blocks_world()
     
