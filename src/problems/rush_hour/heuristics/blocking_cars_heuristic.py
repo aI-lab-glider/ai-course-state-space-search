@@ -5,7 +5,7 @@ from problems.rush_hour.vehicle import Orientation
 from base import Heuristic
 
 
-class BlockingCarsHeuristic(Heuristic[RushHourBoard]):
+class RushHourBlockingCarsHeuristic(Heuristic[RushHourBoard]):
     def __init__(self, problem: RushHourProblem) -> None:
         super().__init__(problem)
 

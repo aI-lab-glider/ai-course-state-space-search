@@ -5,7 +5,7 @@ from typing import Dict, List
 from base.heuristic import Heuristic
 from problems.blocks_world.blocks_world_problem import BlocksWorldProblem, BlocksWorldState
 
-class BlocksWorldHeuristic(Heuristic):
+class BlocksWorldNaiveHeuristic(Heuristic):
 
     def __init__(self, problem: BlocksWorldProblem) -> None:
         super().__init__(problem)

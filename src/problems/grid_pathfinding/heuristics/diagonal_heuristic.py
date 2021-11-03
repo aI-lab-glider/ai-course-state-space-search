@@ -3,7 +3,7 @@ from problems.grid_pathfinding.grid_pathfinding import GridPathfinding
 from problems.grid_pathfinding.grid import GridCoord
 
 
-class DiagonalHeuristic(Heuristic[GridCoord]):
+class GridDiagonalHeuristic(Heuristic[GridCoord]):
  
     def __init__(self, problem: GridPathfinding):
         self.problem = problem

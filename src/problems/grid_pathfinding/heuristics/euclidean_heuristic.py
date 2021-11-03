@@ -4,7 +4,7 @@ from problems.grid_pathfinding.grid import GridCoord
 from math import sqrt
 
 
-class EuclideanHeuristic(Heuristic[GridCoord]):
+class GridEuclideanHeuristic(Heuristic[GridCoord]):
  
     def __init__(self, problem: GridPathfinding):
         self.problem = problem

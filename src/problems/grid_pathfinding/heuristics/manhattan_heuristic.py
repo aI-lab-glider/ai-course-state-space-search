@@ -3,7 +3,7 @@ from problems.grid_pathfinding.grid_pathfinding import GridPathfinding
 from problems.grid_pathfinding.grid import GridCoord
 
 
-class ManhattanHeuristic(Heuristic[GridCoord]):
+class GridManhattanHeuristic(Heuristic[GridCoord]):
  
     def __init__(self, problem: GridPathfinding):
         self.problem = problem

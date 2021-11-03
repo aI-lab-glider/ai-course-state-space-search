@@ -3,7 +3,7 @@ from base import Heuristic
 from problems.rush_hour.rush_hour import RushHourProblem
 
 
-class DistanceToExitHeuristic(Heuristic[RushHourBoard]):
+class RushHourDistanceToExitHeuristic(Heuristic[RushHourBoard]):
     def __init__(self, problem: RushHourProblem) -> None:
         super().__init__(problem)
 
