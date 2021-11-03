@@ -1,14 +1,14 @@
 
 
 
-from typing import Dict, Tuple
+from typing import Dict, List
 from base.heuristic import Heuristic
 from problems.blocks_world.blocks_world_problem import BlocksWorldProblem, BlocksWorldState
 
 class BlocksWorldHeuristic(Heuristic):
 
     def __init__(self, problem: BlocksWorldProblem) -> None:
-        super().__init__()
+        super().__init__(problem)
         self.expected_columns = self._calculate_expected_columns(problem.goal)
         self.expected_fundaments = self._calculate_expected_fundaments(problem.goal)
 
@@ -19,7 +19,7 @@ class BlocksWorldHeuristic(Heuristic):
                 expected_columns[b] = i
         return expected_columns
 
-    def _calculate_expected_fundaments(self, goal: BlocksWorldState) -> Dict[str, Tuple[str]]:
+    def _calculate_expected_fundaments(self, goal: BlocksWorldState) -> Dict[str, List[str]]:
         expected_fundaments = dict()
         for col in goal.columns:
             for i,b in enumerate(col):
