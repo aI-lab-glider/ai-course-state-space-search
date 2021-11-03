@@ -10,6 +10,7 @@ py==1.10.0
 pyparsing==2.4.7
 pytest==6.2.5
 toml==0.10.2
+types-Pillow==8.3.7
 typing==3.7.4.3
 typing-extensions==3.10.0.2
 yapf==0.31.0
