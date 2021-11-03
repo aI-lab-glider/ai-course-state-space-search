@@ -1,10 +1,13 @@
 from problems.rush_hour.board import RushHourBoard
+from problems.rush_hour.rush_hour import RushHourProblem
 from problems.rush_hour.vehicle import Orientation
 
 from base import Heuristic
 
 
 class BlockingCarsHeuristic(Heuristic[RushHourBoard]):
+    def __init__(self, problem: RushHourProblem) -> None:
+        super().__init__(problem)
 
     def __call__(self, board: RushHourBoard) -> float:
         target_vehicle = [vehicle for vehicle in board.vehicles if vehicle.id == 'X'][0]

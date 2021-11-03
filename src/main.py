@@ -123,17 +123,31 @@ def main_rush_hour():
     dfs = DFS(problem, board)
     target_dfs = dfs.run()
     print(f"DFS: {target_dfs.path()}")
+    with open("problems/rush_hour/instances/hardest.txt") as f:
+        text = f.read()
+        problem = RushHourProblem.deserialize(text)
 
-    bestfs= BestFirstSearch(problem, board)
-    target_bestfs = bestfs.run()
+    BCHeuristic = BlockingCarsHeuristic(problem)
+    DTEHeuristic = DistanceToExitHeuristic(problem)
+
+    # solver = BFS(problem)
+    # target_bfs = solver.solve()
+    # print(f"Solver: {target_bfs.path()}") 
+
+    # dfs = DFS(problem)
+    # target_dfs = dfs.solve()
+    # print(f"DFS: {target_dfs.path()}")
+
+    bestfs = Dijkstra(problem)
+    target_bestfs = bestfs.solve()
     print(f"bestfirst: {target_bestfs.path()}")
 
-    # astar= AStar(problem, board, BCHeuristic)
-    # target_astar = astar.run()
+    # astar= AStar(problem, BCHeuristic)
+    # target_astar = astar.solve()
     # print(f"astar: {target_astar.path()}")
 
-    # idastar= IDAStar(problem, board)
-    # target_idastar = idastar.run(DTEHeuristic)
+    # idastar= IDAStar(problem, BCHeuristic)
+    # target_idastar = idastar.solve()
     # print(f"idastar: {target_idastar.path()}")
 
     # b = Benchmark(problem)

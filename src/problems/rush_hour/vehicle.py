@@ -1,7 +1,7 @@
 from enum import Enum
 
 CAR_ID = ('X', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K')
-TRUCK_ID = ('O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'Y', 'Z')
+TRUCK_ID = ('L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'Y', 'Z')
 
 
 class Orientation(Enum):
@@ -10,16 +10,16 @@ class Orientation(Enum):
 
 
 class RushHourVehicle:
-    def __init__(self, id: str, x: int, y: int, orientation: Orientation):
+    def __init__(self, id: str, x: int, y: int, orientation: Orientation, length: int = 0):
         self.id = id
         self.x = x
         self.y = y
         self.orientation = orientation
 
-        if id in CAR_ID: 
-            self.length = 2
-        else: 
-            self.length = 3
+        if length > 0:
+            self.length = length
+        else:
+            self.length = 2 if id in CAR_ID else 3
 
         if self.orientation == Orientation.HORIZONTAL: 
             self.xEnd = x + self.length - 1
