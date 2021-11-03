@@ -1,4 +1,7 @@
 from __future__ import annotations
+from pathlib import Path
+
+from PIL import Image, ImageColor
 from base import Problem
 from problems.n_puzzle import NPuzzleState
 from typing import List, Tuple, Set
@@ -41,6 +44,35 @@ class NPuzzleProblem(Problem[NPuzzleState, NPuzzleAction]):
 
     def valid(self, x: int, y: int, nx: int, ny: int) -> bool:
         return 0 <= x < nx and 0 <= y < ny
+
+    def to_image(self, state: NPuzzleState, size: Tuple[int, int] = (800,800)) -> Image.Image:
+        puzzle_path = Path(__file__).parent.joinpath("instances").joinpath("puzzle.jpg")
+        puzzle_img = Image.open(puzzle_path)
+        puzzle_img = puzzle_img.resize(size)
+        chunk_size = (size[0] / state.nx, size[1] / state.ny)
+
+        def get_offset(row: int, col: int) -> Tuple[int, int]:
+            return (int(col * chunk_size[0]), int(row * chunk_size[1]))
+
+        def get_chunk(index: int) -> Image:
+            row = index // state.nx
+            col = index % state.nx
+            offset = get_offset(row, col)
+
+            return puzzle_img.crop((offset[0], offset[1], 
+                                    offset[0] + chunk_size[0], 
+                                    offset[1] + chunk_size[1]))
+
+        img = Image.new(puzzle_img.mode, size, "lightgray")
+        for r, row in enumerate(state.matrix):
+            for c, cell in enumerate(row):
+                if cell == 0:
+                    continue
+                offset = get_offset(r, c)
+                chunk = get_chunk(cell - 1)
+                img.paste(chunk, offset)
+
+        return img
 
     @staticmethod
     def deserialize(text: str) -> NPuzzleProblem:

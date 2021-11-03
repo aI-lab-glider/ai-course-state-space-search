@@ -1,7 +1,8 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from base.state import State
-from typing import Union, List, TypeVar, Generic
+from typing import List, Tuple, TypeVar, Generic
+from PIL.Image import Image
 
 S = TypeVar('S', bound=State)
 A = TypeVar('A')
@@ -33,4 +34,7 @@ class Problem(ABC, Generic[S,A]):
     @staticmethod
     @abstractmethod
     def deserialize(text: str) -> Problem[S,A]:
+        pass
+
+    def to_image(self, state: S, size: Tuple[int, int] = (800,800)) -> Image:
         pass

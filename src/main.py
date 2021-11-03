@@ -1,4 +1,5 @@
 
+from PIL.Image import SAVE_ALL
 from benchmark import Benchmark
 
 from problems.blocks_world.blocks_world_heuristic import BlocksWorldHeuristic
@@ -70,7 +71,13 @@ def main_n_puzzle():
 
     astar= AStar(p, NPEHeuristic)
     target_astar = astar.solve()
-    print(f"astar: {target_astar.path()}")
+
+    imgs = []
+    for node in target_astar.path():
+        assert isinstance(node.state, NPuzzleState)
+        imgs.append(p.to_image(node.state))
+    imgs[0].save('result.gif', save_all=True, append_images=imgs[1:], format='GIF', optimize=False, duration=500, loop=1)
+
 
 def main_benchmark():
     start_matrix = [[2, 8, 3],
@@ -84,7 +91,6 @@ def main_benchmark():
     start_state = NPuzzleState(start_matrix, 2, 0)
     final_state = NPuzzleState(final_matrix, 1, 1)
 
-    p = NPuzzleProblem(start_state, final_state)
     MHeuristic = NPuzzleManhattanHeuristic(p)
     EHeuristic = NPuzzleEuclideanHeuristic(p)
 
@@ -137,8 +143,8 @@ def main_blocks_world():
 
 if __name__ == '__main__':
     main_n_puzzle()
-    main_grid_pathfinding()
-    main_benchmark()
-    main_rush_hour()
-    main_blocks_world()
+    # main_grid_pathfinding()
+    # main_benchmark()
+    # main_rush_hour()
+    # main_blocks_world()
     
