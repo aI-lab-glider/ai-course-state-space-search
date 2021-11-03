@@ -1,11 +1,11 @@
 from typing import Callable, Optional
-from base import problem
+from base.problem import Problem
 from solvers.utils import PriorityQueue, Queue
 from tree import Node, Tree
 
 
 class BestFirstSearch():
-    def __init__(self, problem: problem, eval_fun: Callable[[Node], float]):
+    def __init__(self, problem: Problem, eval_fun: Callable[[Node], float]):
         self.problem = problem
         self.eval_fun = eval_fun
         self.start = problem.initial
