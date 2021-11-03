@@ -141,13 +141,13 @@ def main_rush_hour():
     # b.print_grades()    
 
 def main_blocks_world():
-    start = BlocksWorldState.from_str("A,B,C;D,E;F,G")
-    goal = BlocksWorldState.from_str(";;A,G,F,E,C,B,D")
-    problem = BlocksWorldProblem(start, goal)
+    with open("problems/blocks_world/instances/03_07_14.txt") as f:
+        text = f.read()
+        problem = BlocksWorldProblem.deserialize(text)
     heuristic = BlocksWorldHeuristic(problem)
 
-    astar = IDAStar(problem, start, heuristic)
-    target_astar = astar.run()
+    astar = IDAStar(problem, heuristic)
+    target_astar = astar.solve()
     print(f"astar: {target_astar.path()}")
 
 if __name__ == '__main__':
