@@ -19,8 +19,8 @@ from problems.route_finding.diagonal_heuristic import RouteFindingDiagonalHeuris
 from problems.rush_hour.vehicle import RushHourVehicle, Orientation
 from problems.rush_hour.rush_hour import RushHourProblem
 from problems.rush_hour.board import RushHourBoard
-from problems.rush_hour.blocking_cars_heuristic import BlockingCarsHeuristic
-from problems.rush_hour.distance_to_exit_heuristic import DistanceToExitHeuristic
+from problems.rush_hour.heuristics.blocking_cars_heuristic import BlockingCarsHeuristic
+from problems.rush_hour.heuristics.distance_to_exit_heuristic import DistanceToExitHeuristic
 
 from solvers import BFS, DFS, Dijkstra, Greedy, AStar, IDAStar
 import numpy as np

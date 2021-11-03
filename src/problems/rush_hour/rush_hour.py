@@ -3,7 +3,7 @@ from base import Problem
 from problems.rush_hour.vehicle import RushHourVehicle, Orientation
 from problems.rush_hour.board import RushHourBoard
 from problems.rush_hour.rush_hour_action import Direction, VehicleShift
-from typing import Set, List, Dict
+from typing import Set, List, Dict, Tuple, cast
 from copy import deepcopy
 from enum import Enum
 import numpy as np
@@ -101,7 +101,7 @@ class RushHourProblem(Problem[RushHourBoard, VehicleShift]):
         
         
         initial_vehicles = set(vehicles.values())
-        initial = RushHourBoard(initial_vehicles, board.shape)
+        initial = RushHourBoard(initial_vehicles, cast(Tuple[int,int], board.shape))
         goal = deepcopy(vehicles["X"])
         goal.x = width - vehicles["X"].length
 
