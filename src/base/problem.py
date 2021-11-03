@@ -1,7 +1,7 @@
+from __future__ import annotations
 from abc import ABC, abstractmethod
 from base.state import State
 from typing import Union, List, TypeVar, Generic
-
 
 S = TypeVar('S', bound=State)
 A = TypeVar('A')
@@ -29,3 +29,8 @@ class Problem(ABC, Generic[S,A]):
     def is_goal(self, state: S) -> bool:
         """Returns is given state is a goal state"""
         raise NotImplementedError
+
+    @staticmethod
+    @abstractmethod
+    def deserialize(text: str) -> Problem[S,A]:
+        pass
