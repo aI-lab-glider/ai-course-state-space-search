@@ -44,3 +44,5 @@ class IDAStar(HeuristicSolver):
                     new_bound = min(new_bound, cost)
         return False, None, new_bound
                 
+    def search_tree(self) -> Tree:
+        return self.tree

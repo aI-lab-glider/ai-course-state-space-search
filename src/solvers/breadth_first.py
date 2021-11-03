@@ -13,4 +13,7 @@ class BFS(Solver):
     def solve(self):
         return self.search.solve()
 
+    def search_tree(self) -> Tree:
+        return self.search.tree
+
 
