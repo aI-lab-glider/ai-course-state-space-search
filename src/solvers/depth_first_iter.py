@@ -6,7 +6,7 @@ from solvers.utils import LIFO
 from tree import Node, Tree
 
 
-class DFS(Solver):
+class DFSIter(Solver):
     def __init__(self, problem:P):
         super().__init__(problem)
         self.search = UninformedSearch(problem, LIFO())
