@@ -26,7 +26,7 @@ class IDDFS(Solver):
             depth += 1  
     
 
-    def _depth_limited_search(self, root: Node, max_depth: int) -> Tuple[bool, Optional[Node]]:
+    def _depth_limited_search(self, root: Node, max_depth: int) -> Tuple[bool, Optional[Node], bool]:
         frontier:LIFO = LIFO()
         visited = {self.start}
         frontier.push(root)
