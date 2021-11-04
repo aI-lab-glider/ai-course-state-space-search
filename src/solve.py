@@ -105,10 +105,13 @@ class SolvingMonitor(NodeEventSubscriber, Solver):
         img_name += ".gif"
 
         imgs = []
-        for node in result.path():
-            imgs.append(self.solver.problem.to_image(node.state))
-        
-        imgs[0].save(img_name, save_all=True, append_images=imgs[1:], format='GIF', optimize=False, duration=500, loop=1)
+        path_limit = 1000
+        if len(result.path()) < path_limit:
+            for node in result.path():
+                imgs.append(self.solver.problem.to_image(node.state))
+            imgs[0].save(img_name, save_all=True, append_images=imgs[1:], format='GIF', optimize=False, duration=500, loop=1)
+        else:
+            print(f'resulted path is too big ({path_limit} + nodes), so skiping saving its visualization, to avoid memomry issues')
         print(f"...solved succesfully!")
         print(f"...solution cost: {result.cost}")
         print(f"...visual output: {img_name}")
