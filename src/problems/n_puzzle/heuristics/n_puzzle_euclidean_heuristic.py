@@ -1,18 +1,16 @@
-from base import Heuristic
 from problems.n_puzzle import NPuzzleState
-from problems.n_puzzle import NPuzzleProblem
-
-import numpy as np
 from math import sqrt
 
+from problems.n_puzzle.heuristics.n_puzzle_abstract_heuristic import NPuzzleAbstractHeuristic
 
 
-class NPuzzleEuclideanHeuristic(Heuristic[NPuzzleState]):
 
-    def __init__(self, problem: NPuzzleProblem):
-        self.problem = problem
-
+class NPuzzleEuclideanHeuristic(NPuzzleAbstractHeuristic):
 
     def __call__(self, state: NPuzzleState) -> float:
-        distance = np.sum(sqrt((state.x - self.problem.goal.x)**2 + (state.y - self.problem.goal.y)**2 ))
+        distance = 0
+        state_coord = self.positions(state)
+        for c, coord in state_coord.items():
+            g_coord = self.goal_coords[c]
+            distance += sqrt((coord[0] - g_coord[0])**2 + (coord[1] - g_coord[1])**2)
         return distance
