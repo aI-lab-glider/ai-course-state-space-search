@@ -13,8 +13,9 @@ class RushHourBlockingCarsHeuristic(Heuristic[RushHourBoard]):
         target_vehicle = [vehicle for vehicle in board.vehicles if vehicle.id == 'X'][0]
         if target_vehicle.x == 4:
             return 0
-        blockingcars = 1
+        blockingcars = 0
         for vehicle in board.vehicles:
             if vehicle.orientation == Orientation.VERTICAL and vehicle.x > target_vehicle.xEnd and vehicle.y <= target_vehicle.y and vehicle.yEnd >= target_vehicle.y:
                 blockingcars += 1
-        return blockingcars
+        distance = board.shape[1] - (target_vehicle.xEnd)
+        return blockingcars + distance
