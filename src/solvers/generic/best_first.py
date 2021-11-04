@@ -11,7 +11,7 @@ class BestFirstSearch():
         self.start = problem.initial
         self.root = Node(self.start)
         self.frontier:PriorityQueue = PriorityQueue(eval_fun)
-        self.visited = {self.start: self.root}
+        self.visited = {self.start: self.root.cost}
         self.tree = Tree(self.root)
     
 
@@ -26,7 +26,7 @@ class BestFirstSearch():
                 return parent
             for child_node in self.tree.expand(self.problem, parent):
                 state = child_node.state
-                if state not in self.visited or child_node.cost < self.visited[state].cost:
-                    self.visited[state] = child_node
+                if state not in self.visited or child_node.cost < self.visited[state]:
+                    self.visited[state] = child_node.cost
                     self.frontier.push(child_node)
         return None

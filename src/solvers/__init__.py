@@ -4,4 +4,6 @@ from solvers.dijkstra import Dijkstra
 from solvers.greedy import Greedy
 from solvers.astar import AStar
 from solvers.idastar import IDAStar
+from solvers.iddfs import IDDFS 
+
 

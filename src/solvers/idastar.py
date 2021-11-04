@@ -1,6 +1,5 @@
-from typing import Callable, Tuple, Optional
+from typing import Tuple, Optional
 from base.solver import H, P, HeuristicSolver
-from base.state import State
 from solvers.utils import PriorityQueue
 from tree import Node, Tree
 
