@@ -1,34 +1,14 @@
 
 import argparse
-import re
-
-from typing import Dict, Optional, Type, Union, Set, cast
-from base.problem import Problem
-from base.heuristic import Heuristic
+from cli_config import VERSION, avl_algos, avl_heuristics, avl_problems, problem_heuristics
+from typing import Optional, Union
 from base.solver import HeuristicSolver, Solver
-from problems.blocks_world.blocks_world_heuristic import BlocksWorldNaiveHeuristic
-from problems.blocks_world.blocks_world_problem import BlocksWorldProblem
 
-from problems.n_puzzle.n_puzzle_problem import NPuzzleProblem
-from problems.n_puzzle.heuristics.n_puzzle_manhattan_heuristic import NPuzzleManhattanHeuristic
-from problems.n_puzzle.heuristics.n_puzzle_euclidean_heuristic import NPuzzleEuclideanHeuristic
-
-from problems.grid_pathfinding.grid_pathfinding import GridPathfinding
-from problems.grid_pathfinding.heuristics.manhattan_heuristic import GridManhattanHeuristic
-from problems.grid_pathfinding.heuristics.euclidean_heuristic import GridEuclideanHeuristic
-from problems.grid_pathfinding.heuristics.diagonal_heuristic import GridDiagonalHeuristic
-from problems.rush_hour.rush_hour import RushHourProblem
-from problems.rush_hour.heuristics.blocking_cars_heuristic import RushHourBlockingCarsHeuristic
-from problems.rush_hour.heuristics.distance_to_exit_heuristic import RushHourDistanceToExitHeuristic
-
-from solvers import BFS, DFS, Dijkstra, Greedy, AStar, IDAStar, IDDFS
 from tree.node import Node
 
 from pathlib import Path
 from tree.tree import NodeEvent, NodeEventSubscriber, Tree
 import time
-
-VERSION = "0.42 — Lazy Leviathan"
 
 class SolvingMonitor(NodeEventSubscriber, Solver):
     def __init__(self, solver: Solver, instance: Union[str, Path]) -> None:
@@ -108,40 +88,15 @@ class SolvingMonitor(NodeEventSubscriber, Solver):
         for node in result.path():
             imgs.append(self.solver.problem.to_image(node.state))
         
-        imgs[0].save(img_name, save_all=True, append_images=imgs[1:], format='GIF', optimize=False, duration=500, loop=1)
+        imgs[0].save(img_name, save_all=True, append_images=imgs[1:], format='GIF', optimize=True, duration=500, loop=1)
         print(f"...solved succesfully!")
         print(f"...solution cost: {result.cost}")
         print(f"...visual output: {img_name}")
 
     def print_stats(self):
-        print(f"\r| open: {self.opened_nodes:<9} | closed: {self.closed_nodes:<9} | time: {self.wall_time:<8.2} |", end='', flush=True)
+        print(f"\r| open: {self.opened_nodes:<9} | closed: {self.closed_nodes:<9} | time: {self.wall_time:<8.2f} |", end='', flush=True)
 
 
-def snake_to_camel(snake: str) -> str:
-    return ''.join(x.title() for x in snake.split('_'))
-
-
-def camel_to_snake(camel: str, useless_suffix: str = '') -> str:
-    useful_camel = camel.removesuffix(useless_suffix)
-    return re.sub(r'(?<!^)(?=[A-Z])', '_', useful_camel).lower()
-
-
-problem_heuristics: Dict[type[Problem], Set[type[Heuristic]]] = {
-    GridPathfinding : {GridEuclideanHeuristic, GridDiagonalHeuristic, GridManhattanHeuristic},
-    NPuzzleProblem : {NPuzzleEuclideanHeuristic, NPuzzleManhattanHeuristic},
-    RushHourProblem : {RushHourDistanceToExitHeuristic, RushHourBlockingCarsHeuristic},
-    BlocksWorldProblem : {BlocksWorldNaiveHeuristic}
-}
-
-avl_problems : Dict[str, type[Problem]] = { camel_to_snake(p.__name__, "Problem") : cast(type[Problem], p)
-                 for p in
-                 [GridPathfinding, NPuzzleProblem, RushHourProblem, BlocksWorldProblem]}
-
-avl_algos : Dict[str, type[Solver]] = { a.__name__.lower() : cast(type[Solver], a) for a in [DFS, BFS, Dijkstra, Greedy, AStar, IDAStar, IDDFS]}
-
-all_heuristics : Set[type[Heuristic]] = set.union(*problem_heuristics.values())
-avl_heuristics : Dict[str, type[Heuristic]] = { camel_to_snake(h.__name__, "Heuristic") : cast(type[Heuristic], h) 
-                   for h in all_heuristics }
 
 def parse_args():
     parser = argparse.ArgumentParser(add_help=False)
