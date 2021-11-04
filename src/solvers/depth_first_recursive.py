@@ -1,5 +1,6 @@
-from typing import Optional
+from typing import Optional, Set
 from base.solver import P, Solver
+from base.state import State
 from tree import Node, Tree
 
 
@@ -7,12 +8,12 @@ class DFSRecursive(Solver):
     def __init__(self, problem: P):
         super().__init__(problem)
         self.start = problem.initial
-        self.visited = set()
+        self.visited: Set[State] = set()
         self.root = Node(self.start)
         self.tree = Tree(self.root)
 
 
-    def dfs(self, node: Node):
+    def dfs(self, node: Node) -> Optional[Node]:
         if self.problem.is_goal(node.state):
             return node
         if node.state in self.visited:
@@ -24,7 +25,7 @@ class DFSRecursive(Solver):
                 return candidate 
         return None   
 
-    def solve(self):
+    def solve(self) -> Optional[Node]:
         return self.dfs(self.root)
 
     def search_tree(self) -> Tree:

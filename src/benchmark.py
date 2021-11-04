@@ -1,5 +1,3 @@
-
-import os, psutil, gc
 import stopit
 import argparse
 from cli_config import VERSION, avl_algos, avl_problems, problem_heuristics
@@ -44,9 +42,6 @@ class BenchmarkMonitor(NodeEventSubscriber, Solver):
         self.closed_nodes = 0
         self.opened_nodes = 1
         self.wall_time = 0
-        gc.collect()
-        self.base_memory_usage = self._get_memory_usage()
-        self.memory_usage = 0
         
 
     def got_event(self, node: Node, event: NodeEvent) -> None:
@@ -56,12 +51,8 @@ class BenchmarkMonitor(NodeEventSubscriber, Solver):
         elif event == NodeEvent.Opened:
             self.opened_nodes += 1
         self.wall_time = time.time() - self.start_time
-        self.memory_usage = max(self.memory_usage, self._get_memory_usage(self.base_memory_usage))
         self.print_stats()
     
-    def _get_memory_usage(self, ground_zero: float = 0) -> float :
-        return (psutil.Process(os.getpid()).memory_info().rss - ground_zero) / 1024 ** 2
-
     def _solver_name(self) -> str:
         return self.solver.__class__.__name__
 

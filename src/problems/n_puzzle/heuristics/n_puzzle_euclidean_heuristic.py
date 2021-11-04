@@ -8,7 +8,7 @@ from problems.n_puzzle.heuristics.n_puzzle_abstract_heuristic import NPuzzleAbst
 class NPuzzleEuclideanHeuristic(NPuzzleAbstractHeuristic):
 
     def __call__(self, state: NPuzzleState) -> float:
-        distance = 0
+        distance = 0.0
         state_coord = self.positions(state)
         for c, coord in state_coord.items():
             g_coord = self.goal_coords[c]
