@@ -12,10 +12,7 @@ class NPuzzleState(State):
         self.ny = len(self.matrix[0])
 
     def __hash__(self):
-        tmp = [0] * self.nx
-        for i in range(self.nx):
-            tmp[i] = tuple(self.matrix[i])
-        return hash(tuple(tmp))
+        return hash(tuple([tuple(l) for l in self.matrix]))
 
     def __str__(self) -> str:
         s = "\n"
@@ -28,4 +25,4 @@ class NPuzzleState(State):
         return s
 
     def __eq__(self, other):
-        return hash(self) == hash(other)
+        return self.matrix == other.matrix
