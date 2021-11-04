@@ -1,6 +1,6 @@
 from typing import Tuple, Optional
 from base.solver import H, P, HeuristicSolver
-from solvers.utils import PriorityQueue
+from solvers.utils import LIFO, PriorityQueue
 from tree import Node, Tree
 
 

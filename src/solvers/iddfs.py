@@ -18,33 +18,32 @@ class IDDFS(Solver):
             return self.root
         depth = 1
         while True:
-            is_goal, node, nodes_left = self._depth_limited_search(self.root, depth)
-            if is_goal:
+            node, nodes_left = self._depth_limited_search(self.root, depth)
+            if node is not None:
                 return node 
             if not nodes_left:
                 return None
             depth += 1  
     
 
-    def _depth_limited_search(self, root: Node, max_depth: int) -> Tuple[bool, Optional[Node], bool]:
+    def _depth_limited_search(self, root: Node, max_depth: int) -> Tuple[Optional[Node], bool]:
         frontier:LIFO = LIFO()
         visited = {self.start}
-        frontier.push(root)
-        depth = 0
+        frontier.push((root,0))
         nodes_left = False
         while not frontier.is_empty():
-            node = frontier.pop()
+            node, depth = frontier.pop()
             for child_node in self.tree.expand(self.problem, node):
                 if child_node.state in visited:
                     continue
                 if self.problem.is_goal(child_node.state):
-                    return True, child_node, nodes_left
-                if depth < max_depth:
-                    frontier.push(child_node)
+                    return child_node, nodes_left
+                if depth <= max_depth:
+                    frontier.push((child_node, depth + 1))
                     visited.add(child_node.state)
                 else:
                     nodes_left = True
-        return False, None, nodes_left
+        return None, nodes_left
 
 
     def search_tree(self) -> Tree:
