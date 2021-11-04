@@ -7,6 +7,7 @@ from typing import Set, List, Dict, Tuple, cast
 from copy import deepcopy
 from enum import Enum
 import numpy as np
+from PIL import Image, ImageDraw
 
 
 class RushHourProblem(Problem[RushHourBoard, VehicleShift]):
@@ -64,6 +65,38 @@ class RushHourProblem(Problem[RushHourBoard, VehicleShift]):
         if self.on_board(vehicle.xEnd+x, vehicle.yEnd+y) and (shift == Direction.DOWN or Direction.RIGHT) and matrix[vehicle.yEnd+y, vehicle.xEnd+x] == ' ':
             return True  
         return False
+
+    def to_image(self, board: RushHourBoard, size: Tuple[int, int] = (800, 800)) -> Image.Image:
+        background_color = (248, 255, 229)
+        image = Image.new("RGB", size, background_color)
+        draw = ImageDraw.Draw(image)
+        grid_width = int(image.width / board.shape[1])
+        grid_height = int(image.height / board.shape[0])
+        border = int(grid_width / 10)
+
+        for x in range(0, image.width, grid_width):
+            line = ((x, 0), (x, image.height))
+            draw.line(line, fill="black")
+
+        for y in range(0, image.height, grid_height):
+            line = ((0, y), (image.width, y))
+            draw.line(line, fill="black")
+
+        def get_color(vehicle_id):
+            red = (196, 40, 71)
+            blue = (31, 122, 140)
+            if vehicle_id == "X":
+                return red
+            return blue
+
+        for v in board.vehicles:
+            x_start = v.x * grid_width + border
+            y_start = v.y * grid_height + border
+            x_end = (v.xEnd + 1) * grid_width - border
+            y_end = (v.yEnd + 1) * grid_height - border
+            draw.rectangle((x_start, y_start, x_end, y_end), get_color(v.id))
+
+        return image
 
     @staticmethod
     def deserialize(text: str) -> RushHourProblem:
