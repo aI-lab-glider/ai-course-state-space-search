@@ -52,7 +52,7 @@ class GridPathfinding(Problem[GridCoord, GridMove]):
         for y, row in enumerate(self.grid):
             for x, cell in enumerate(row):
                 if cell == GridCell.WALL:
-                    grid_drawer.draw_rectangle((x,y), fill=(31, 122, 140))
+                    grid_drawer.draw_rectangle((x,y), fill=(31, 122, 140), padding=-grid_drawer.border)
         grid_drawer.draw_circle(self.goal.x, self.goal.y, fill=(255, 100, 100))
         grid_drawer.draw_circle(state.x, state.y, (100, 100, 100))
         return image

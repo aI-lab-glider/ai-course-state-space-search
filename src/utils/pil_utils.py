@@ -6,6 +6,7 @@ class GridDrawer:
         self.image = image
         self.grid = grid
         self.draw = ImageDraw.Draw(self.image)
+        self.cell_width, self.cell_height, self.border = self.calculate_cell_params()
 
     def calculate_cell_params(self):
         cell = int(self.image.width / self.grid.shape[0]), int(self.image.height / self.grid.shape[1])
@@ -15,26 +16,24 @@ class GridDrawer:
 
 
     def draw_grid(self):
-        cell_width, cell_height, _ = self.calculate_cell_params()
         draw = ImageDraw.Draw(self.image)
-        for x in range(0, self.image.width, cell_width):
+        for x in range(0, self.image.width, self.cell_width):
             line = ((x, 0), (x, self.image.height))
             draw.line(line, fill="black")
 
-        for y in range(0, self.image.height, cell_height):
+        for y in range(0, self.image.height, self.cell_height):
             line = ((0, y), (self.image.width, y))
             draw.line(line, fill="black")
  
-    def get_cell_coords(self, x: int, y: int, x_end: Optional[int] = None, y_end: Optional[int] = None):
-            cell_width, cell_height, border = self.calculate_cell_params()
-            x_start = x * cell_width + border
-            x_end = (x_end or (x + 1)) * cell_width - border
-            y_start = y * cell_height + border
-            y_end = (y_end or (y + 1)) * cell_width - border
+    def get_cell_coords(self, x: int, y: int, grid_x_end: Optional[int] = None, grid_y_end: Optional[int] = None, padding = 0):
+            x_start = x * self.cell_width + self.border + padding
+            x_end = (grid_x_end or (x + 1)) * self.cell_width - self.border - padding
+            y_start = y * self.cell_height + self.border + padding
+            y_end = (grid_y_end or (y + 1)) * self.cell_width - self.border - padding
             return (x_start, y_start, x_end, y_end)
 
-    def draw_rectangle(self, grid_coords: Tuple[int, ...], fill: Optional[Tuple[int, int, int]]=None):
-        coords = self.get_cell_coords(*grid_coords)
+    def draw_rectangle(self, grid_coords: Tuple[int, ...], fill: Optional[Tuple[int, int, int]]=None, padding=0):
+        coords = self.get_cell_coords(*grid_coords, padding=padding)
         self.draw.rectangle(coords, fill)
 
     def draw_circle(self, grid_x: int, grid_y: int, fill: Optional[Tuple[int, int, int]]=None):
