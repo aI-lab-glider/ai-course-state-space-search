@@ -114,7 +114,7 @@ class SolvingMonitor(NodeEventSubscriber, Solver):
         print(f"...visual output: {img_name}")
 
     def print_stats(self):
-        print(f"\r| open: {self.opened_nodes:<9} | closed: {self.closed_nodes:<9} | time: {self.wall_time:<8.2} |", end='', flush=True)
+        print(f"\r| open: {self.opened_nodes:<9} | closed: {self.closed_nodes:<9} | time: {self.wall_time:<8.2f} |", end='', flush=True)
 
 
 def snake_to_camel(snake: str) -> str:
