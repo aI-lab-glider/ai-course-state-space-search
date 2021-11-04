@@ -21,7 +21,7 @@ from problems.rush_hour.rush_hour import RushHourProblem
 from problems.rush_hour.heuristics.blocking_cars_heuristic import RushHourBlockingCarsHeuristic
 from problems.rush_hour.heuristics.distance_to_exit_heuristic import RushHourDistanceToExitHeuristic
 
-from solvers import BFS, DFS, Dijkstra, Greedy, AStar, IDAStar
+from solvers import BFS, DFS, Dijkstra, Greedy, AStar, IDAStar, IDDFS
 from tree.node import Node
 
 from pathlib import Path
@@ -137,7 +137,7 @@ avl_problems : Dict[str, type[Problem]] = { camel_to_snake(p.__name__, "Problem"
                  for p in
                  [GridPathfinding, NPuzzleProblem, RushHourProblem, BlocksWorldProblem]}
 
-avl_algos : Dict[str, type[Solver]] = { a.__name__.lower() : cast(type[Solver], a) for a in [DFS, BFS, Dijkstra, Greedy, AStar, IDAStar]}
+avl_algos : Dict[str, type[Solver]] = { a.__name__.lower() : cast(type[Solver], a) for a in [DFS, BFS, Dijkstra, Greedy, AStar, IDAStar, IDDFS]}
 
 all_heuristics : Set[type[Heuristic]] = set.union(*problem_heuristics.values())
 avl_heuristics : Dict[str, type[Heuristic]] = { camel_to_snake(h.__name__, "Heuristic") : cast(type[Heuristic], h) 
