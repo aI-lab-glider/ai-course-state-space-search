@@ -1,0 +1,6 @@
+|  A BB|
+|  A C |
+| DXXC
+| D EEF|
+|GGG HF|
+|III HF|

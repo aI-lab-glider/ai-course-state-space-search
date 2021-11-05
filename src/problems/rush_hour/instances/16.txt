@@ -1,0 +1,6 @@
+|AA   B|
+|C  D B|
+|CXXD B 
+|C  D  |
+|E   FF|
+|E GGG |
