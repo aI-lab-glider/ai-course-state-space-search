@@ -25,18 +25,18 @@ class GridDrawer:
             line = ((0, y), (self.image.width, y))
             draw.line(line, fill="black")
  
-    def get_cell_coords(self, x: int, y: int, grid_x_end: Optional[int] = None, grid_y_end: Optional[int] = None, padding = 0):
-            x_start = x * self.cell_width + self.border + padding
-            x_end = (grid_x_end or (x + 1)) * self.cell_width - self.border - padding
-            y_start = y * self.cell_height + self.border + padding
-            y_end = (grid_y_end or (y + 1)) * self.cell_width - self.border - padding
-            return (x_start, y_start, x_end, y_end)
+    def get_cell_coords(self, padding: int, x: int, y: int, grid_x_end: Optional[int] = None, grid_y_end: Optional[int] = None):
+        x_start = x * self.cell_width + self.border + padding
+        x_end = (grid_x_end or (x + 1)) * self.cell_width - self.border - padding
+        y_start = y * self.cell_height + self.border + padding
+        y_end = (grid_y_end or (y + 1)) * self.cell_width - self.border - padding
+        return (x_start, y_start, x_end, y_end)
 
     def draw_rectangle(self, grid_coords: Tuple[int, ...], fill: Optional[Tuple[int, int, int]]=None, padding=0):
-        coords = self.get_cell_coords(*grid_coords, padding=padding)
+        coords = self.get_cell_coords(padding, *grid_coords)
         self.draw.rectangle(coords, fill)
 
     def draw_circle(self, grid_x: int, grid_y: int, fill: Optional[Tuple[int, int, int]]=None):
-        coords = self.get_cell_coords(grid_x, grid_y)
+        coords = self.get_cell_coords(0, grid_x, grid_y)
         self.draw.ellipse(coords, fill)
 

@@ -34,14 +34,13 @@ class BlocksWorldProblem(Problem[BlocksWorldState, BlocksWorldAction]):
         padding_top = 0.1 * state_img.height
         container_shape = state_img.width // len(state.columns), int(state_img.height - padding_top) // max(len(col) for col in self.goal.columns) 
         
-        for j, col in enumerate(state.columns):
+        for j, col in enumerate(reversed(state.columns)):
             for i, block_name in enumerate(col):
                 block_img = self._create_block_image(container_shape, block_name)
                 x_start = block_img.width * j
                 y_start = i * block_img.height
                 state_img.paste(block_img, (x_start, y_start), mask=block_img)
                 
-        
         return state_img.rotate(180)
 
     def _create_block_image(self, container_shape, name) -> Image.Image:
@@ -57,8 +56,8 @@ class BlocksWorldProblem(Problem[BlocksWorldState, BlocksWorldAction]):
             x = x + padding if x == 0 else x - padding
             return (x, y)
         
-        corners = map(apply_padding, [(0, 0), (block_img.width, 0), (block_img.width, block_img.height), (0, block_img.height)])
-        corners = list(corners)
+        corners = list(map(apply_padding, [(0, 0), (block_img.width, 0), (block_img.width, block_img.height), (0, block_img.height)]))
+        
         for from_corner, to_corner in zip(corners, corners[1:] + [corners[0]]):
             block_draw.line((from_corner, to_corner), fill='black', width=3)    
         block_draw.text((
