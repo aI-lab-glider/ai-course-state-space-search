@@ -9,6 +9,8 @@ from enum import Enum
 import numpy as np
 from PIL import Image, ImageDraw
 
+from utils.pil_utils import GridDrawer
+
 
 class RushHourProblem(Problem[RushHourBoard, VehicleShift]):
     def __init__(self, vehicles: Set[RushHourVehicle], initial: RushHourBoard, goal: RushHourVehicle = RushHourVehicle('X', 4, 2, Orientation.HORIZONTAL)):
@@ -69,18 +71,9 @@ class RushHourProblem(Problem[RushHourBoard, VehicleShift]):
     def to_image(self, board: RushHourBoard, size: Tuple[int, int] = (800, 800)) -> Image.Image:
         background_color = (248, 255, 229)
         image = Image.new("RGB", size, background_color)
-        draw = ImageDraw.Draw(image)
-        grid_width = int(image.width / board.shape[1])
-        grid_height = int(image.height / board.shape[0])
-        border = int(grid_width / 10)
-
-        for x in range(0, image.width, grid_width):
-            line = ((x, 0), (x, image.height))
-            draw.line(line, fill="black")
-
-        for y in range(0, image.height, grid_height):
-            line = ((0, y), (image.width, y))
-            draw.line(line, fill="black")
+        grid_drawer = GridDrawer(image, board)
+        grid_drawer.draw_grid()
+        
 
         def get_color(vehicle_id):
             red = (196, 40, 71)
@@ -90,11 +83,7 @@ class RushHourProblem(Problem[RushHourBoard, VehicleShift]):
             return blue
 
         for v in board.vehicles:
-            x_start = v.x * grid_width + border
-            y_start = v.y * grid_height + border
-            x_end = (v.xEnd + 1) * grid_width - border
-            y_end = (v.yEnd + 1) * grid_height - border
-            draw.rectangle((x_start, y_start, x_end, y_end), get_color(v.id))
+            grid_drawer.draw_rectangle((v.x, v.y, v.xEnd + 1, v.yEnd + 1), get_color(v.id))
 
         return image
 

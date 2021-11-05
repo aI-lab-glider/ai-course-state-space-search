@@ -41,3 +41,9 @@ class Grid:
     @property
     def shape(self) -> Tuple[int, int]:
         return cast(Tuple[int, int], self.board.shape)
+    
+    def __iter__(self):
+        return iter(self.board)
+
+    def __getitem__(self, key):
+        return self.board[key]

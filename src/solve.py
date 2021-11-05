@@ -85,10 +85,14 @@ class SolvingMonitor(NodeEventSubscriber, Solver):
         img_name += ".gif"
 
         imgs = []
-        for node in result.path():
-            imgs.append(self.solver.problem.to_image(node.state))
-        
-        imgs[0].save(img_name, save_all=True, append_images=imgs[1:], format='GIF', optimize=True, duration=500, loop=1)
+
+        path_limit = 1000
+        if len(result.path()) < path_limit:
+            for node in result.path():
+                imgs.append(self.solver.problem.to_image(node.state))
+            imgs[0].save(img_name, save_all=True, append_images=imgs[1:], format='GIF', optimize=False, duration=500, loop=1)
+        else:
+            print(f'soution is too big ({path_limit} + nodes), so we will not serialize it to GIF...')
         print(f"...solved succesfully!")
         print(f"...solution cost: {result.cost}")
         print(f"...visual output: {img_name}")
@@ -96,8 +100,7 @@ class SolvingMonitor(NodeEventSubscriber, Solver):
     def print_stats(self):
         print(f"\r| open: {self.opened_nodes:<9} | closed: {self.closed_nodes:<9} | time: {self.wall_time:<8.2f} |", end='', flush=True)
 
-
-
+        
 def parse_args():
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument("instance", help="path to the problem instance to be solved")
