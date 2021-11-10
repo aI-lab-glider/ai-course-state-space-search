@@ -1,6 +1,0 @@
-|AAA   |
-|B CDDD|
-|B CXXE
-|FGGH E|
-|F  HIJ|
-|KKKHIJ|

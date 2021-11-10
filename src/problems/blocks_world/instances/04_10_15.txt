@@ -1,9 +1,0 @@
-|A B C
-|D E F
-|G H I J
-|
--
-|G D A
-|H E B
-|I C
-|F J
