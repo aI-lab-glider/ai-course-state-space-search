@@ -14,3 +14,4 @@ types-Pillow==8.3.7
 typing==3.7.4.3
 typing-extensions==3.10.0.2
 yapf==0.31.0
+stopit==1.1.2

@@ -12,7 +12,6 @@ class IDDFS(Solver):
         self.root = Node(self.start)
         self.tree = Tree(self.root)
 
-
     def solve(self) -> Optional[Node]:
         # TODO:
         # - if the root node is a goal, just return it
@@ -20,20 +19,18 @@ class IDDFS(Solver):
         # - set depth to 0
         # - run self._depth_limited search
         #   * if it returned a node, return it!
-        #   * if there is no nodes left, return None 
+        #   * if there is no nodes left, return None
         #   * otherwise increment depth and repeat the limited search
         limit = 0
         while True:
             node = self._depth_limited_search(self.root, limit)
             if node is not None:
-                return node 
+                return node
             limit += 1
-            print(limit)
-
 
     def _depth_limited_search(self, node: Node, limit: int) -> Optional[Node]:
         if self.problem.is_goal(node.state):
-            return node   
+            return node
 
         if limit <= 0:
             return None
@@ -43,11 +40,8 @@ class IDDFS(Solver):
                 continue
             candidate = self._depth_limited_search(child_node, limit - 1)
             if candidate is not None:
-                return candidate 
+                return candidate
         return None
-
 
     def search_tree(self) -> Tree:
         return self.tree
-        
-        
