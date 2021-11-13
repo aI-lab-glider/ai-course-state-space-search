@@ -1,18 +1,23 @@
-from typing import Optional
-from base.solver import P, HeuristicSolver
-from solvers.utils import PriorityQueue, Queue
+from base.solver import P
+from solvers.utils import Queue
 from tree import Node, Tree
 
 
-class UninformedSearch():
+class UninformedSearch:
+    """
+    Type of search, that have access only to problem definition.    
+    """
+
     def __init__(self, problem: P, queue: Queue):
         self.problem = problem
         self.start = problem.initial
         self.frontier = queue
+        # using set instead of a dictionary as it was in BestFirstSearch, because in an uninformed you do
         self.visited = {self.start}
+        # not have an evalutaion function and as an estimate for cost visit order is used,
+        # so nodes once are visited will never have a better cost, so there no need to use more memory and store a dictionary.
         self.root = Node(self.start)
         self.tree = Tree(self.root)
-
 
     def solve(self):
         # TODO:

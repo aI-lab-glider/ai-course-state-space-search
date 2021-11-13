@@ -3,5 +3,6 @@ from typing import Hashable
 
 
 class State(ABC, Hashable):
-    pass
-
+    """
+    Class that contains all changeable information about problem. 
+    """

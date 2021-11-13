@@ -9,17 +9,31 @@ from typing import Any, Callable, Deque, List
 class Queue(ABC):
     @abstractmethod
     def push(self, x) -> None:
-        pass 
+        pass
 
     @abstractmethod
     def pop(self) -> Any:
-        pass 
+        pass
 
     @abstractmethod
     def is_empty(self) -> bool:
         pass
 
+
 class FIFO(Queue):
+    """
+    Implementation of First In First Out queue.
+
+    Example: 
+
+    >>> a = FIFO()
+    >>> a.push(1)
+    >>> a.push(2)
+    >>> a.pop()
+    1
+    >>> a.pop()
+    2    
+    """
 
     def __init__(self) -> None:
         self.queue: Deque = deque()
@@ -27,14 +41,28 @@ class FIFO(Queue):
 
     def push(self, x) -> None:
         self.queue.append(x)
-    
+
     def pop(self) -> Any:
         return self.queue.popleft()
 
     def is_empty(self) -> bool:
         return len(self.queue) == 0
 
+
 class LIFO(Queue):
+    """
+    Implementation of Last In First Out queue.
+
+    Example:
+
+    >>> a = LIFO()
+    >>> a.push(1)
+    >>> a.push(2)
+    >>> a.pop()
+    2
+    >>> a.pop()                                                                                                             
+    1  
+    """
 
     def __init__(self) -> None:
         self.queue: Deque = deque()
@@ -42,22 +70,39 @@ class LIFO(Queue):
 
     def push(self, x) -> None:
         self.queue.append(x)
-    
+
     def pop(self) -> Any:
         return self.queue.pop()
 
     def is_empty(self) -> bool:
         return len(self.queue) == 0
 
+
 @dataclass(order=True)
 class PQItem():
     distance: int
-    item: Any=field(compare=False)
+    item: Any = field(compare=False)
 
-class PriorityQueue(Queue):
-       
+
+class PriorityQueue:
+    """
+    Implementation of priority queue.
+    Higher priority have item with smaller `key` value
+
+
+    Example:
+
+    >>> a = PriorityQueue(lambda x: x) # simply return an item as its cost
+    >>> a.push(2) # item with higher key value
+    >>> a.push(1)
+    >>> a.pop()
+    1
+    >>> a.pop()
+    2
+    """
+
     def __init__(self, key: Callable):
-        self.key=key
+        self.key = key
         self.heap: List[PQItem] = []
         heapq.heapify(self.heap)
 
@@ -67,7 +112,6 @@ class PriorityQueue(Queue):
     def pop(self) -> Any:
         hitem = heapq.heappop(self.heap)
         return hitem.item
-        
+
     def is_empty(self):
         return len(self.heap) == 0
-

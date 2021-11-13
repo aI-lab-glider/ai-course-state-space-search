@@ -8,7 +8,12 @@ from tree.tree import Tree
 P = TypeVar('P', bound=Problem)
 H = TypeVar('H', bound=Heuristic)
 
+
 class Solver(ABC, Generic[P]):
+    """
+    Solves for which it was created by searching its search tree.
+    """
+
     def __init__(self, problem: P):
         self.problem = problem
 
@@ -19,9 +24,18 @@ class Solver(ABC, Generic[P]):
     @abstractmethod
     def search_tree(self) -> Tree:
         raise NotImplementedError
-        
 
-class HeuristicSolver(Solver[P], ABC, Generic[P,H]):
+
+class HeuristicSolver(Solver[P], ABC, Generic[P, H]):
+    """
+    Works same as :class:`Solver`, but instead of searching full tree, 
+    it applies heuristic to reduce number of nodes to search.
+
+    Args: 
+        problem: problem, states of which can be representet as tree
+        heuristic: function to estimate if state should be epxanded
+    """
+
     def __init__(self, problem: P, heuristic: H):
         super().__init__(problem)
         self.heuristic = heuristic
