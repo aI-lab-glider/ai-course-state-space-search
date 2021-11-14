@@ -1,17 +1,17 @@
 from __future__ import annotations
 from base import Problem
 from problems.grid_pathfinding.grid import Grid, GridCell, GridCoord
-from problems.grid_pathfinding.grid_move import GridMove 
+from problems.grid_pathfinding.grid_move import GridMove
 from typing import List, Optional, Tuple
 import numpy as np
 from PIL import Image, ImageDraw
 
 from utils.pil_utils import GridDrawer
 
+
 class GridPathfinding(Problem[GridCoord, GridMove]):
     def __init__(self, grid: Grid, initial: GridCoord, goal: GridCoord, diagonal_weight: float = 0):
-        super().__init__(initial)
-        self.goal = goal
+        super().__init__(initial, goal)
         self.grid = grid
         self.diagonal_weight = diagonal_weight
 
@@ -25,13 +25,13 @@ class GridPathfinding(Problem[GridCoord, GridMove]):
         for m in move.involved_moves():
             new_coord = coord + m.value
             if not (0 <= new_coord.x < self.grid.shape[1]):
-                return False 
+                return False
             if not (0 <= new_coord.y < self.grid.shape[0]):
                 return False
 
             new_location = self.grid.get_cell(new_coord)
             if new_location == GridCell.WALL:
-                return False 
+                return False
         return True
 
     def take_action(self, state: GridCoord, action: GridMove) -> GridCoord:
@@ -42,21 +42,18 @@ class GridPathfinding(Problem[GridCoord, GridMove]):
             return self.diagonal_weight
         return 1.0
 
-    def is_goal(self, state: GridCoord) -> bool:
-        return state == self.goal
-    
-    def to_image(self, state: GridCoord, size: Tuple[int, int]=(800, 800)) -> Image.Image:
+    def to_image(self, state: GridCoord, size: Tuple[int, int] = (800, 800)) -> Image.Image:
         image = Image.new("RGB", size, (248, 255, 229))
         grid_drawer = GridDrawer(image, self.grid)
         grid_drawer.draw_grid()
         for y, row in enumerate(self.grid):
             for x, cell in enumerate(row):
                 if cell == GridCell.WALL:
-                    grid_drawer.draw_rectangle((x,y), fill=(31, 122, 140), padding=-grid_drawer.border)
+                    grid_drawer.draw_rectangle((x, y), fill=(
+                        31, 122, 140), padding=-grid_drawer.border)
         grid_drawer.draw_circle(self.goal.x, self.goal.y, fill=(255, 100, 100))
         grid_drawer.draw_circle(state.x, state.y, (100, 100, 100))
         return image
-    
 
     @staticmethod
     def deserialize(text: str) -> GridPathfinding:
@@ -66,7 +63,7 @@ class GridPathfinding(Problem[GridCoord, GridMove]):
         width, diagonal_weight = int(raw_width), float(raw_diagonal_weight)
         raw_grid = [l[1:] for l in lines[1:] if l.startswith("|")]
 
-        start: Optional[GridCoord] = None 
+        start: Optional[GridCoord] = None
         goal: Optional[GridCoord] = None
         board = np.full((len(raw_grid), width), GridCell.EMPTY)
 
@@ -77,12 +74,8 @@ class GridPathfinding(Problem[GridCoord, GridMove]):
                 elif cell.upper() == "G":
                     goal = GridCoord(x, y)
                 elif cell == GridCell.WALL.value:
-                    board[y,x] = GridCell.WALL
-        
+                    board[y, x] = GridCell.WALL
+
         assert start is not None, "grid is missing a start cell 'S'"
         assert goal is not None, "grid is missing a goal cell 'G'"
         return GridPathfinding(Grid(board), start, goal, diagonal_weight)
-
-
-
-

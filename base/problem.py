@@ -17,8 +17,9 @@ class Problem(ABC, Generic[S, A]):
         initial (:class:`State`) - state from which we want to start solving.
     """
 
-    def __init__(self, initial: S):
+    def __init__(self, initial: S, goal: S):
         self.initial = initial
+        self.goal = goal
 
     @abstractmethod
     def actions(self, state: S) -> List[A]:
@@ -35,10 +36,9 @@ class Problem(ABC, Generic[S, A]):
         """Returns cost of an action"""
         raise NotImplementedError
 
-    @abstractmethod
     def is_goal(self, state: S) -> bool:
         """Checks if given state is a goal state"""
-        raise NotImplementedError
+        return state == self.goal
 
     @staticmethod
     @abstractmethod

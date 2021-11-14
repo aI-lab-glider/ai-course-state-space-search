@@ -6,7 +6,7 @@ from tree import Node, Tree
 
 
 class BFS(Solver):
-    def __init__(self, problem:P):
+    def __init__(self, problem: P):
         super().__init__(problem)
         self.search = UninformedSearch(problem, FIFO())
 
@@ -15,5 +15,3 @@ class BFS(Solver):
 
     def search_tree(self) -> Tree:
         return self.search.tree
-
-

@@ -5,7 +5,7 @@ from solvers.utils import PriorityQueue
 from tree import Node, Tree
 
 
-class BestFirstSearch():
+class BestFirstSearch:
     """
     Type of search that have access to problem definition and to heuristic, that allows it estimate
     which nodes should be searched.

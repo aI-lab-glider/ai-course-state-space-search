@@ -13,11 +13,10 @@ from utils.pil_utils import GridDrawer
 
 
 class RushHourProblem(Problem[RushHourBoard, VehicleShift]):
-    def __init__(self, vehicles: Set[RushHourVehicle], initial: RushHourBoard, goal: RushHourVehicle = RushHourVehicle('X', 4, 2, Orientation.HORIZONTAL)):
-        super().__init__(initial)
-        self.goal = goal
+    def __init__(self, vehicles: Set[RushHourVehicle], initial: RushHourBoard, goal_vehicle_position: RushHourVehicle = RushHourVehicle('X', 4, 2, Orientation.HORIZONTAL)):
+        super().__init__(initial, initial)  # TODO: fix me.
+        self.goal_vehicle_position = goal_vehicle_position
         self.vehicles = vehicles
-
 
     def actions(self, board: RushHourBoard) -> List[VehicleShift]:
 
@@ -28,44 +27,40 @@ class RushHourProblem(Problem[RushHourBoard, VehicleShift]):
 
         matrix = board.get_board()
         actions = [VehicleShift(shift, vehicle.id)
-                   for vehicle in board.vehicles 
+                   for vehicle in board.vehicles
                    for shift in shifts[vehicle.orientation]
                    if self.is_valid_move(matrix, vehicle, shift)]
         return actions
-
 
     def take_action(self, board: RushHourBoard, action: VehicleShift) -> RushHourBoard:
         for vehicle in board.vehicles:
             if vehicle.id == action.vehicle_id:
                 y = vehicle.y + action.shift.value[0]
                 x = vehicle.x + action.shift.value[1]
-                new_vehicle = RushHourVehicle(vehicle.id, x, y, vehicle.orientation, vehicle.length)
+                new_vehicle = RushHourVehicle(
+                    vehicle.id, x, y, vehicle.orientation, vehicle.length)
                 new_vehicles = deepcopy(board.vehicles)
                 new_vehicles.remove(vehicle)
                 new_vehicles.add(new_vehicle)
                 new_board = RushHourBoard(new_vehicles, board.shape)
         return new_board
 
-
     def action_cost(self, board: RushHourBoard, action: VehicleShift, new_board: RushHourBoard) -> float:
         return 1
 
-
     def is_goal(self, board: RushHourBoard) -> bool:
-        return self.goal in board.vehicles
-
+        return self.goal_vehicle_position in board.vehicles
 
     def on_board(self, x: int, y: int) -> bool:
         board = self.initial.get_board()
         return 0 <= x < board.shape[1] and 0 <= y < board.shape[0]
-
 
     def is_valid_move(self, matrix, vehicle: RushHourVehicle, shift: Direction):
         y, x = shift.value
         if self.on_board(vehicle.x+x, vehicle.y+y) and (shift == Direction.UP or Direction.LEFT) and matrix[vehicle.y+y, vehicle.x+x] == ' ':
             return True
         if self.on_board(vehicle.xEnd+x, vehicle.yEnd+y) and (shift == Direction.DOWN or Direction.RIGHT) and matrix[vehicle.yEnd+y, vehicle.xEnd+x] == ' ':
-            return True  
+            return True
         return False
 
     def to_image(self, board: RushHourBoard, size: Tuple[int, int] = (800, 800)) -> Image.Image:
@@ -73,7 +68,6 @@ class RushHourProblem(Problem[RushHourBoard, VehicleShift]):
         image = Image.new("RGB", size, background_color)
         grid_drawer = GridDrawer(image, board)
         grid_drawer.draw_grid()
-        
 
         def get_color(vehicle_id):
             red = (196, 40, 71)
@@ -83,7 +77,8 @@ class RushHourProblem(Problem[RushHourBoard, VehicleShift]):
             return blue
 
         for v in board.vehicles:
-            grid_drawer.draw_rectangle((v.x, v.y, v.xEnd + 1, v.yEnd + 1), get_color(v.id))
+            grid_drawer.draw_rectangle(
+                (v.x, v.y, v.xEnd + 1, v.yEnd + 1), get_color(v.id))
 
         return image
 
@@ -106,26 +101,30 @@ class RushHourProblem(Problem[RushHourBoard, VehicleShift]):
         height, width = board.shape
         for x in range(width):
             for y in range(height):
-                v = board[y,x]
+                v = board[y, x]
                 if v == ' ' or v in vehicles:
                     continue
 
-                rx = [r for r in range(x, width) 
-                              if board[y,r] == v]
+                rx = [r for r in range(x, width)
+                      if board[y, r] == v]
 
                 if len(rx) > 1:
-                    vehicles[v] = RushHourVehicle(v, x, y, Orientation.HORIZONTAL, len(rx))
+                    vehicles[v] = RushHourVehicle(
+                        v, x, y, Orientation.HORIZONTAL, len(rx))
                     continue
 
-                dy = [d for d in range(y, height) 
-                              if board[d,x] == v]
-                vehicles[v] = RushHourVehicle(v, x, y, Orientation.VERTICAL, len(dy))
-        
-        
+                dy = [d for d in range(y, height)
+                      if board[d, x] == v]
+                vehicles[v] = RushHourVehicle(
+                    v, x, y, Orientation.VERTICAL, len(dy))
+
         initial_vehicles = set(vehicles.values())
-        initial = RushHourBoard(initial_vehicles, cast(Tuple[int,int], board.shape))
+        initial = RushHourBoard(
+            initial_vehicles, cast(Tuple[int, int], board.shape))
         goal = deepcopy(vehicles["X"])
         goal.x = width - vehicles["X"].length
 
         return RushHourProblem(initial_vehicles, initial, goal)
-                    
+
+    def create_goal_state(self, goal_vehicle_position: RushHourVehicle):
+        pass

@@ -21,6 +21,7 @@ from problems.rush_hour.heuristics.blocking_cars_heuristic import RushHourBlocki
 from problems.rush_hour.heuristics.distance_to_exit_heuristic import RushHourDistanceToExitHeuristic
 
 from solvers import BFS, DFSIter, DFSRecursive, Dijkstra, Greedy, AStar, IDAStar, IDDFS
+from solvers.new_bidrectional_astar import NewBidrectionalAstar
 
 
 VERSION = "0.42.1 — Lazy Leviathan"
@@ -47,7 +48,7 @@ avl_problems: Dict[str, type[Problem]] = {camel_to_snake(p.__name__, "Problem"):
                                           [GridPathfinding, NPuzzleProblem, RushHourProblem, BlocksWorldProblem]}
 
 avl_algos: Dict[str, type[Solver]] = {a.__name__.lower(): cast(type[Solver], a) for a in [
-    DFSRecursive, DFSIter, BFS, Dijkstra, Greedy, AStar, IDDFS, IDAStar]}
+    NewBidrectionalAstar, AStar]}
 
 all_heuristics: Set[type[Heuristic]] = set.union(*problem_heuristics.values())
 avl_heuristics: Dict[str, type[Heuristic]] = {camel_to_snake(h.__name__, "Heuristic"): cast(type[Heuristic], h)

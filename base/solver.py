@@ -19,11 +19,15 @@ class Solver(ABC, Generic[P]):
 
     @abstractmethod
     def solve(self) -> Optional[Node]:
-        raise NotImplementedError
+        """
+        Solves problem for which solver was created.
+        """
 
     @abstractmethod
     def search_tree(self) -> Tree:
-        raise NotImplementedError
+        """
+        Returns tree that was created during search.
+        """
 
 
 class HeuristicSolver(Solver[P], ABC, Generic[P, H]):

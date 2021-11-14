@@ -3,16 +3,19 @@ from collections import deque
 from dataclasses import dataclass
 import heapq
 from dataclasses import dataclass, field
-from typing import Any, Callable, Deque, List
+from typing import Any, Callable, Deque, List, Generic, TypeVar
 
 
-class Queue(ABC):
+TItem = TypeVar('TItem')
+
+
+class Queue(ABC, Generic[TItem]):
     @abstractmethod
-    def push(self, x) -> None:
+    def push(self, x: TItem) -> None:
         pass
 
     @abstractmethod
-    def pop(self) -> Any:
+    def pop(self) -> TItem:
         pass
 
     @abstractmethod
@@ -20,7 +23,7 @@ class Queue(ABC):
         pass
 
 
-class FIFO(Queue):
+class FIFO(Queue[TItem]):
     """
     Implementation of First In First Out queue.
 
@@ -49,7 +52,7 @@ class FIFO(Queue):
         return len(self.queue) == 0
 
 
-class LIFO(Queue):
+class LIFO(Queue[TItem]):
     """
     Implementation of Last In First Out queue.
 
@@ -71,7 +74,7 @@ class LIFO(Queue):
     def push(self, x) -> None:
         self.queue.append(x)
 
-    def pop(self) -> Any:
+    def pop(self) -> TItem:
         return self.queue.pop()
 
     def is_empty(self) -> bool:
@@ -79,12 +82,12 @@ class LIFO(Queue):
 
 
 @dataclass(order=True)
-class PQItem():
+class PQItem(Generic[TItem]):
     distance: int
-    item: Any = field(compare=False)
+    item: TItem = field(compare=False)
 
 
-class PriorityQueue:
+class PriorityQueue(Generic[TItem]):
     """
     Implementation of priority queue.
     Higher priority have item with smaller `key` value
@@ -101,17 +104,23 @@ class PriorityQueue:
     2
     """
 
-    def __init__(self, key: Callable):
+    def __init__(self, key: Callable, items: List[TItem] = None):
         self.key = key
         self.heap: List[PQItem] = []
         heapq.heapify(self.heap)
+        if items:
+            for item in items:
+                self.push(item)
 
-    def push(self, x: Any):
+    def push(self, x: TItem):
         heapq.heappush(self.heap, PQItem(self.key(x), x))
 
-    def pop(self) -> Any:
+    def pop(self) -> TItem:
         hitem = heapq.heappop(self.heap)
         return hitem.item
 
     def is_empty(self):
         return len(self.heap) == 0
+
+    def __bool__(self):
+        return not self.is_empty()

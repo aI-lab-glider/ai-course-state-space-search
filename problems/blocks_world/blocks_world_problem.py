@@ -5,24 +5,22 @@ from problems.blocks_world.blocks_world_action import BlocksWorldAction
 from problems.blocks_world.blocks_world_state import BlocksWorldState
 from PIL import Image, ImageDraw, ImageFont
 
-class BlocksWorldProblem(Problem[BlocksWorldState, BlocksWorldAction]):
-    def __init__(self, initial: BlocksWorldState, goal: BlocksWorldState):
-        super().__init__(initial)
-        self.goal = goal
 
+class BlocksWorldProblem(Problem[BlocksWorldState, BlocksWorldAction]):
     def actions(self, state: BlocksWorldState) -> List[BlocksWorldAction]:
         # TODO:
         # - return all legal actions in the given state
         # tip 1. you can only move blocks from not empty columns
         # tip 2. you can't move move column to the same column it already stands at
-        non_empty_columns = [i for i,c in enumerate(state.columns) if len(c) > 0]
+        non_empty_columns = [i for i, c in enumerate(
+            state.columns) if len(c) > 0]
         columns = range(len(state.columns))
 
-        return [ BlocksWorldAction(col_from, col_to)
-            for col_from in non_empty_columns
-            for col_to in columns
-            if col_from != col_to
-        ]
+        return [BlocksWorldAction(col_from, col_to)
+                for col_from in non_empty_columns
+                for col_to in columns
+                if col_from != col_to
+                ]
 
     def take_action(self, state: BlocksWorldState, action: BlocksWorldAction) -> BlocksWorldState:
         return action.apply(state)
@@ -30,43 +28,43 @@ class BlocksWorldProblem(Problem[BlocksWorldState, BlocksWorldAction]):
     def action_cost(self, s: BlocksWorldState, a: BlocksWorldAction, e: BlocksWorldState) -> int:
         return 1
 
-    def is_goal(self, state: BlocksWorldState) -> bool:
-        return state == self.goal
-    
     def to_image(self, state: BlocksWorldState, size: Tuple[int, int] = (800, 800)) -> Image.Image:
         state_img = Image.new('RGB', size, color=(248, 255, 229))
         padding_top = 0.1 * state_img.height
-        container_shape = state_img.width // len(state.columns), int(state_img.height - padding_top) // sum(len(col) for col in self.goal.columns) 
-        
+        container_shape = state_img.width // len(state.columns), int(
+            state_img.height - padding_top) // sum(len(col) for col in self.goal.columns)
+
         for j, col in enumerate(state.columns):
             for i, block_name in enumerate(col):
-                block_img = self._create_block_image(container_shape, block_name)
+                block_img = self._create_block_image(
+                    container_shape, block_name)
                 x_start = block_img.width * j
                 y_start = i * block_img.height
                 state_img.paste(block_img, (x_start, y_start), mask=block_img)
-                
+
         return state_img.rotate(180)
 
     def _create_block_image(self, container_shape, name) -> Image.Image:
-        block_img = Image.new('RGBA', container_shape, (0,0,0,0))
+        block_img = Image.new('RGBA', container_shape, (0, 0, 0, 0))
         block_draw = ImageDraw.Draw(block_img)
         (container_width, container_height) = container_shape
         (block_width, block_height) = min(container_shape), min(container_shape)
         font = ImageFont.truetype("arial.ttf", size=int(0.8 * block_height))
-        
+
         def apply_padding(corner: Tuple[int, int]):
             x, y = corner
             padding = (max(container_shape) - block_width) // 2
             x = x + padding if x == 0 else x - padding
             return (x, y)
-        
-        corners = list(map(apply_padding, [(0, 0), (block_img.width, 0), (block_img.width, block_img.height), (0, block_img.height)]))
+
+        corners = list(map(apply_padding, [
+                       (0, 0), (block_img.width, 0), (block_img.width, block_img.height), (0, block_img.height)]))
         for from_corner, to_corner in zip(corners, corners[1:] + [corners[0]]):
-            block_draw.line((from_corner, to_corner), fill='black', width=3)    
+            block_draw.line((from_corner, to_corner), fill='black', width=3)
         block_draw.text((
-                container_width // 2,
-                container_height // 2
-            ), name, fill='black', font=font, anchor='mm')
+            container_width // 2,
+            container_height // 2
+        ), name, fill='black', font=font, anchor='mm')
         block_img = block_img.rotate(180)
         return block_img
 
@@ -79,9 +77,9 @@ class BlocksWorldProblem(Problem[BlocksWorldState, BlocksWorldAction]):
         initial = []
         for l in lines:
             if not l.startswith('|'):
-                break 
+                break
             initial.append(get_col(l))
-        
+
         goal = []
         for l in lines[len(initial) + 1:]:
             if not l.startswith('|'):
@@ -90,7 +88,7 @@ class BlocksWorldProblem(Problem[BlocksWorldState, BlocksWorldAction]):
 
         assert len(initial) == len(goal), \
             f"the goal and initial state should have the same number of cols"
-        
+
         init_objects = set.union(*[set(c) for c in initial])
         goal_objects = set.union(*[set(c) for c in goal])
 

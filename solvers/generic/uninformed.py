@@ -12,8 +12,8 @@ class UninformedSearch:
         self.problem = problem
         self.start = problem.initial
         self.frontier = queue
-        # using set instead of a dictionary as it was in BestFirstSearch, because in an uninformed you do
         self.visited = {self.start}
+        # using set instead of a dictionary as it was in BestFirstSearch, because in an uninformed you do
         # not have an evalutaion function and as an estimate for cost visit order is used,
         # so nodes once are visited will never have a better cost, so there no need to use more memory and store a dictionary.
         self.root = Node(self.start)
