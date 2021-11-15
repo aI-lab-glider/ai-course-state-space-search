@@ -26,8 +26,7 @@ class BenchmarkMonitor(NodeEventSubscriber, Solver):
     def solve(self) -> Optional[Node]:
         self._reset_stats()
         try:
-            result = self.solver.solve()
-                # self.solve_with_timeout(timeout=self.timeout)
+            result = self.solve_with_timeout(timeout=self.timeout)
         except RecursionError:
             result = "recursion stack overflow"
 

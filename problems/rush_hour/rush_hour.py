@@ -14,8 +14,8 @@ from utils.pil_utils import GridDrawer
 
 class RushHourProblem(Problem[RushHourBoard, VehicleShift]):
     def __init__(self, vehicles: Set[RushHourVehicle], initial: RushHourBoard, goal_vehicle_position: RushHourVehicle = RushHourVehicle('X', 4, 2, Orientation.HORIZONTAL)):
-        super().__init__(initial, initial)  # TODO: fix me.
-        self.goal_vehicle_position = goal_vehicle_position
+        super().__init__(initial)
+        self.goal = goal_vehicle_position
         self.vehicles = vehicles
 
     def actions(self, board: RushHourBoard) -> List[VehicleShift]:
@@ -49,7 +49,7 @@ class RushHourProblem(Problem[RushHourBoard, VehicleShift]):
         return 1
 
     def is_goal(self, board: RushHourBoard) -> bool:
-        return self.goal_vehicle_position in board.vehicles
+        return self.goal in board.vehicles
 
     def on_board(self, x: int, y: int) -> bool:
         board = self.initial.get_board()
@@ -126,5 +126,6 @@ class RushHourProblem(Problem[RushHourBoard, VehicleShift]):
 
         return RushHourProblem(initial_vehicles, initial, goal)
 
-    def create_goal_state(self, goal_vehicle_position: RushHourVehicle):
-        pass
+    def reversed(self):
+        raise NotImplementedError(
+            f"{RushHourProblem.__name__} cannot be revesred")

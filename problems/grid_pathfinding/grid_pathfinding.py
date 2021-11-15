@@ -11,9 +11,10 @@ from utils.pil_utils import GridDrawer
 
 class GridPathfinding(Problem[GridCoord, GridMove]):
     def __init__(self, grid: Grid, initial: GridCoord, goal: GridCoord, diagonal_weight: float = 0):
-        super().__init__(initial, goal)
+        super().__init__(initial)
         self.grid = grid
         self.diagonal_weight = diagonal_weight
+        self.goal = goal
 
     def actions(self, state: GridCoord) -> List[GridMove]:
         return [a for a in GridMove if self.is_legal_move(state, a)]
@@ -41,6 +42,12 @@ class GridPathfinding(Problem[GridCoord, GridMove]):
         if action in GridMove.diagonal_moves():
             return self.diagonal_weight
         return 1.0
+
+    def is_goal(self, state: GridCoord):
+        return state == self.goal
+
+    def reversed(self):
+        return GridPathfinding(self.grid, self.goal, self.initial)
 
     def to_image(self, state: GridCoord, size: Tuple[int, int] = (800, 800)) -> Image.Image:
         image = Image.new("RGB", size, (248, 255, 229))

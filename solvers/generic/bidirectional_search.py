@@ -24,9 +24,9 @@ class BidirectionalSearchTreeProxy(Tree, NodeEventSubscriber):
 
 class SearchProcess:
     def __init__(self, problem: Problem,
-                 start_state: State, goal_state: State,
+                 start_state: State,
                  eval_fun: Callable[[Node], float], heuristic: Heuristic = NoHeuristic()):
-        self.start_state, self.goal_state = start_state, goal_state
+        self.start_state = start_state
         self.problem = problem
         self.eval_fun = eval_fun
         self.heuristic = heuristic
@@ -69,7 +69,7 @@ class SearchProcess:
         candidates = PriorityQueue(self.eval_fun)
         while self.frontier:
             candidate = self.frontier.pop()
-            if self.eval_fun(candidate) - self.heuristic(self.goal_state) < upper_bound_cost:
+            if self.eval_fun(candidate) < upper_bound_cost:
                 candidates.push(candidate)
         return candidates
 
@@ -127,10 +127,10 @@ class BidirectionalSearch:
                  heuristic: Heuristic = NoHeuristic()):
         self.problem = problem
         self.forward_search = SearchProcess(problem,
-                                            problem.initial, problem.goal,
+                                            problem.initial,
                                             eval_fun, heuristic)
         self.backward_search = SearchProcess(problem,
-                                             problem.goal, problem.initial,
+                                             problem.reversed().initial,
                                              eval_fun, heuristic)
 
     @ property
@@ -152,6 +152,5 @@ class BidirectionalSearch:
                 meeting_point_parent.parent = self.forward_search.meeting_point
             else:  # meeting point is a goal node
                 solution_node.parent = self.forward_search.meeting_point
-
             return solution_node
         return None

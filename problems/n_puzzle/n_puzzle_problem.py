@@ -12,6 +12,10 @@ from problems.n_puzzle.n_puzzle_action import NPuzzleAction
 
 class NPuzzleProblem(Problem[NPuzzleState, NPuzzleAction]):
 
+    def __init__(self, initial: NPuzzleState, goal: NPuzzleState):
+        super().__init__(initial)
+        self.goal = goal
+
     def actions(self, state: NPuzzleState) -> List[NPuzzleAction]:
         return [shift for shift in NPuzzleAction
                 if self.valid(state.x + shift.value[0],
@@ -37,6 +41,9 @@ class NPuzzleProblem(Problem[NPuzzleState, NPuzzleAction]):
 
     def is_goal(self, state: NPuzzleState) -> bool:
         return self.goal.matrix == state.matrix
+
+    def reversed(self):
+        return NPuzzleProblem(self.goal, self.initial)
 
     def valid(self, x: int, y: int, nx: int, ny: int) -> bool:
         return 0 <= x < nx and 0 <= y < ny

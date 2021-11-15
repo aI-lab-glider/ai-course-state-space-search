@@ -7,6 +7,10 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 class BlocksWorldProblem(Problem[BlocksWorldState, BlocksWorldAction]):
+    def __init__(self, initial: BlocksWorldState, goal: BlocksWorldState):
+        super().__init__(initial)
+        self.goal = goal
+
     def actions(self, state: BlocksWorldState) -> List[BlocksWorldAction]:
         # TODO:
         # - return all legal actions in the given state
@@ -27,6 +31,12 @@ class BlocksWorldProblem(Problem[BlocksWorldState, BlocksWorldAction]):
 
     def action_cost(self, s: BlocksWorldState, a: BlocksWorldAction, e: BlocksWorldState) -> int:
         return 1
+
+    def is_goal(self, state):
+        return state == self.goal
+
+    def reversed(self):
+        return BlocksWorldProblem(self.goal, self.initial)
 
     def to_image(self, state: BlocksWorldState, size: Tuple[int, int] = (800, 800)) -> Image.Image:
         state_img = Image.new('RGB', size, color=(248, 255, 229))

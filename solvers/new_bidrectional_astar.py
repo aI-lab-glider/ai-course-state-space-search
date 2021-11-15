@@ -7,7 +7,7 @@ from solvers.generic.bidirectional_search import BidirectionalSearch
 from tree.tree import Tree
 
 
-class NewBidrectionalAstar(HeuristicSolver):
+class NewBidrectionalAStar(HeuristicSolver):
     def __init__(self, problem: Problem, heuristic: Heuristic[State]):
         super().__init__(problem, heuristic)
         self.search = BidirectionalSearch(problem,
