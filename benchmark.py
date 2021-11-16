@@ -1,3 +1,4 @@
+import traceback
 import stopit
 import argparse
 from base.problem import ReversibleProblem
@@ -157,8 +158,8 @@ if __name__ == "__main__":
                     print(
                         f"{solver_name: >{longest_name}} | algorithm is not implemented yet")
                 except Exception as e:
-                    print(
-                        f"{solver_name: >{longest_name}} | algorithm raised an error {e}")
+                    print(f"{solver_name: >{longest_name}} | algorithm raised an error {e}")
+                    traceback.print_exc()
         else:
             solver_name = algorithm_class.__name__
             try:

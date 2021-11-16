@@ -1,7 +1,7 @@
 
 import argparse
 from base.problem import ReversibleProblem
-from cli_config import VERSION, avl_algos, avl_heuristics, avl_problems, problem_heuristics, avl_reversible_problems
+from cli_config import VERSION, avl_algos, avl_heuristics, avl_problems, problem_heuristics, avs_reversible_problems
 from typing import Optional, Union
 from base.solver import HeuristicSolver, Solver, BidirectionalHeuristicSolver
 from solvers.generic.bidirectional_search import BidirectionalSearch
@@ -71,6 +71,8 @@ class SolvingMonitor(NodeEventSubscriber, Solver):
     def _heuristic_name(self) -> Optional[str]:
         if isinstance(self.solver, HeuristicSolver):
             return self.solver.heuristic.__class__.__name__
+        elif isinstance(self.solver, BidirectionalHeuristicSolver):
+            return self.solver.primary_heuristic.__class__.__name__
         else:
             return None
 
