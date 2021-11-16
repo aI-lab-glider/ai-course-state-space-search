@@ -25,6 +25,36 @@ class Node:
             node = node.parent
         return path[::-1]
 
+    def reverse(self, zero_cost: float):
+        def reverse_order(node):
+            path = node.path()
+            rpath = list(reversed(path))
+            root = rpath[0]
+            root.parent = None
+            prev = root
+            for n in rpath[1:]:
+                n.parent = prev
+                prev = n
+            return rpath[-1]
+
+        node = self
+        old_prev_cost = node.cost
+        node.cost = zero_cost
+        prev_cost = node.cost
+        while node.parent:
+            node = node.parent
+            cost = (old_prev_cost - node.cost) + prev_cost
+            old_prev_cost = node.cost
+            node.cost = cost
+            prev_cost = cost
+
+        return reverse_order(self)
+
+    def root(self):
+        if self.parent is None:
+            return self
+        return self.parent.root()
+
     def has_cycle(self) -> bool:
         def find_cycle(ancestor):
             return ancestor is not None and (ancestor.state == self.state or find_cycle(ancestor.parent))

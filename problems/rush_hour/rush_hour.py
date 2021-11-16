@@ -125,7 +125,3 @@ class RushHourProblem(Problem[RushHourBoard, VehicleShift]):
         goal.x = width - vehicles["X"].length
 
         return RushHourProblem(initial_vehicles, initial, goal)
-
-    def reversed(self):
-        raise NotImplementedError(
-            f"{RushHourProblem.__name__} cannot be revesred")

@@ -3,6 +3,7 @@ from pathlib import Path
 
 from PIL import Image
 from base import Problem
+from base.problem import ReversibleProblem
 from problems.n_puzzle import NPuzzleState
 from typing import List, Tuple, Set
 from copy import deepcopy
@@ -10,11 +11,10 @@ from copy import deepcopy
 from problems.n_puzzle.n_puzzle_action import NPuzzleAction
 
 
-class NPuzzleProblem(Problem[NPuzzleState, NPuzzleAction]):
+class NPuzzleProblem(ReversibleProblem[NPuzzleState, NPuzzleAction]):
 
     def __init__(self, initial: NPuzzleState, goal: NPuzzleState):
-        super().__init__(initial)
-        self.goal = goal
+        super().__init__(initial, goal)
 
     def actions(self, state: NPuzzleState) -> List[NPuzzleAction]:
         return [shift for shift in NPuzzleAction

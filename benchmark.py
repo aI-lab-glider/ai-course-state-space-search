@@ -1,8 +1,9 @@
 import stopit
 import argparse
+from base.problem import ReversibleProblem
 from cli_config import VERSION, avl_algos, avl_problems, problem_heuristics
 from typing import Optional, Union
-from base.solver import HeuristicSolver, Solver
+from base.solver import BidirectionalHeuristicSolver, HeuristicSolver, Solver
 from tree.node import Node
 
 from pathlib import Path
@@ -57,6 +58,8 @@ class BenchmarkMonitor(NodeEventSubscriber, Solver):
     def _heuristic_name(self) -> Optional[str]:
         if isinstance(self.solver, HeuristicSolver):
             return self.solver.heuristic.__class__.__name__
+        if isinstance(self.solver, BidirectionalHeuristicSolver):
+            return self.solver.primary_heuristic.__class__.__name__
         else:
             return None
 
@@ -119,7 +122,14 @@ if __name__ == "__main__":
     print_header(problem_class, instance, timeout, longest_name)
     for algorithm_class in avl_algos.values():
         algorithm: Optional[Solver] = None
-        if issubclass(algorithm_class, HeuristicSolver):
+        requires_heuristic = issubclass(algorithm_class, HeuristicSolver)\
+            or issubclass(algorithm_class, BidirectionalHeuristicSolver)
+        requires_reversing = issubclass(algorithm_class, BidirectionalHeuristicSolver)
+
+        if requires_reversing and not isinstance(problem, ReversibleProblem):
+            continue
+
+        if requires_heuristic:
             for heuristic_class in problem_heuristics[problem_class]:
                 solver_name = f"{algorithm_class.__name__}({heuristic_class.__name__})"
                 try:
@@ -135,7 +145,11 @@ if __name__ == "__main__":
                     continue
 
                 try:
-                    algorithm = algorithm_class(problem, heuristic)
+                    if requires_reversing:
+                        opposite_heuristic = heuristic_class(problem.reversed())
+                        algorithm = algorithm_class(problem, heuristic, opposite_heuristic)
+                    else:
+                        algorithm = algorithm_class(problem, heuristic)
                     solver_monitor = BenchmarkMonitor(
                         algorithm, longest_name, timeout)
                     solver_monitor.solve()

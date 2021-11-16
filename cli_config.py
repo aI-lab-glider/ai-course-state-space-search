@@ -1,6 +1,6 @@
 import re
 from typing import Dict, Set, cast
-from base.problem import Problem
+from base.problem import Problem, ReversibleProblem
 from base.heuristic import Heuristic
 from base.solver import Solver
 
@@ -20,8 +20,8 @@ from problems.rush_hour.rush_hour import RushHourProblem
 from problems.rush_hour.heuristics.blocking_cars_heuristic import RushHourBlockingCarsHeuristic
 from problems.rush_hour.heuristics.distance_to_exit_heuristic import RushHourDistanceToExitHeuristic
 
-from solvers import BFS, DFSIter, DFSRecursive, Dijkstra, Greedy, AStar, IDAStar, IDDFS
-from solvers.new_bidrectional_astar import NewBidrectionalAStar
+from solvers import BFS, DFSIter, DFSRecursive, Dijkstra, Greedy, AStar
+from solvers.new_bidrectional_astar import NBAstar
 
 
 VERSION = "0.42.1 — Lazy Leviathan"
@@ -47,8 +47,10 @@ avl_problems: Dict[str, type[Problem]] = {camel_to_snake(p.__name__, "Problem"):
                                           for p in
                                           [GridPathfinding, NPuzzleProblem, RushHourProblem, BlocksWorldProblem]}
 avl_algos: Dict[str, type[Solver]] = {a.__name__.lower(): cast(type[Solver], a) for a in [
-    DFSRecursive, DFSIter, BFS, Dijkstra, Greedy, AStar, IDDFS, IDAStar, NewBidrectionalAStar]}
+    DFSRecursive, DFSIter, BFS, Dijkstra, Greedy, AStar, NBAstar]}
 
 all_heuristics: Set[type[Heuristic]] = set.union(*problem_heuristics.values())
 avl_heuristics: Dict[str, type[Heuristic]] = {camel_to_snake(h.__name__, "Heuristic"): cast(type[Heuristic], h)
                                               for h in all_heuristics}
+avs_reversible_problems: list[str] = [ problem_name for problem_name, problem_class in avl_problems.items()
+                                       if issubclass(problem_class, ReversibleProblem)]                                               

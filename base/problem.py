@@ -47,6 +47,14 @@ class Problem(ABC, Generic[S, A]):
     def to_image(self, state: S, size: Tuple[int, int]) -> Optional[Image]:
         """Converts state to its image representation."""
 
+
+class ReversibleProblem(Problem[S,A], ABC, Generic[S,A]):
+
+    def __init__(self, initial: S, goal: S):
+        super().__init__(initial)
+        self.goal = goal
+
+
     @abstractmethod
-    def reversed(self) -> Problem[S, A]:
+    def reversed(self) -> ReversibleProblem[S, A]:
         """Returns problem with swapped initial and goal states"""

@@ -1,5 +1,6 @@
 from __future__ import annotations
 from base import Problem
+from base.problem import ReversibleProblem
 from problems.grid_pathfinding.grid import Grid, GridCell, GridCoord
 from problems.grid_pathfinding.grid_move import GridMove
 from typing import List, Optional, Tuple
@@ -9,12 +10,11 @@ from PIL import Image, ImageDraw
 from utils.pil_utils import GridDrawer
 
 
-class GridPathfinding(Problem[GridCoord, GridMove]):
+class GridPathfinding(ReversibleProblem[GridCoord, GridMove]):
     def __init__(self, grid: Grid, initial: GridCoord, goal: GridCoord, diagonal_weight: float = 0):
-        super().__init__(initial)
+        super().__init__(initial, goal)
         self.grid = grid
         self.diagonal_weight = diagonal_weight
-        self.goal = goal
 
     def actions(self, state: GridCoord) -> List[GridMove]:
         return [a for a in GridMove if self.is_legal_move(state, a)]

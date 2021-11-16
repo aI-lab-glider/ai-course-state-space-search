@@ -1,15 +1,16 @@
 from __future__ import annotations
 from typing import List, Tuple
 from base import Problem
+from base.problem import ReversibleProblem
 from problems.blocks_world.blocks_world_action import BlocksWorldAction
 from problems.blocks_world.blocks_world_state import BlocksWorldState
 from PIL import Image, ImageDraw, ImageFont
 
 
-class BlocksWorldProblem(Problem[BlocksWorldState, BlocksWorldAction]):
+class BlocksWorldProblem(ReversibleProblem[BlocksWorldState, BlocksWorldAction]):
+    
     def __init__(self, initial: BlocksWorldState, goal: BlocksWorldState):
-        super().__init__(initial)
-        self.goal = goal
+        super().__init__(initial, goal)
 
     def actions(self, state: BlocksWorldState) -> List[BlocksWorldAction]:
         # TODO:

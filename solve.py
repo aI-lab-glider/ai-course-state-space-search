@@ -1,8 +1,10 @@
 
 import argparse
-from cli_config import VERSION, avl_algos, avl_heuristics, avl_problems, problem_heuristics
+from base.problem import ReversibleProblem
+from cli_config import VERSION, avl_algos, avl_heuristics, avl_problems, problem_heuristics, avl_reversible_problems
 from typing import Optional, Union
-from base.solver import HeuristicSolver, Solver
+from base.solver import HeuristicSolver, Solver, BidirectionalHeuristicSolver
+from solvers.generic.bidirectional_search import BidirectionalSearch
 
 from tree.node import Node
 
@@ -128,7 +130,11 @@ if __name__ == "__main__":
         exit(-1)
 
     algorithm : Optional[Solver] = None
-    if issubclass(algorithm_class, HeuristicSolver):
+
+    requires_heuristic = issubclass(algorithm_class, HeuristicSolver) \
+        or issubclass(algorithm_class, BidirectionalHeuristicSolver)
+    requires_reversing = issubclass(algorithm_class, BidirectionalHeuristicSolver)
+    if requires_heuristic:
         if not args.heuristic:
             print("> Chosen algorithm requires a heuristic, please specify it!")
             exit(-1)
@@ -139,8 +145,16 @@ if __name__ == "__main__":
             print("> Chosen heuristic doesn't apply to the given problem. Choose another!")
             print("> Lifehack: names of heuristics and related problems are pretty similar :)")
             exit(-1)
-        
-        algorithm = algorithm_class(problem, heuristic_class(problem))
+
+        if requires_reversing and not isinstance(problem, ReversibleProblem):
+            print("> Chosen algorithm is directional, requires a reversible problem!")
+            print(f"> Tip: reversible problems are: {', '.join(avl_reversible_problems)}")
+            exit(-1)
+
+        if requires_reversing:
+            algorithm = algorithm_class(problem, heuristic_class(problem), heuristic_class(problem.reversed()))
+        else:
+            algorithm = algorithm_class(problem, heuristic_class(problem))
     else:
         algorithm = algorithm_class(problem)
     
