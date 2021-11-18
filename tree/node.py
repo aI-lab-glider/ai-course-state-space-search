@@ -1,13 +1,18 @@
-from typing import Union, Set
+from __future__ import annotations
+from dataclasses import dataclass
+from typing import Generic, Optional, TypeVar
 from base.state import State
 
 
-class Node:
-    def __init__(self, state: State, parent: 'Node' = None, action: Union[str, int] = None, cost: float = 0):
-        self.state = state
-        self.parent = parent
-        self.action = action
-        self.cost = cost
+S = TypeVar("S", bound=State)
+
+
+@dataclass
+class Node(Generic[S]):
+    state: S 
+    parent: Optional[Node] = None
+    action: Optional[object] = None
+    cost: float = 0
 
     def __lt__(self, other):
         return self.cost < other.cost

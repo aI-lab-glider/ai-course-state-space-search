@@ -36,7 +36,7 @@ class NPuzzleProblem(ReversibleProblem[NPuzzleState, NPuzzleAction]):
 
         raise Exception("Illegal action")
 
-    def action_cost(self, state: NPuzzleState, action: NPuzzleAction, next_state: NPuzzleState) -> float:
+    def action_cost(self, state: NPuzzleState, action: NPuzzleAction) -> float:
         return 1
 
     def is_goal(self, state: NPuzzleState) -> bool:

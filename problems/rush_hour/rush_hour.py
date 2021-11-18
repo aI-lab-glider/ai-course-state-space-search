@@ -45,7 +45,7 @@ class RushHourProblem(Problem[RushHourBoard, VehicleShift]):
                 new_board = RushHourBoard(new_vehicles, board.shape)
         return new_board
 
-    def action_cost(self, board: RushHourBoard, action: VehicleShift, new_board: RushHourBoard) -> float:
+    def action_cost(self, board: RushHourBoard, action: VehicleShift) -> float:
         return 1
 
     def is_goal(self, board: RushHourBoard) -> bool:

@@ -2,7 +2,9 @@ from abc import ABC
 from typing import Hashable
 
 
-class State(ABC, Hashable):
-    """
-    Class that contains all changeable information about problem. 
-    """
+"""
+    Type representing the problem state.
+    The only requirement is that it has to be hashable, so it's just a typealias
+"""
+State = Hashable
+    

@@ -30,7 +30,7 @@ class BlocksWorldProblem(ReversibleProblem[BlocksWorldState, BlocksWorldAction])
     def take_action(self, state: BlocksWorldState, action: BlocksWorldAction) -> BlocksWorldState:
         return action.apply(state)
 
-    def action_cost(self, s: BlocksWorldState, a: BlocksWorldAction, e: BlocksWorldState) -> int:
+    def action_cost(self, s: BlocksWorldState, a: BlocksWorldAction) -> int:
         return 1
 
     def is_goal(self, state):

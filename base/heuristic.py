@@ -8,21 +8,36 @@ S = TypeVar('S', bound=State)
 
 class Heuristic(ABC, Generic[S]):
     """
-    Class that calculates expected reward for state
+    Interface representing heuristics, functions that approximiate distance
+    from the given state to the problem goal.
+
+    Abstract Methods:
+    =================
+    __init__(problem: Problem[S, Any]):
+        creates a heuristic for the given problem
+        this method should use to precalculate helper functions
+    __call__(state: S) -> float:
+        calculates approximiate distance from the given state to the goal
     """
 
     @abstractmethod
     def __init__(self, problem: Problem[S, Any]) -> None:
-        pass
+        """ creates a heuristic for the given problem
+            this method should use to precalculate helper functions
+        """
 
     @abstractmethod
     def __call__(self, state: S) -> float:
-        pass
+        """ calculates approximiate distance from the given state to the goal """
 
 
 class NoHeuristic(Heuristic[S]):
+    """
+    The most basic heuristic.
+    Doesn't provide any info, always returns 0.
+    """
     def __init__(self):
         super().__init__(cast(Problem, None))
 
-    def __call__(self, problem: Problem[S, Any]) -> float:
+    def __call__(self, state: S) -> float:
         return 0

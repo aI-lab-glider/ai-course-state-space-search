@@ -38,7 +38,7 @@ class GridPathfinding(ReversibleProblem[GridCoord, GridMove]):
     def take_action(self, state: GridCoord, action: GridMove) -> GridCoord:
         return state + action.value
 
-    def action_cost(self, source: GridCoord, action: GridMove, target: GridCoord) -> float:
+    def action_cost(self, source: GridCoord, action: GridMove) -> float:
         if action in GridMove.diagonal_moves():
             return self.diagonal_weight
         return 1.0

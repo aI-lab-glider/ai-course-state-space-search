@@ -13,7 +13,6 @@ class IDAStar(HeuristicSolver):
     def solve(self) -> Optional[Node]:
         self.bound = self._fcost(self.root)
         while True:
-            self.visited = dict()
             node, cost = self._cost_limited_search(self.root, self.bound)
             if node is not None:
                 return node
