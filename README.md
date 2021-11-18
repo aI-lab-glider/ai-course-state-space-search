@@ -5,8 +5,7 @@
 Fill missing code according to the `TODO:` comments in the following files:
 - `solvers/generic/uninformed.py`
 - `solvers/generic/best_first.py`
-- `solvers/iddfs.py`
-- `solvers/idastar.py`
+- `solvers/new_bidrectional_astar.py`
 - `problems/grid_pathfinding/heuristics/euclidean_heuristic.py`
 - `problems/grid_pathfinding/heuristics/manhattan_heuristic.py`
 - `problems/grid_pathfinding/heuristics/diagonal_heuristic.py`
@@ -22,6 +21,7 @@ Fill missing code according to the `TODO:` comments in the following files:
 - [definitions of various grid heuristics](http://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html#heuristics-for-grid-maps)
 - [nice blog post about A*](https://www.redblobgames.com/pathfinding/a-star/introduction.html)
 - [elegant n-puzzle visualization](http://krzysztof.kutt.pl/didactics/psi/npuzzles/)
+- NBA* - papers explaining the algorithm: [1](https://www.researchgate.net/publication/46434387_Yet_another_bidirectional_algorithm_for_shortest_paths), [2 — requires access via AGH library/other means](https://www.sciencedirect.com/science/article/abs/pii/S0377221708007613), 
 
 ## Grading
 
