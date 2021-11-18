@@ -1,9 +1,8 @@
 import re
-from typing import Dict, Set, cast
+from typing import Dict, List, Set, cast
 from base.problem import Problem, ReversibleProblem
 from base.heuristic import Heuristic
 from base.solver import Solver
-
 from problems.blocks_world.blocks_world_heuristic import BlocksWorldNaiveHeuristic
 from problems.blocks_world.blocks_world_problem import BlocksWorldProblem
 
@@ -49,8 +48,8 @@ avl_problems: Dict[str, type[Problem]] = {camel_to_snake(p.__name__, "Problem"):
 avl_algos: Dict[str, type[Solver]] = {a.__name__.lower(): cast(type[Solver], a) for a in [
     DFSRecursive, DFSIter, BFS, Dijkstra, Greedy, AStar, NBAstar]}
 
-all_heuristics: Set[type[Heuristic]] = set.union(*problem_heuristics.values())
+all_heuristics: List[type[Heuristic]] = list(set.union(*problem_heuristics.values()))
 avl_heuristics: Dict[str, type[Heuristic]] = {camel_to_snake(h.__name__, "Heuristic"): cast(type[Heuristic], h)
                                               for h in all_heuristics}
-avs_reversible_problems: list[str] = [ problem_name for problem_name, problem_class in avl_problems.items()
+avl_reversible_problems: list[str] = [ problem_name for problem_name, problem_class in avl_problems.items()
                                        if issubclass(problem_class, ReversibleProblem)]                                               

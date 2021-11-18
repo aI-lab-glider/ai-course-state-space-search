@@ -1,8 +1,8 @@
 
 import argparse
 from base.problem import ReversibleProblem
-from cli_config import VERSION, avl_algos, avl_heuristics, avl_problems, problem_heuristics, avs_reversible_problems
-from typing import Optional, Union
+from cli_config import VERSION, avl_algos, avl_heuristics, avl_problems, problem_heuristics, avl_reversible_problems
+from typing import Optional, Union, cast
 from base.solver import HeuristicSolver, Solver, BidirectionalHeuristicSolver
 from solvers.generic.bidirectional_search import BidirectionalSearch
 
@@ -154,8 +154,11 @@ if __name__ == "__main__":
             exit(-1)
 
         if requires_reversing:
+            assert issubclass(algorithm_class, BidirectionalHeuristicSolver)
+            assert isinstance(problem, ReversibleProblem)
             algorithm = algorithm_class(problem, heuristic_class(problem), heuristic_class(problem.reversed()))
         else:
+            assert issubclass(algorithm_class, HeuristicSolver)
             algorithm = algorithm_class(problem, heuristic_class(problem))
     else:
         algorithm = algorithm_class(problem)

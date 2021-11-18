@@ -131,7 +131,7 @@ if __name__ == "__main__":
             continue
 
         if requires_heuristic:
-            for heuristic_class in problem_heuristics[problem_class]:
+            for heuristic_class in sorted(list(problem_heuristics[problem_class]), key = lambda x: x.__name__):
                 solver_name = f"{algorithm_class.__name__}({heuristic_class.__name__})"
                 try:
                     heuristic = heuristic_class(problem)
@@ -147,9 +147,12 @@ if __name__ == "__main__":
 
                 try:
                     if requires_reversing:
+                        assert isinstance(problem, ReversibleProblem)
+                        assert issubclass(algorithm_class, BidirectionalHeuristicSolver)
                         opposite_heuristic = heuristic_class(problem.reversed())
                         algorithm = algorithm_class(problem, heuristic, opposite_heuristic)
                     else:
+                        assert issubclass(algorithm_class, HeuristicSolver)
                         algorithm = algorithm_class(problem, heuristic)
                     solver_monitor = BenchmarkMonitor(
                         algorithm, longest_name, timeout)
