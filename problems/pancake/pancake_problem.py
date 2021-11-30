@@ -8,11 +8,12 @@ from PIL import Image, ImageDraw
 class PancakeProblem(Problem[PancakeState, PancakeAction]):
     def __init__(self, initial: PancakeState):
         super().__init__(initial)
+        # last number in a list of pancakes is always the biggest and it represents the plate
         self.n_pancakes = len(initial.pancakes) - 1
-        self.goal = PancakeState(pancakes=[i for i in range(1, self.n_pancakes+2)])
+        self.goal = PancakeState(pancakes=[i for i in range(1, self.n_pancakes + 2)])
 
     def actions(self, state: PancakeState) -> List[PancakeAction]:
-        return [PancakeAction(flip_depth=depth) for depth in range(2, self.n_pancakes+1)]
+        return [PancakeAction(flip_depth=depth) for depth in range(2, self.n_pancakes + 1)]
 
     def take_action(self, state: PancakeState, action: PancakeAction) -> PancakeState:
         return action.apply(state)
@@ -32,15 +33,15 @@ class PancakeProblem(Problem[PancakeState, PancakeAction]):
         draw = ImageDraw.Draw(image)
         draw.rectangle((size[0] * 0.15, size[1] * 0.9, size[0] * 0.85, size[1] * 0.93), plate_color)
 
-        size_diff = (0.7-0.25)/self.n_pancakes/2
-        thickness = size[0]*0.8/self.n_pancakes
+        size_diff = (0.7 - 0.25) / self.n_pancakes / 2
+        thickness = size[0] * 0.8 / self.n_pancakes
 
         for i in range(self.n_pancakes):
-            draw.ellipse((size[0] * (0.15 + size_diff * (self.n_pancakes-state.pancakes[i])),
-                          size[1] * 0.9 - thickness * (self.n_pancakes - i),
-                          size[0] * (0.85 - size_diff * (self.n_pancakes-state.pancakes[i])),
-                          size[1] * 0.9 - thickness * (self.n_pancakes - i - 1)),
-                         pancake_color, outline=pancake_outline)
+            draw.rounded_rectangle((size[0] * (0.15 + size_diff * (self.n_pancakes - state.pancakes[i])),
+                                    size[1] * 0.9 - thickness * (self.n_pancakes - i),
+                                    size[0] * (0.85 - size_diff * (self.n_pancakes - state.pancakes[i])),
+                                    size[1] * 0.9 - thickness * (self.n_pancakes - i - 1)),
+                                   fill=pancake_color, outline=pancake_outline, radius=100)
         return image
 
     @staticmethod
