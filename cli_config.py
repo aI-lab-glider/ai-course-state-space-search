@@ -18,6 +18,9 @@ from problems.rush_hour.heuristics.indirect_heuristic import RushHourIndirectHeu
 from problems.rush_hour.rush_hour import RushHourProblem
 from problems.rush_hour.heuristics.blocking_cars_heuristic import RushHourBlockingCarsHeuristic
 from problems.rush_hour.heuristics.distance_to_exit_heuristic import RushHourDistanceToExitHeuristic
+from problems.pancake.pancake_problem import PancakeProblem
+from problems.pancake.heuristics.gap_heuristic import PancakeGapHeuristic
+from problems.pancake.heuristics.largest_pancake_heuristic import PancakeLargestPancakeHeuristic
 
 from solvers import BFS, DFSIter, DFSRecursive, Dijkstra, Greedy, AStar
 from solvers.new_bidrectional_astar import NBAstar
@@ -39,12 +42,12 @@ problem_heuristics: Dict[type[Problem], Set[type[Heuristic]]] = {
     GridPathfinding: {GridEuclideanHeuristic, GridDiagonalHeuristic, GridManhattanHeuristic},
     NPuzzleProblem: {NPuzzleTilesOutOfPlaceHeuristic, NPuzzleManhattanHeuristic},
     RushHourProblem: {RushHourDistanceToExitHeuristic, RushHourBlockingCarsHeuristic, RushHourIndirectHeuristic},
-    BlocksWorldProblem: {BlocksWorldNaiveHeuristic}
+    BlocksWorldProblem: {BlocksWorldNaiveHeuristic},
+    PancakeProblem: {PancakeGapHeuristic, PancakeLargestPancakeHeuristic}
 }
 
-avl_problems: Dict[str, type[Problem]] = {camel_to_snake(p.__name__, "Problem"): cast(type[Problem], p)
-                                          for p in
-                                          [GridPathfinding, NPuzzleProblem, RushHourProblem, BlocksWorldProblem]}
+avl_problems: Dict[str, type[Problem]] = {camel_to_snake(p.__name__, "Problem"): cast(type[Problem], p) for p in [
+    GridPathfinding, NPuzzleProblem, RushHourProblem, BlocksWorldProblem, PancakeProblem]}
 avl_algos: Dict[str, type[Solver]] = {a.__name__.lower(): cast(type[Solver], a) for a in [
     DFSRecursive, DFSIter, BFS, Dijkstra, Greedy, AStar, NBAstar]}
 
