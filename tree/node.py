@@ -1,5 +1,5 @@
 from __future__ import annotations
-from dataclasses import dataclass
+from dataclasses import dataclass, astuple
 from typing import Generic, Optional, TypeVar
 from base.state import State
 
@@ -13,6 +13,12 @@ class Node(Generic[S]):
     parent: Optional[Node] = None
     action: Optional[object] = None
     cost: float = 0
+
+    def __hash__(self):
+        return hash(astuple(self))
+
+    def __eq__(self, other):
+        return other is not None and astuple(self) == astuple(other)
 
     def __lt__(self, other):
         return self.cost < other.cost
