@@ -15,7 +15,7 @@ class Node(Generic[S]):
     cost: float = 0
 
     def __hash__(self):
-        return hash(astuple(self))
+        return hash((hash(self.state), self.parent, self.action, self.cost))
 
     def __eq__(self, other):
         return other is not None and astuple(self) == astuple(other)

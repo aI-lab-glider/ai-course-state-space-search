@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, astuple
 from problems.blocks_world.blocks_world_state import BlocksWorldState
 from copy import deepcopy
 
@@ -18,3 +18,6 @@ class BlocksWorldAction:
     
     def __str__(self) -> str:
         return f"move block from col: {self.column_from} to col: {self.column_to}"
+
+    def __hash__(self):
+        return hash(astuple(self))
