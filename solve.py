@@ -165,17 +165,6 @@ if __name__ == "__main__":
     
     assert algorithm is not None
     solver_visualization = tree.visualization.search_tree_visualization.Visualization(algorithm, instance)
-    solver_visualization.show_results()
     solver_monitor = SolvingMonitor(algorithm, instance)
     solver_monitor.solve()
-
-        
-
-    
-    
-        
-        
-    
-
-
-    
+    solver_visualization.show_results()
