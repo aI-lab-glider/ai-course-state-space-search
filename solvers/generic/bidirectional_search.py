@@ -131,7 +131,7 @@ class SearchProcess():
         # TODO:
         # - return the first node from the frontier that:
         #   * has estimated cost lower than the upper bound
-        #   * has bidirectional estimate lower than the lower bound
+        #   * has bidirectional estimate lower than the upper bound
         # - if there is no such node, return None   
         # - all the nodes that failed those tests should end up in the self.rejected_states (their states, to be exact)
         # tip. bidirectional estimate = labeled cost + lower bound of the opposite process - opposite heuristic 

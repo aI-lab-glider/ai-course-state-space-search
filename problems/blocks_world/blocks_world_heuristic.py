@@ -34,10 +34,9 @@ class BlocksWorldNaiveHeuristic(Heuristic):
 
     def __call__(self, state: BlocksWorldState) -> int:
         # TODO:
-        # - calculate how many blocks are in the incorrect columns
-        # - calculate how many blocks have incorrect block below
-        # - return number of incorrect columns plus twice the number of incorrect blocks below
-        # tip. use self.expected_clumns and self.expected_fundaments
+        # - add `1` to the heuristic value per each block placed in an incorrect column
+        # - for other blocks, add `2` if their fundament is incorrect 
+        # tip. use self.expected_columns and self.expected_fundaments
         wrong_cols = 0
         wrong_fundaments = 0
         for ic, col in enumerate(state.columns):
