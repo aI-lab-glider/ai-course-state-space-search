@@ -2,11 +2,11 @@
 import argparse
 from base.problem import ReversibleProblem
 from cli_config import VERSION, avl_algos, avl_heuristics, avl_problems, problem_heuristics, avl_reversible_problems
-from typing import Optional, Union, cast
+from typing import Optional, Union
 from base.solver import HeuristicSolver, Solver, BidirectionalHeuristicSolver
-from solvers.generic.bidirectional_search import BidirectionalSearch
 
 from tree.node import Node
+import tree.visualization.search_tree_visualization
 
 from pathlib import Path
 from tree.tree import NodeEvent, NodeEventSubscriber, Tree
@@ -164,16 +164,7 @@ if __name__ == "__main__":
         algorithm = algorithm_class(problem)
     
     assert algorithm is not None
+    solver_visualization = tree.visualization.search_tree_visualization.Visualization(algorithm, instance)
     solver_monitor = SolvingMonitor(algorithm, instance)
     solver_monitor.solve()
-
-        
-
-    
-    
-        
-        
-    
-
-
-    
+    solver_visualization.show_results()
