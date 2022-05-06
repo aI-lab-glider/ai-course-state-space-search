@@ -31,16 +31,4 @@ class UninformedSearch:
         #         * add child to visited
         #         * push child onto frontier
         # - return None if nothing happens
-        if self.problem.is_goal(self.root.state):
-            return self.root
-
-        self.frontier.push(self.root)
-        while not self.frontier.is_empty():
-            parent = self.frontier.pop()
-            for child_node in self.tree.expand(self.problem, parent):
-                if self.problem.is_goal(child_node.state):
-                    return child_node
-                if child_node.state not in self.visited:
-                    self.frontier.push(child_node)
-                    self.visited.add(child_node.state)
-        return None
+    

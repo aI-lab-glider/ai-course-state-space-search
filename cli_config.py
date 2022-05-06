@@ -1,5 +1,5 @@
 import re
-from typing import Dict, List, Set, cast
+from typing import Dict, List, Set, Type, cast
 from base.problem import Problem, ReversibleProblem
 from base.heuristic import Heuristic
 from base.solver import Solver
@@ -34,11 +34,11 @@ def snake_to_camel(snake: str) -> str:
 
 
 def camel_to_snake(camel: str, useless_suffix: str = '') -> str:
-    useful_camel = camel.removesuffix(useless_suffix)
+    useful_camel = camel.replace(useless_suffix, '')
     return re.sub(r'(?<!^)(?=[A-Z])', '_', useful_camel).lower()
 
 
-problem_heuristics: Dict[type[Problem], Set[type[Heuristic]]] = {
+problem_heuristics: Dict[Type[Problem], Set[Type[Heuristic]]] = {
     GridPathfinding: {GridEuclideanHeuristic, GridDiagonalHeuristic, GridManhattanHeuristic},
     NPuzzleProblem: {NPuzzleTilesOutOfPlaceHeuristic, NPuzzleManhattanHeuristic},
     RushHourProblem: {RushHourDistanceToExitHeuristic, RushHourBlockingCarsHeuristic, RushHourIndirectHeuristic},
@@ -46,13 +46,13 @@ problem_heuristics: Dict[type[Problem], Set[type[Heuristic]]] = {
     PancakeProblem: {PancakeGapHeuristic, PancakeLargestPancakeHeuristic}
 }
 
-avl_problems: Dict[str, type[Problem]] = {camel_to_snake(p.__name__, "Problem"): cast(type[Problem], p) for p in [
+avl_problems: Dict[str, Type[Problem]] = {camel_to_snake(p.__name__, "Problem"): cast(Type[Problem], p) for p in [
     GridPathfinding, NPuzzleProblem, RushHourProblem, BlocksWorldProblem, PancakeProblem]}
-avl_algos: Dict[str, type[Solver]] = {a.__name__.lower(): cast(type[Solver], a) for a in [
+avl_algos: Dict[str, Type[Solver]] = {a.__name__.lower(): cast(Type[Solver], a) for a in [
     DFSRecursive, DFSIter, BFS, Dijkstra, Greedy, AStar, NBAstar]}
 
-all_heuristics: List[type[Heuristic]] = list(set.union(*problem_heuristics.values()))
-avl_heuristics: Dict[str, type[Heuristic]] = {camel_to_snake(h.__name__, "Heuristic"): cast(type[Heuristic], h)
+all_heuristics: List[Type[Heuristic]] = list(set.union(*problem_heuristics.values()))
+avl_heuristics: Dict[str, Type[Heuristic]] = {camel_to_snake(h.__name__, "Heuristic"): cast(Type[Heuristic], h)
                                               for h in all_heuristics}
 avl_reversible_problems: list[str] = [ problem_name for problem_name, problem_class in avl_problems.items()
                                        if issubclass(problem_class, ReversibleProblem)]                                               
